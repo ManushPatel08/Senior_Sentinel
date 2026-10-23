@@ -45,5 +45,5 @@ NIST SP 800-63B describes authenticator assurance in terms of a cryptographic au
 
 - Priya's passkey is bound to the tunnel hostname. The phone signs a server-made challenge. Policy checks the signature, the origin, and user verification.
 - Resume (turning the agent back on) is a new challenge over `{action, mandate_id, nonce, expires_at}`, not a replay of the mandate signature (`policy/postpurchase.py` `resume_challenge`).
-- Chrome's payment dialog signs `payment.get` over the amount and "Corner Market". The caregiver server checks the type, the total, and the payee before policy will place the order.
+- Chrome's payment dialog signs `payment.get` over the amount and the store names on that approval, such as Parkside Pharmacy. The caregiver server checks the type, the total, and that payee before policy will place the order.
 - The six-digit host code is a shared secret for when the passkey cannot be used. That path is not the cryptographic authenticator above. It is rate-limited, kept off the phone, and hidden from `GET /decisions`.
