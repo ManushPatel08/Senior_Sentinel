@@ -1,4 +1,4 @@
-"""The Ask guard's scam radar: POST /scam-check (contract C4).
+"""The Ask guard's scam radar: POST /scam-check.
 
     POST /scam-check {session_id, mandate_id, lang, channel: station|line, story?, transcript?,
                       caller: {org, name, phone}}      (story or transcript, or both)
@@ -12,7 +12,7 @@ paraphrase can't hide a hard hit, and Grok sees both.
 Order of work:
 1. The rule screen. A hard hit answers at once (the say line from the cache or lines.<lang>.json);
    Grok then runs in the background to attach sources to Priya's alert.
-2. Facts from Ruth's own accounts: trusted contacts (mandate v2), the biller balance (C7) and
+2. Facts from Ruth's own accounts: trusted contacts (mandate v2), the biller balance and
    recent orders. They go to Grok and come back as facts_checked.
 3. Grok Responses with x_search and web_search, within RADAR_TIMEOUT_S (12 s); then the cache
    (sessions/radar_cache.json, by story and by pattern and language); then a rules-only verdict.
@@ -54,7 +54,7 @@ DEFAULT_MANDATE_ID = "m_ruth_2026_09"
 COOLDOWN_HOURS = 24
 LANG_NAMES = {"en": "English", "es": "Spanish", "hi": "Hindi"}
 
-# Until mandate v2 and the biller land on main, the demo account's facts (contracts C3 and C7).
+# Until mandate v2 and the biller land on main, the demo account's facts.
 DEMO_TRUSTED = [{"name": "Priya", "relation": "daughter", "phone": "+1-404-555-0142"},
                 {"name": "Alex", "relation": "grandson", "phone": "+1-404-555-0187"}]
 DEMO_BILLERS = [{"merchant_id": "peachtree_power", "account_ref": "PP-2231-0098"}]
@@ -69,7 +69,8 @@ RULE_PATTERNS = [
     ("redelivery_fee", "fake_delivery"), ("parcel_illegal", "digital_arrest"), ("renewal_callback", "fake_renewal"),
     ("silence_request", "bank_impersonation"), ("utility_shutoff", "utility_shutoff"),
     ("safe_account", "safe_account"), ("crypto_atm", "crypto_atm"), ("courier_pickup", "courier_pickup"),
-    ("family_emergency", "grandparent_emergency"), ("code_reading", "gift_card_codes"),
+    ("grandparent_secrecy", "grandparent_emergency"), ("family_emergency", "grandparent_emergency"),
+    ("code_reading", "gift_card_codes"),
     ("authority_impersonation", "government_impersonation"), ("blocked_category", "gift_card_demand"),
 ]
 
@@ -196,12 +197,16 @@ def _recent_orders(mandate_id: str) -> list[dict]:
         from policy.store import load_decisions
     except ImportError:
         return []
+    from policy.postpurchase import order_total_cents, orders_of
+
+    cutoff = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=30)).isoformat()
     out = []
     for doc in load_decisions().values():
-        if doc.get("mandate_id") == mandate_id and doc.get("order"):
-            cart = doc.get("cart") or {}
-            out.append({"at": doc.get("created_at") or "", "total": cart.get("total"),
-                        "store": cart.get("merchant") or "corner_market"})
+        if doc.get("mandate_id") != mandate_id or (doc.get("created_at") or "") < cutoff:
+            continue
+        for entry in orders_of(doc):  # one per store when the cart was split
+            out.append({"at": doc.get("created_at") or "", "total": order_total_cents(doc, entry) / 100,
+                        "store": entry.get("merchant") or (doc.get("cart") or {}).get("merchant") or "corner_market"})
     return sorted(out, key=lambda o: o["at"], reverse=True)[:5]
 
 
@@ -392,8 +397,10 @@ def check(story: str = "", lang: str = "en", *, session_id: str | None = None, m
                 entry = {k: v.get(k) for k in ("verdict", "pattern", "say", "actions", "reported_recently", "sources")}
                 cache_put(entry, story_key(key_text, lang), f"pattern:{pattern}:{lang}")
         else:
-            # Rules only: two or more soft signals are treated as a scam, one as unsure.
-            verdict = "scam" if screened["action"] == "judge" else "unsure"
+            # Rules only: two or more soft signals are treated as a scam, one as unsure. Screened without the
+            # session: after an earlier refusal the session screen says "judge" for anything, even a visit.
+            plain = screen(heard, lang)
+            verdict = "scam" if plain["action"] == "judge" else "unsure"
             pattern = rule_pattern or "unknown"
             say, raw_actions = _fallback(verdict, lang), ["do_not_pay"]
             sources, reported = [], None
