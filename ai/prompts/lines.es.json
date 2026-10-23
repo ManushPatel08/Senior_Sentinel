@@ -27,5 +27,8 @@
   "agent_paused": "Priya pausó las compras por ahora, así que no puedo hacer pedidos. Ella puede activarlas otra vez desde su teléfono.",
   "you_saved": "Ahorró {saved}.",
   "loyalty_points": "Ganó {points} puntos de Corner Market Rewards.",
-  "repeat_nothing": "Todavía no he dicho nada. ¿Qué le gustaría?"
+  "repeat_nothing": "Todavía no he dicho nada. ¿Qué le gustaría?",
+  "scam_check_scam": "Ruth, esto parece una estafa que engaña a mucha gente inteligente. Por favor cuelgue y no envíe dinero; ya le avisé a Priya.",
+  "scam_check_unsure": "Ruth, todavía no sé si esto es real. Por favor no pague nada hasta que lo hablemos con Priya.",
+  "scam_check_ok": "Eso parece estar bien, Ruth. ¿Qué quiere que haga?"
 }
