@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "events.schema.json",
   "title": "Ledger event",
-  "description": "POST {relay}/events. Senders set type, session_id, mandate_id, t and source; the relay adds rt and seq. An event without a session uses session_id \"none\". The wall renders the payloads in $defs.payloads (PHASE2 D2) and ignores other fields; their types are checked, and none of them is required yet.",
+  "description": "POST {relay}/events. Senders set type, session_id, mandate_id, t and source; the relay adds rt and seq. An event without a session uses session_id \"none\". The wall renders the payloads in $defs.payloads and ignores other fields; their types are checked, and none of them is required yet.",
   "type": "object",
   "additionalProperties": true,
   "required": [

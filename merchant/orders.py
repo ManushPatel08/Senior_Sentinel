@@ -5,7 +5,7 @@
 POST /orders             signed order from the checkout tool -> verify -> price from catalog -> payment link
                          (409 if the decision already has an order)
 GET  /orders[/{id}]      order state (wall)
-GET  /orders/{id}/receipt[?lang=]  what the station prints (PHASE2 D3); session_url is the receipt's QR code
+GET  /orders/{id}/receipt[?lang=]  what the station prints; session_url is the receipt's QR code
 POST /orders/{id}/paid   callback fallback: Visa webhook or the Host marks paid
 GET  /pay/{link_id}      mock hosted payment page (MOCK_VISA=1 or fallback)
 GET  /checkout/{id}      CARD_AUTH=1: our checkout page with a real Cybersource sandbox card authorization
@@ -184,11 +184,12 @@ def session_url(session_id: str | None) -> str | None:
     """The public session page behind the receipt's QR code: the caregiver app's /s/<id> through the tunnel."""
     if not session_id or session_id == "none":
         return None
-    tunnel = os.environ.get("TUNNEL_HOST", "").strip().removeprefix("https://").strip("/")
+    tunnel = os.environ.get("TUNNEL_HOST", "").strip().split("://")[-1].strip("/")
     if tunnel:
         return f"https://{tunnel}/s/{session_id}"
-    relay = os.environ.get("RELAY_URL", "http://192.168.8.10:8000").rstrip("/")
-    return f"{relay}/sessions/{session_id}?format=html"  # LAN only: set TUNNEL_HOST for phones on mobile data
+    # No public host here: leave it empty so the station fills in its own tunnel URL. A LAN address would
+    # print a QR code that phones on mobile data cannot open.
+    return None
 
 
 @app.get("/orders/{order_id}/receipt")

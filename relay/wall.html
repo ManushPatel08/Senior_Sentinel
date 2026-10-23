@@ -107,7 +107,7 @@ const lineText = (l) => `${l.qty && l.qty !== 1 ? l.qty + " × " : ""}${l.name |
 const epochMs = (v) => v === undefined || v === null || v === "" ? null : typeof v === "number" ? (v < 1e12 ? v * 1000 : v) : Date.parse(v);
 const clock = (ms) => ms ? new Date(ms).toLocaleTimeString([], { hour12: false }) : "";
 
-// D2 payloads (contracts/events.schema.json $defs.payloads); older field names are read as a fallback.
+// Event payloads (contracts/events.schema.json $defs.payloads); older field names are read as a fallback.
 function summary(e) {
   switch (e.type) {
     case "heard": return `${e.role === "agent" || e.role === "assistant" ? "Agent" : "Shopper"}: “${e.text || e.transcript || ""}”`;
