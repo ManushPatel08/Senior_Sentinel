@@ -1,6 +1,6 @@
 {
   "ordering_now": "Ordering now. Total {total}.",
-  "asking_priya": "That is more than your limit for one purchase, so I have asked Priya. One moment, please.",
+  "asking_priya": "That's more than your limit for one purchase, so I've sent it to Priya. She usually answers in a minute.",
   "caregiver_approved": "Priya said yes. Ordering now.",
   "caregiver_declined": "Priya said no to this one, so I did not buy it. Would you like something else?",
   "caregiver_timeout": "Priya has not answered yet, so I am holding this order. Nothing was bought.",
