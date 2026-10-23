@@ -27,5 +27,8 @@
   "agent_paused": "Priya has paused shopping for now, so I can't place orders. She can turn it back on from her phone.",
   "you_saved": "You saved {saved}.",
   "loyalty_points": "You earned {points} Corner Market Rewards points.",
-  "repeat_nothing": "I haven't said anything yet. What would you like?"
+  "repeat_nothing": "I haven't said anything yet. What would you like?",
+  "scam_check_scam": "Ruth, this sounds like a scam that fools many smart people. Please hang up and don't send any money; I've told Priya.",
+  "scam_check_unsure": "Ruth, I can't tell yet whether this is real. Please don't pay anything until we've checked with Priya.",
+  "scam_check_ok": "That sounds all right, Ruth. What would you like me to do?"
 }
