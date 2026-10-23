@@ -362,7 +362,7 @@ def wall_stores():
 
 @router.get("/wall/data/protected")
 def wall_protected():
-    """Protected dollars since the last reset (contract C17), from the live ledger."""
+    """Protected dollars since the last reset, from the live ledger."""
     from relay import protected
 
     return JSONResponse(protected.compute(LEDGER.read_live()), headers={"Cache-Control": "no-store"})

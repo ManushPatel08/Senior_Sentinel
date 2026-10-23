@@ -34,7 +34,7 @@ class FakeVisa:
 
 @pytest.fixture(autouse=True)
 def fresh(monkeypatch):
-    monkeypatch.setenv("VISA_VTC_PAN", "4375111961640001")
+    monkeypatch.setenv("VISA_VTC_PAN", "4514170000000001")
     monkeypatch.setattr(vtc, "_state", {"document_id": None, "rules": None})
     monkeypatch.setattr(vtc, "_policy_card", lambda: {"default_cap": 60, "atm_daily_cap": 100})
 

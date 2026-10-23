@@ -52,7 +52,7 @@ def test_new_event_types_validate():
     assert list(ledger.VALIDATOR.iter_errors(bad))
 
 
-def test_phase6_event_types_validate():
+def test_ledger_event_types_validate():
     ok = [
         _event(type="vtc_decision", source="relay", token="t1", store="Five Points Drug", mcc="5912", amount=480,
                should_decline=True, rule="PCT_GLOBAL", ms=140),

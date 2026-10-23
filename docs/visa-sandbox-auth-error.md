@@ -16,7 +16,7 @@ and `7904329513516873604807` (14:29 GMT), both reason 150, `fdiglobal`, `usd_out
 
 ## TL;DR
 
-Our Cybersource sandbox account (merchant `hackgt_13_1790386462`) can create real Visa Pay by Link pages, but **every card authorization fails** with reason code 150:
+Our Cybersource sandbox account (merchant `hack…6462`) can create real Visa Pay by Link pages, but **every card authorization fails** with reason code 150:
 
 > The following property is either invalid or missing: usd_outlet_id, usd_terminal_id
 
@@ -58,7 +58,7 @@ We ran the same $1.00 REST authorization with the same code and test card agains
 
 | Merchant | REST auth | Pay by Link |
 |---|---|---|
-| `hackgt_13_1790386462` (ours) | ❌ reason 150 | ✅ link created |
+| `hack…6462` (ours) | ❌ reason 150 | ✅ link created |
 | `testrest` (Cybersource public sample) | ✅ **AUTHORIZED** (request 7903891460546311804806) | ❌ not enabled on that account |
 
 Same code and same card, and the only difference is the merchant account. So the fault is our account's provisioning.
@@ -97,11 +97,11 @@ Sources: [usd_outlet_id/usd_terminal_id thread (2026)](https://community.develop
 ## Email draft
 
 > **To:** developer@cybersource.com
-> **Subject:** Sandbox auth fails, reason 150: usd_outlet_id, usd_terminal_id missing (merchant hackgt_13_1790386462)
+> **Subject:** Sandbox auth fails, reason 150: usd_outlet_id, usd_terminal_id missing (merchant hack…6462)
 >
 > Hi, my new sandbox account can't authorize test cards. Every authorization, both Pay by Link and REST `/pts/v2/payments`, fails with reason code 150 ESYSTEM: "The following property is either invalid or missing: usd_outlet_id, usd_terminal_id". Processor: fdiglobal.
 >
-> Merchant ID: hackgt_13_1790386462
+> Merchant ID: hack…6462
 > Request IDs: 7903878036966362404008, 7903886322116330804009, 7903881811666223704806
 >
 > Could you please provision the USD outlet and terminal IDs for this sandbox account? We're using it for a HackGT hackathon project this weekend. Thank you!
@@ -116,7 +116,7 @@ Re-tested at 10:45pm: still reason 150 on `fdiglobal` (request 79039045635067161
 
 Case text:
 
-> Merchant ID hackgt_13_1790386462 (sandbox). All card authorizations fail with reason 150 ESYSTEM "The following property is either invalid or missing: usd_outlet_id, usd_terminal_id", processor fdiglobal, both Pay by Link and REST /pts/v2/payments. Request IDs 7903886322116330804009, 7903904563506716104807. KA-07420 says sandbox accounts default to Chase Paymentech; please configure the test processor (or provision the fdiglobal outlet and terminal IDs) for this merchant. We are demoing at HackGT on Sunday Sep 27 at 9am ET.
+> Merchant ID hack…6462 (sandbox). All card authorizations fail with reason 150 ESYSTEM "The following property is either invalid or missing: usd_outlet_id, usd_terminal_id", processor fdiglobal, both Pay by Link and REST /pts/v2/payments. Request IDs 7903886322116330804009, 7903904563506716104807. KA-07420 says sandbox accounts default to Chase Paymentech; please configure the test processor (or provision the fdiglobal outlet and terminal IDs) for this merchant. We are demoing at HackGT on Sunday Sep 27 at 9am ET.
 
 **A fresh sandbox is a long shot** (new accounts failed the same way through Sep 2026), and the Visa Acceptance and Intelligent Commerce sandbox sign-ups land in the same Test Business Center with no evidence of a different processor.
 
