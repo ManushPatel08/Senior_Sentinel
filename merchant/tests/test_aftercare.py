@@ -58,7 +58,7 @@ def event_types(client):
     return [e["type"] for e in client.get("/panel").json()["events"]]
 
 
-# ---- lifecycle (G1)
+# ---- lifecycle
 
 def test_paid_order_moves_to_preparing_then_ready_with_a_pickup_code(client):
     order = place(client)
@@ -119,7 +119,7 @@ def test_list_filters_by_session(client):
     assert [o["order_id"] for o in client.get("/orders", params={"session_id": "s2"}).json()] == [other["order_id"]]
 
 
-# ---- cancel (G2, G6)
+# ---- cancel
 
 def test_cancel_an_unpaid_order_deactivates_its_link(client):
     order = place(client, [{"sku": "NUT-001", "qty": 1}])
@@ -163,7 +163,7 @@ def test_a_failed_deactivation_leaves_the_order_payable(client, monkeypatch):
     assert client.get(f"/orders/{order['order_id']}").json()["status"] == "awaiting_payment"
 
 
-# ---- refunds (G3, G5)
+# ---- refunds
 
 def test_partial_then_full_refund_in_cybersource_shape(client):
     order = place(client, [{"sku": "BAK-001", "qty": 2}, {"sku": "NUT-001", "qty": 1}])

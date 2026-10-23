@@ -1,13 +1,13 @@
 """After payment: the order lifecycle, refunds in Cybersource's response shape, savings and loyalty points.
 
-Lifecycle (contracts, PHASE4 G1):
+Lifecycle:
     awaiting_payment -> paid -> preparing -> ready_for_pickup -> picked_up
     side exits: cancelled (only from awaiting_payment); partially_refunded, refunded (from paid or later)
 After paid, the merchant advances on timers: preparing after ORDER_PREPARING_S (20), ready_for_pickup
 ORDER_READY_S (60) after paid. A refund changes `status` but pickup still goes on, so the fulfilment step is
 kept separately in `fulfilment`; `timeline` records every change.
 
-Refunds are a stub in the shape of Cybersource's POST /pts/v2/payments/{id}/refunds answer (G5): sandbox
+Refunds are a stub in the shape of Cybersource's POST /pts/v2/payments/{id}/refunds answer: sandbox
 authorizations fail with reason 150, so nothing was ever captured that a real refund could return. Every
 refund goes to the card that paid; there is no destination field anywhere.
 """
@@ -66,7 +66,7 @@ def new_pickup_code() -> str:
 
 
 def record(order: dict, status: str, **detail) -> None:
-    """Append a step to the timeline; `status` follows G1, `fulfilment` keeps the pickup progress."""
+    """Append a step to the timeline; `status` is the order status above, `fulfilment` keeps the pickup progress."""
     order.setdefault("timeline", []).append({"status": status, "at": iso(time.time()), **detail})
     if status in FULFILMENT:
         order["fulfilment"] = status
