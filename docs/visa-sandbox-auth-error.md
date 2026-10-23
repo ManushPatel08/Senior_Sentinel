@@ -10,7 +10,7 @@ Our Cybersource sandbox account (merchant `hackgt_13_1790386462`) can create rea
 
 This is a known Cybersource sandbox provisioning bug. The account was created without the outlet/terminal IDs the test processor (`fdiglobal`) needs. It is not our code, the request, or the test card, and it cannot be fixed from the Business Center. Only Cybersource staff can fix it.
 
-Demo impact: none for tonight's go/no-go. Real links and the real Visa checkout page work. Until the account is fixed, the Host marks orders paid via `POST /orders/{id}/paid` (fallback ladder rung 3).
+Demo impact: none. Real links and the real Visa checkout page work. Until the account is fixed, the Host marks orders paid via `POST /orders/{id}/paid`.
 
 ## What works and what doesn't
 
@@ -100,7 +100,7 @@ Re-tested at 10:45pm: still reason 150 on `fdiglobal` (request 79039045635067161
 
 **It is a provisioning fault, and there is no self-service fix.** Cybersource's own article says "Sandbox accounts default to Chase Paymentech. To configure a different processor, submit a Support case" ([KA-07420](https://support.visaacceptance.com/knowledgebase/knowledgearticle/?code=KA-07420)). Our account came up on `fdiglobal` without the outlet and terminal IDs, which is the fault. Self-service processor editing exists only for portfolio accounts ([000003120](https://support.visaacceptance.com/knowledgebase/knowledgearticle/?code=000003120)). The request fields people try, `pointOfSaleInformation.terminalId` and `processingInformation.processorId`, are values issued by the processor or Support, so they cannot fix it.
 
-**The fastest official route is a support case, filed tonight.** In the Test Business Center: Support (top right), Support Center, Support Cases, **MID Configuration Request**, then Processor Configuration, Test ([000002638](https://support.visaacceptance.com/knowledgebase/article/000002638/en-us)); if that menu is missing in ebc2test, use the email below. The stated response time is 1 to 2 business days ([contact](https://developer.cybersource.com/support/contact-us.html)), and fixes have ranged from next day to a week, so over a weekend Sunday 9am is unlikely. That is why the Visa reps at the HackGT booth (Visa is a Platinum sponsor) are the first ask. Phone: developer support 1-800-530-9095, client services 1-800-709-7779.
+**The fastest official route is a support case.** In the Test Business Center: Support (top right), Support Center, Support Cases, **MID Configuration Request**, then Processor Configuration, Test ([000002638](https://support.visaacceptance.com/knowledgebase/article/000002638/en-us)); if that menu is missing in ebc2test, use the email below. The stated response time is 1 to 2 business days ([contact](https://developer.cybersource.com/support/contact-us.html)), and fixes have ranged from next day to a week, so over a weekend Sunday 9am is unlikely. That is why the Visa reps at the HackGT booth (Visa is a Platinum sponsor) are the first ask. Phone: developer support 1-800-530-9095, client services 1-800-709-7779.
 
 Case text:
 
@@ -113,7 +113,7 @@ Case text:
 - Verify after a fix: `python -m merchant.card_auth` must print `"status": "AUTHORIZED"`.
 - Tests: `merchant/tests/test_card_auth.py` (authorized marks paid, failure stays unpaid with one attempt, double click never re-authorizes, non-test cards refused, override precedence).
 
-**Also fixed tonight:** every catalog read and write now passes `encoding="utf-8"`. On Windows the default codec is cp1252 and `Catalog.load()` crashed on the catalog JSON, so the merchant and catalog services could not start on a Windows laptop.
+**Also fixed:** every catalog read and write now passes `encoding="utf-8"`. On Windows the default codec is cp1252 and `Catalog.load()` crashed on the catalog JSON, so the merchant and catalog services could not start on a Windows laptop.
 
 ## Tools
 

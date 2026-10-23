@@ -14,7 +14,7 @@ Frozen for the weekend. A change needs all four people at the table.
 
 LAN reservations: services `192.168.8.10`, station `192.168.8.11`, Dhruv `192.168.8.12`, Rohan `192.168.8.13`, caregiver phone `192.168.8.20`.
 
-Neighbor fakes, named for Phase 1 (tonight they are these URLs):
+Service endpoints each part calls:
 
 - Catalog for the station: `GET http://192.168.8.10:8003/search?q=`
 - Policy for the station and merchant: `POST http://192.168.8.10:8001/checkout`

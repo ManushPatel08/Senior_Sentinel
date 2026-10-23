@@ -229,7 +229,7 @@ class VisaMcpPaymentLinks:
 
 
 class FallbackPaymentLinks:
-    """Real Visa first; on any failure the demo keeps going on the mock (fallback ladder rung 4)."""
+    """Real Visa first; on any failure the demo keeps going on the mock."""
 
     def __init__(self, primary: VisaMcpPaymentLinks, fallback: MockPaymentLinks):
         self.primary, self.fallback = primary, fallback

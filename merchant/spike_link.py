@@ -1,4 +1,4 @@
-"""Phase 0 pass check: create a payment link, print it, open it.
+"""Payment link smoke check: create a payment link, print it, open it.
 
     python -m merchant.spike_link            # demo cart ($11.49) through the running merchant on :8002
     python -m merchant.spike_link --direct   # $1.00 link straight through the Visa MCP (checks sandbox creds)
