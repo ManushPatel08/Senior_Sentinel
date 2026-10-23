@@ -16,6 +16,20 @@ Re-run: `python -m merchant.spike_link --stores --no-open` (one real $1.00 link 
 | Main Street Home | `hackgt_13_1790386462` | main account, tagged `HOME` | `HOME6AB833C0135D30` |
 | Peachtree Power | `hackgt_13_1790386462` | main account, tagged `POWER` | `POWER6AB833C1F6FB12` |
 
-All four on `ebc2test.cybersource.com/ebc2/payByLink/pay/...`. When a teammate's account keys arrive, add them
+All four on `ebc2test.cybersource.com/ebc2/payByLink/pay/...`.
+
+## Sat Sep 26, ~5:51pm: Parkside and Main Street on their own accounts
+
+Keys from Dhruv (Parkside) and Rohan (Main Street) are in `.env`. Pay by Link check on both: signed
+`GET /ipl/v2/payment-links?offset=0&limit=1` → 404 "No payment links found" (authenticated, service on, empty);
+creating a link then worked on each.
+
+| Store | Account | Mode | Purchase number / link id |
+|---|---|---|---|
+| Corner Market | `hackgt_13_1790386462` | own account | `CM6AB83E35AC19F2` |
+| Parkside Pharmacy | `chaperone_1790457937` (Dhruv) | **own account** | `PHARM6AB83E386B696E` |
+| Main Street Home | `chap_mainst26_1790458309` (Rohan) | **own account** | `HOME6AB83E3A23581D` |
+| Peachtree Power | `hackgt_13_1790386462` | main account, tagged `POWER` (Manush's account pending) | `POWER6AB83E3CE87365` |
+ When a teammate's account keys arrive, add them
 under `CYBS_PARKSIDE_*`, `CYBS_MAINST_*` or `CYBS_PEACHTREE_*`, restart the merchant, re-run the spike, and
 update this table (check Pay by Link first: signed `GET /ipl/v2/payment-links?offset=0&limit=1` → 200).
