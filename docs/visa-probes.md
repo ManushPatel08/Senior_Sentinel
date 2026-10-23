@@ -16,3 +16,15 @@ Devpost line: "Our mandate is in Visa Intelligent Commerce's `mandates[]` shape.
 sandbox but needs pilot credentials (JWT + message-level encryption), so we probe it and say so. Every agent order
 gets a live Cybersource Decision Manager score, and the same rules the caregiver signs are mirrored in Visa Transaction
 Controls, which declines the $480 drugstore charge in the Visa sandbox."
+
+## Sat Sep 26, 9:05pm: Decision Manager on every store's own account (X6-3)
+
+`merchant/risk.py` scores each agent order after its Pay by Link is made (2 s budget, off the order's path) and
+posts `risk_scored`. Live check, one order per store on its own sandbox account:
+
+| Store | Account | Result | ms |
+|---|---|---|---|
+| Corner Market | `hackgt_13_1790386462` | ACCEPTED, score 22 (`7904710430136643804807`) | 569 |
+| Parkside Pharmacy | `chaperone_1790457937` | ACCEPTED, score 28 (`7904710434086892304806`) | 292 |
+| Main Street Home | `chap_mainst26_1790458309` | ACCEPTED, score 28 (`7904710436976708304805`) | 244 |
+| Peachtree Power | `chaperone_pp_1790462505` | ACCEPTED, score 27 (`7904710440356708504805`) | 480 |
