@@ -40,6 +40,6 @@ read back from Visa as 49.95 ACTIVE:
 
 | Store | Account | Link | Hosted page shows $49.95 |
 |---|---|---|---|
-| Parkside Pharmacy | `chaperone_1790457937` | `PHARM6AB83E9BF072C3` | to confirm by eye |
-| Main Street Home | `chap_mainst26_1790458309` | `HOME6AB83E9E2E5221` | to confirm by eye |
+| Parkside Pharmacy | `chaperone_1790457937` | `PHARM6AB83E9BF072C3` | ✅ $49.95, 1 × $49.95, max qty 1 (header "Chaperone, Stony Brook NY": the account's company name) |
+| Main Street Home | `chap_mainst26_1790458309` | `HOME6AB83E9E2E5221` | ✅ $49.95, 1 × $49.95, max qty 1 (header "Main Street") |
 
