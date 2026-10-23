@@ -29,7 +29,7 @@ def client():
         c.post("/reset")
 
 
-def test_account_facts_match_contract_c7(client):
+def test_account_facts_have_the_bill_fields(client):
     facts = client.get(ACCOUNT).json()
     assert {k: facts[k] for k in ("biller", "account_ref", "balance_due", "due_date", "past_due", "autopay",
                                   "last_payment", "disconnect_notice")} == {

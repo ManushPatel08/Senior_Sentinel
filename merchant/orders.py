@@ -519,7 +519,7 @@ async def checkout_submit(order_id: str, request: Request):
 
 @app.get("/billers/{biller_id}/accounts/{account_ref}")
 async def bill_account(biller_id: str, account_ref: str, lang: str = "en", session_id: str | None = None):
-    """The real balance (contract C7). Read-only; bill_status and the scam check both call it."""
+    """The real balance. Read-only; bill_status and the scam check both call it."""
     try:
         facts = biller.account(biller_id, account_ref, lang)
     except biller.BillError as e:

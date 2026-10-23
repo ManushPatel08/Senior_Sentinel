@@ -1,5 +1,5 @@
 {
-  "$comment": "Merchant registry (Phase 5 contract C1). Names are fictional; the products are real. Each merchant with cybs_env uses <prefix>MERCHANT_ID, <prefix>API_KEY_ID and <prefix>SECRET_KEY; without them it falls back to the main account (VISA_ACCEPTANCE_) and tags its links with purchase_prefix and the store name. card_terminal_stores are physical stores for the card demo only; the agent never buys there.",
+  "$comment": "Merchant registry. Names are fictional; the products are real. Each merchant with cybs_env uses <prefix>MERCHANT_ID, <prefix>API_KEY_ID and <prefix>SECRET_KEY; without them it falls back to the main account (VISA_ACCEPTANCE_) and tags its links with purchase_prefix and the store name. card_terminal_stores are physical stores for the card demo only; the agent never buys there.",
   "merchants": [
     {"id": "corner_market",     "name": "Corner Market",     "kind": "store",   "mcc": "5411", "categories": ["grocery"],                               "cybs_env": "VISA_ACCEPTANCE_", "purchase_prefix": "CM"},
     {"id": "parkside_pharmacy", "name": "Parkside Pharmacy", "kind": "store",   "mcc": "5912", "categories": ["pharmacy", "pharmacy_pickup", "grocery"], "cybs_env": "CYBS_PARKSIDE_",   "purchase_prefix": "PHARM"},

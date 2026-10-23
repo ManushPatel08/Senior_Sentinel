@@ -53,7 +53,7 @@ TERMS = {
     "low sodium soup": ("soup", "pantry"),
 }
 
-# Main Street Home's shelf (Phase 5 X5-3); build_catalog assigns category household to main_street_home.
+# Main Street Home's shelf; build_catalog assigns category household to main_street_home.
 HOUSEHOLD_TERMS = {
     "paper towels": ("paper_towels", "household"),
     "toilet paper": ("toilet_paper", "household"),

@@ -1,4 +1,4 @@
-"""Visa probes for the Phase 5 go/no-go (playbook Section 7.2), on our own sandbox account only.
+"""Visa probes on our own sandbox account only.
 
     python -m merchant.visa_probes            # Intelligent Commerce path probe + Decision Manager
     python -m merchant.visa_probes --json     # the same, as JSON

@@ -1,4 +1,4 @@
-"""Peachtree Power, the biller (Phase 5 contract C7).
+"""Peachtree Power, the biller.
 
     GET /billers/peachtree_power/accounts/PP-2231-0098   the real balance, for bill_status and the scam story
 

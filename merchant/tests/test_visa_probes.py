@@ -9,7 +9,7 @@ class Reply:
         return self._body
 
 
-def test_icc_statuses_are_read_as_the_playbook_says():
+def test_icc_statuses_are_read_as_documented():
     assert visa_probes.icc_meaning(404, {"response": {"rmsg": "Resource not found"}}) == "not routed"
     assert visa_probes.icc_meaning(401, {}).startswith("exists")
     assert visa_probes.icc_meaning(403, {}) == "not enabled on our merchant"

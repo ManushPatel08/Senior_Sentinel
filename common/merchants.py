@@ -1,4 +1,4 @@
-"""The merchant registry, contracts/merchants.json (Phase 5 contract C1), shared by catalog, merchant and policy.
+"""The merchant registry, contracts/merchants.json, shared by catalog, merchant and policy.
 
     get("parkside_pharmacy")  -> the entry, or None
     storefronts()             -> merchants the agent may buy from (kind store or biller), in registry order

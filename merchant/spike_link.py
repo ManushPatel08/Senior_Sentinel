@@ -3,7 +3,7 @@
     python -m merchant.spike_link            # demo cart ($11.49) through the running merchant on :8002
     python -m merchant.spike_link --direct   # $1.00 link straight through the Visa MCP (checks sandbox creds)
     python -m merchant.spike_link --stores   # one real $1.00 link per storefront, on its own account or tagged
-                                             # on the main one; prints the table for the go/no-go
+                                             # on the main one; prints the table for docs/visa-merchants.md
 """
 
 import argparse

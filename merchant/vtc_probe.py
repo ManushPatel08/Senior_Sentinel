@@ -1,4 +1,4 @@
-"""Visa Transaction Controls probe (playbook Section 7.2): the $480 drugstore swipe against a $60 threshold.
+"""Visa Transaction Controls probe: the $480 drugstore swipe against a $60 threshold.
 
 Needs a Visa Developer project with VTC (developer.visa.com → Dashboard → Create project):
     keys/visa/cert.pem, keys/visa/key.pem     two-way SSL ("Generate a CSR for me"; the key is offered once)
@@ -8,8 +8,8 @@ keys/ is gitignored; never commit them.
 
     python -m merchant.vtc_probe             # helloworld, enroll the PAN, set rules, ask for a $480 decision
 
-Stop at 7:15 whatever happens (go/no-go). If the project's MLE toggle is on, Customer Rules may still take plain
-JSON in sandbox; if it answers an encryption error, write that down and drop VTC.
+If the project's MLE toggle is on, Customer Rules may still take plain
+JSON in sandbox; if it answers an encryption error, write that down.
 """
 
 import datetime

@@ -4,7 +4,7 @@ cited, structured verdict. Records time, sources and cost per call in ai/eval/RA
     python -m ai.radar_probe                      # the three stories in English, grandparent in es and hi
     python -m ai.radar_probe --model grok-4.3 --effort low
 
-The request follows internal/PHASE5_PLAYBOOK.md section 5.1.
+The request: the Responses API with x_search and web_search, a strict JSON schema, sources from the citations.
 """
 
 from __future__ import annotations
@@ -110,7 +110,7 @@ def main() -> None:
     headers = {"Authorization": f"Bearer {env('XAI_API_KEY')}"}
     out = ["# Scam radar probe", "",
            f"Run {dt.datetime.now().strftime('%Y-%m-%d %H:%M')} on `{args.model}` with `x_search` (last 30 days) and "
-           f"`web_search` limited to {', '.join(DOMAINS)}. Request as in the Phase 5 playbook, section 5.1.", "",
+           f"`web_search` limited to {', '.join(DOMAINS)}. Responses API, strict JSON schema, sources from the tool citations.", "",
            "| Story | Lang | ms | Verdict | Pattern | Actions | Sources | Cost (USD ticks) |", "|---|---|---|---|---|---|---|---|"]
     details = []
     for name, lang, story, facts in STORIES:

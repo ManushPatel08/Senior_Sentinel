@@ -360,7 +360,7 @@ SCAM_SAY = {
 
 @app.post("/scam-check")
 async def scam_check(request: Request):
-    """Policy's scam check (contract C4): rules first here; the real one adds Ruth's facts and Grok's search."""
+    """Policy's scam check: rules first here; the real one adds Ruth's facts and Grok's search."""
     body = await request.json()
     record("http", path="/scam-check", body=body)
     if not MOCK.get("scam_ready", True):
@@ -383,7 +383,7 @@ async def scam_check(request: Request):
 
 @app.get("/billers/{biller_id}/accounts/{account_ref}")
 async def biller_account(biller_id: str, account_ref: str) -> dict:
-    """The merchant's biller (contract C7)."""
+    """The merchant's biller."""
     record("http", path=f"/billers/{biller_id}/accounts/{account_ref}")
     if biller_id != "peachtree_power":
         raise HTTPException(404, "unknown biller")

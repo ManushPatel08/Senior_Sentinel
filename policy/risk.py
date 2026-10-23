@@ -1,4 +1,4 @@
-"""Ruth's risk state: the cool-down a scam story puts on her card (contract C5).
+"""Ruth's risk state: the cool-down a scam story puts on her card.
 
 The Ask guard writes it (/scam-check); the Card guard reads it on every swipe.
 

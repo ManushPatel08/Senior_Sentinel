@@ -1,6 +1,6 @@
 # Scam radar probe
 
-Run 2026-09-26 17:01 on `grok-4.20-0309-non-reasoning` with `x_search` (last 30 days) and `web_search` limited to consumer.ftc.gov, ic3.gov, aarp.org, bbb.org, fcc.gov. Request as in the Phase 5 playbook, section 5.1.
+Run 2026-09-26 17:01 on `grok-4.20-0309-non-reasoning` with `x_search` (last 30 days) and `web_search` limited to consumer.ftc.gov, ic3.gov, aarp.org, bbb.org, fcc.gov. Responses API, strict JSON schema, sources from the tool citations.
 
 | Story | Lang | ms | Verdict | Pattern | Actions | Sources | Cost (USD ticks) |
 |---|---|---|---|---|---|---|---|

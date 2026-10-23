@@ -5,7 +5,7 @@ Demo-critical items are hand-set here so prices never drift between runs
 Anything the seeders cached in catalog/raw/*.json (Kroger, openFDA) is merged
 on top; a missing or broken raw file is skipped, so this always produces a catalog.
 
-Stores (Phase 5 contract C2): every item's merchant comes from its category (STORE_BY_CATEGORY): pharmacy and
+Stores: every item's merchant comes from its category (STORE_BY_CATEGORY): pharmacy and
 over-the-counter items are Parkside Pharmacy's, household items Main Street Home's, groceries Corner Market's.
 Parkside also sells PARKSIDE_BASICS at its own prices, as PK-<sku> items; product_key ties the copies of one
 product together so search can say where else it's sold.
@@ -167,7 +167,7 @@ def same_product(a: str, b: str) -> bool:
     return norm(a).startswith(norm(b)) or norm(b).startswith(norm(a))
 
 
-# Store category -> the category the caregiver's mandate talks about (contract C3). Policy re-derives it
+# Store category -> the category the caregiver's mandate talks about. Policy re-derives it
 # from here and ignores whatever the station sends.
 MANDATE_CATEGORY = {
     "bakery": "grocery", "beverages": "grocery", "dairy": "grocery", "nutrition": "grocery",

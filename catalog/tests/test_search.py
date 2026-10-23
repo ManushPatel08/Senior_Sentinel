@@ -130,7 +130,7 @@ def test_specific_medicine_words_still_rank():
     assert all(i["group"] == "pain_relief" for i in catalog.search("dard ki dawai", 5))
 
 
-# Phase 5, contract C2: stores
+# stores
 def test_items_belong_to_their_store():
     assert catalog.items["RX-001"]["merchant"] == "parkside_pharmacy"
     assert catalog.items["OTC-001"]["merchant"] == "parkside_pharmacy"

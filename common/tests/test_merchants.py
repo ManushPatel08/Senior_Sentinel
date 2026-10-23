@@ -6,7 +6,7 @@ from common import merchants
 from relay import ledger
 
 
-def test_registry_matches_contract_c1():
+def test_registry_lists_every_store_and_terminal():
     ids = [m["id"] for m in merchants.all_merchants()]
     assert ids == ["corner_market", "parkside_pharmacy", "main_street_home", "peachtree_power", "quickgift_cards"]
     assert [m["id"] for m in merchants.storefronts()] == ids[:4]
@@ -35,7 +35,7 @@ def _event(**kw):
     return {"session_id": "none", "mandate_id": "m", "t": 1, **kw}
 
 
-def test_phase5_event_types_validate():
+def test_new_event_types_validate():
     ok = [
         _event(type="scam_checked", source="policy", check_id="sc_1", verdict="scam", pattern="utility", sources=[], ms=900, channel="station"),
         _event(type="caution", source="policy", rule_ids=["S3"], action="slow", words="urgent"),
