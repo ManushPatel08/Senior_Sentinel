@@ -284,7 +284,7 @@ def _mask_ids(event: dict) -> dict:
 
 def _card_events_near(events: list[dict]) -> list[dict]:
     """Card swipes carry no shopper session. The ones that belong to this session's story are the declines its own
-    scam check caused (during the cool-down it started), with Visa's answer and Priya's allow-once for those swipes.
+    scam check caused (during the cool-down it started), with Visa's answer and Priyank's allow-once for those swipes.
     Ruth's other swipes, before or after, are not this session's business."""
     windows = []
     for e in events:
@@ -330,7 +330,7 @@ async def _mandate() -> dict | None:
         return None
     from policy.mandate import mandate_hash
 
-    digest = data.get("mandate_hash")  # the hash of the file Priya's passkey signed, as policy holds it
+    digest = data.get("mandate_hash")  # the hash of the file Priyank's passkey signed, as policy holds it
     try:
         digest = digest or base64.urlsafe_b64encode(mandate_hash(data["mandate"])).rstrip(b"=").decode()
     except Exception:  # noqa: BLE001 - a mandate that cannot be canonicalized still shows, without a hash

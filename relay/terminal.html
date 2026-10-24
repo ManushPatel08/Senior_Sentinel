@@ -301,7 +301,7 @@
     <p class="r-told" id="rTold" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4l2-2z"/><path d="M10 21h4"/></svg>
-      Priya's phone was told.
+      Priyank's phone was told.
     </p>
     <button type="button" class="r-done" id="rDone">Done</button>
   </section>
@@ -468,7 +468,7 @@ function renderResult() {
     reasonKey = seen.reason_key ?? null;
     reason = seen.reason ?? null;
   }
-  const pass = c.consumed_pass || seen.consumed_pass || null;  // Priya's one-time pass, when the backend reports it
+  const pass = c.consumed_pass || seen.consumed_pass || null;  // Priyank's one-time pass, when the backend reports it
   const last4 = c.card_last4 || seen.card_last4 || "";
 
   $("result").className = `is-${outcome}`;
@@ -478,14 +478,14 @@ function renderResult() {
 
   let icon = "info", iconClass = "round info", title, text, next = "";
   if (outcome === "approved" && pass) {
-    [icon, iconClass, title, text] = ["key", "round ok", "Priya allowed this once",
-      "Her one-time pass is now used. The next swipe here follows Ruth's rules again."];
+    [icon, iconClass, title, text] = ["key", "round ok", "Priyank allowed this once",
+      "His one-time pass is now used. The next swipe here follows Ruth's rules again."];
   } else if (outcome === "approved") {
     [icon, iconClass, title, text] = ["check", "round ok", "Chaperone approved this swipe",
       "It checked Ruth's card rules before the store got an answer."];
   } else if (outcome === "declined" && reasonKey) {
     [icon, iconClass, title, text] = ["shield", "", "Chaperone protected Ruth's card", reason || "This swipe is outside Ruth's card rules."];
-    next = reasonKey === "card_blocked_category" ? "It stays blocked. Only a change to the rules Ruth and Priya signed can open it." : "If this is real, Priya can allow it once from her phone.";
+    next = reasonKey === "card_blocked_category" ? "It stays blocked. Only a change to the rules Ruth and Priyank signed can open it." : "If this is real, Priyank can allow it once from his phone.";
   } else if (outcome === "declined") {
     [title, text] = ["The card was declined", reason || "The card network declined this swipe. Nothing was charged."];
   } else {
@@ -498,7 +498,7 @@ function renderResult() {
   $("rText").textContent = text;
   $("rNext").textContent = next;
   $("rNext").hidden = !next;
-  $("rTold").hidden = !(outcome === "declined" && reasonKey);  // Priya's phone hears every declined card_decision
+  $("rTold").hidden = !(outcome === "declined" && reasonKey);  // Priyank's phone hears every declined card_decision
 
   const decided = known(c.decided_ms) ? (c.decided_ms < 1 ? "under 1 ms" : ms(c.decided_ms))
     : (outcome === "pending" ? "Waiting" : "Not measured");
@@ -514,7 +514,7 @@ function renderResult() {
   else if (v.should_decline) {
     vtc = { declined: "Decline, too", approved: "Would decline", pending: "Decline" }[outcome];
     if (outcome === "approved") note = "Visa Transaction Controls would have declined this: its rule is a simpler per-swipe limit. "
-      + (pass ? "Chaperone approved it because Priya allowed it once." : "Chaperone checked Ruth's full rules and approved it.");
+      + (pass ? "Chaperone approved it because Priyank allowed it once." : "Chaperone checked Ruth's full rules and approved it.");
   } else {
     vtc = { declined: "Would approve", approved: "Approve, too", pending: "Approve" }[outcome];
     if (outcome === "declined") note = "Visa Transaction Controls would have let this through: its rule is a simpler per-swipe limit. "

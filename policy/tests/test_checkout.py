@@ -27,7 +27,7 @@ def test_a_down_judge_asks_priya_and_says_why(tmp_path, monkeypatch):
     assert response.status_code == 200, response.text
     assert response.json()["decision"] == "approve"
     listed = client(tmp_path, monkeypatch).get("/approvals").json()
-    assert listed[0]["reason"] == "the safety check was unavailable, so I asked Priya"
+    assert listed[0]["reason"] == "the safety check was unavailable, so I asked Priyank"
     assert listed[0]["items"]
 
 
@@ -355,7 +355,7 @@ def test_ruth_agrees_by_voice_beside_the_signed_mandate(tmp_path, monkeypatch):
     before = load_mandate()
     assert api.post("/mandate/cosign", headers={"x-forwarded-for": "8.8.8.8"}, json={"said": "yes"}).status_code == 403
     read_to_ruth = api.get("/mandate").json()["mandate_hash"]
-    # a yes without the rules she heard, or for rules Priya has since changed, is not a co-sign
+    # a yes without the rules she heard, or for rules Priyank has since changed, is not a co-sign
     assert api.post("/mandate/cosign", json={"session_id": "s_demo", "said": "sí", "lang": "es"}).status_code == 409
     assert api.post("/mandate/cosign", json={"session_id": "s_demo", "said": "sí", "mandate_hash": "old"}).status_code == 409
     agreed = api.post("/mandate/cosign", json={"session_id": "s_demo", "said": "Sí, estoy de acuerdo", "lang": "es",
@@ -364,7 +364,7 @@ def test_ruth_agrees_by_voice_beside_the_signed_mandate(tmp_path, monkeypatch):
     body = api.get("/mandate").json()
     assert body["cosign"]["by"] == "ruth" and body["cosign"]["said"] == "Sí, estoy de acuerdo"
     assert load_mandate() == before
-    # Priya signs new rules: the old agreement no longer shows
+    # Priyank signs new rules: the old agreement no longer shows
     save_mandate({**before, "per_purchase_cap": 61})
     assert "cosign" not in api.get("/mandate").json()
 
@@ -488,7 +488,7 @@ def test_an_approved_mixed_cart_is_placed_one_order_per_store(tmp_path, monkeypa
 
 
 def test_a_signed_v1_mandate_is_enforced_as_signed(tmp_path, monkeypatch):
-    """Stores Priya never signed stay out; missing card rules take the (restrictive) defaults."""
+    """Stores Priyank never signed stay out; missing card rules take the (restrictive) defaults."""
     from policy.checkout import active_mandate
     from policy.mandate import DEFAULT_MANDATE
     from policy.store import save_mandate

@@ -623,7 +623,7 @@ scripts:
     label: benign
     expected: allow
     family: safe_account
-    text: Priya went with me to the credit union and we put some of my savings in a CD. Today I just need tea bags and honey.
+    text: Priyank went with me to the credit union and we put some of my savings in a CD. Today I just need tea bags and honey.
     cart: [{name: Lipton tea bags 100, qty: 1, price: 4.79}, {name: Clover honey 12 oz, qty: 1, price: 4.99}]
   - id: es_b_cuenta_ahorros
     lang: es

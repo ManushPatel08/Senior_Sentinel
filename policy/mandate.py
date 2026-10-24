@@ -9,7 +9,7 @@ import jcs
 DEFAULT_MANDATE = {
     "mandate_id": "m_ruth_2026_09",
     "shopper": "ruth",
-    "caregiver": "priya",
+    "caregiver": "priyank",
     "currency": "USD",
     "per_purchase_cap": 60.00,
     "monthly_cap": 300.00,
@@ -30,7 +30,7 @@ DEFAULT_MANDATE = {
         "cooldown": {"hours": 24, "caps": {"5912": 25, "5310": 25, "5311": 25, "6011": 0, "default": 25}},
     },
     "trusted_contacts": [
-        {"name": "Priya", "relation": "daughter", "phone": "+1-404-555-0142"},
+        {"name": "Priyank", "relation": "son", "phone": "+1-404-555-0142"},
         {"name": "Alex", "relation": "grandson", "phone": "+1-404-555-0187"},
     ],
 }
@@ -62,7 +62,7 @@ def fill_v2(mandate: dict, widen: bool = True) -> dict:
     The signed file is not rewritten. A later passkey sign stores the filled fields. With widen=False (what
     checkout enforces) the stores, categories and billers stay exactly as signed; only missing restrictions
     (card rules, trusted contacts) take their defaults. A file signed on the new form (it has card rules) is
-    never widened: a store Priya switched off stays off.
+    never widened: a store Priyank switched off stays off.
     """
     filled = dict(mandate)
     if not widen or mandate.get("card"):
@@ -124,6 +124,6 @@ def visa_view(mandate: dict) -> dict:
             "description": description,
         })
     return {
-        "consumerPrompt": "Ruth's groceries, medicine, household items and her power bill, within the rules she and Priya signed",
+        "consumerPrompt": "Ruth's groceries, medicine, household items and her power bill, within the rules she and Priyank signed",
         "mandates": entries,
     }

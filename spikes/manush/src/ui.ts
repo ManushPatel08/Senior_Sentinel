@@ -1,6 +1,6 @@
 // DOM rendering for Ruth's station: the big talk button, the stage (the latest exchange, large, with older lines
 // scrolling above it), the order card (or what was just found), the read-back and co-sign choices, the wait for
-// Priya, the receipts, the Protected card and the calm banners; and, in the operator view, the state strip, status,
+// Priyank, the receipts, the Protected card and the calm banners; and, in the operator view, the state strip, status,
 // latency, rule banner, notes and ids.
 
 import type { AgentState, AgentUI, NoteKind, ProtectedView, TranscriptMark } from "./agent.ts";
@@ -236,7 +236,7 @@ export function createUI(
   function renderButton(): void {
     const state = currentState;
     ptt.className = `ptt state-${state}`;
-    // waiting for Priya: the button stays live and says what it does; the wait itself is shown on the stage
+    // waiting for Priyank: the button stays live and says what it does; the wait itself is shown on the stage
     pttLabel.textContent = STATE_WORDS[lang][state === "waiting" ? "ready" : state];
     const hint = hintFor(state);
     pttHint.textContent = hint ? BUTTON_HINTS[lang][hint] : "";

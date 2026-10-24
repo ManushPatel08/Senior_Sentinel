@@ -56,7 +56,7 @@
   #code { font: 600 52px/1.15 var(--ch-mono); letter-spacing: 0.12em; color: var(--ch-text); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
   .code-foot { font-size: 14px; }
 
-  /* Latest order and Priya's approval */
+  /* Latest order and Priyank's approval */
   .big { font-size: 28px; font-weight: 700; line-height: 1.25; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
   .big-sub { font-size: 17px; font-weight: 500; color: var(--ch-text-2); }
   .facts { margin: 0; display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 8px 12px; font-size: 15px; }
@@ -141,7 +141,7 @@
       </section>
 
       <section id="codeBox" class="code-card" aria-label="Fallback code" hidden>
-        <div class="code-title">Read this to Priya only if her passkey fails</div>
+        <div class="code-title">Read this to Priyank only if his passkey fails</div>
         <div id="code"></div>
         <div class="code-foot"><span id="codeFor"></span> · hides in <span id="codeLeft">60</span> s</div>
       </section>
@@ -154,7 +154,7 @@
           <div id="order" class="card-body"><p class="empty muted">No order yet.</p></div>
         </section>
         <section class="card" aria-labelledby="approvalTitle">
-          <div class="card-head"><h2 id="approvalTitle">Priya's approval</h2><span id="approvalBadge" class="ch-badge" hidden></span></div>
+          <div class="card-head"><h2 id="approvalTitle">Priyank's approval</h2><span id="approvalBadge" class="ch-badge" hidden></span></div>
           <div id="approval" class="card-body"><p class="empty muted">No approval asked yet.</p></div>
         </section>
       </div>
@@ -180,7 +180,7 @@ const upper = (s) => s ? s[0].toUpperCase() + s.slice(1) : s;
 
 const LOG_MAX = 12;
 const CODE_SHOW_MS = 60000;
-const APPROVAL_WINDOW_S = 90;  // policy gives Priya 90 s to answer
+const APPROVAL_WINDOW_S = 90;  // policy gives Priyank 90 s to answer
 
 const ICONS = {
   ok: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Done"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
@@ -367,7 +367,7 @@ const ORDER_STATUS = {
 };
 const FULFILMENT = { paid: "not prepared yet", preparing: "preparing", ready_for_pickup: "ready for pickup", picked_up: "picked up" };
 const APPROVED_BY = { passkey: "by passkey", code: "by fallback code" };
-const NOT_APPROVED = { timeout: "no answer in time", cancelled: "cancelled", passkey: "Priya said no" };
+const NOT_APPROVED = { timeout: "no answer in time", cancelled: "cancelled", passkey: "Priyank said no" };
 
 function paidBy(via) {
   const v = String(via || "");

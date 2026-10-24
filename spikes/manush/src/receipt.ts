@@ -108,7 +108,7 @@ export interface StoreRegistry {
   account?(id: string): string | undefined;
 }
 
-/** "PP-2231-0098" -> "…0098": enough for Ruth and Priya to recognise, not the whole number. */
+/** "PP-2231-0098" -> "…0098": enough for Ruth and Priyank to recognise, not the whole number. */
 export function maskAccount(ref: string): string {
   const tail = ref.replace(/[^0-9A-Za-z]/g, "").slice(-4);
   return tail ? `…${tail}` : "";

@@ -356,9 +356,9 @@ const SAY: Record<string, Record<Lang, string>> = {
     hi: "ऑर्डर हो रहा है। कुल {total}।",
   },
   asking_priya: {
-    en: "That's more than your limit for one purchase, so I've sent it to Priya. She usually answers in a minute.",
-    es: "Eso pasa de su límite para una compra, así que se lo mandé a Priya. Ella suele contestar en un minuto.",
-    hi: "यह एक खरीद की आपकी सीमा से ज़्यादा है, इसलिए मैंने इसे प्रिया को भेज दिया है। वे आमतौर पर जल्दी जवाब देती हैं।",
+    en: "That's more than your limit for one purchase, so I've sent it to Priyank. He usually answers in a minute.",
+    es: "Eso pasa de su límite para una compra, así que se lo mandé a Priyank. Él suele contestar en un minuto.",
+    hi: "यह एक खरीद की आपकी सीमा से ज़्यादा है, इसलिए मैंने इसे प्रियंक को भेज दिया है। वे आमतौर पर जल्दी जवाब देते हैं।",
   },
   declined: {
     en: "I can't buy that on this account. Would you like something else?",
@@ -392,34 +392,34 @@ const SAY: Record<string, Record<Lang, string>> = {
   },
   // Refusal keys the policy can return on a deny; the rule screen's own refusal text is spoken when it has one.
   blocked_category: {
-    en: "I can't buy gift cards, money transfers or crypto on this account. I have told Priya.",
-    es: "No puedo comprar tarjetas de regalo, transferencias ni criptomonedas con esta cuenta. Ya le avisé a Priya.",
-    hi: "इस खाते से गिफ्ट कार्ड, पैसे भेजना या क्रिप्टो नहीं खरीदा जा सकता। मैंने प्रिया को बता दिया है।",
+    en: "I can't buy gift cards, money transfers or crypto on this account. I have told Priyank.",
+    es: "No puedo comprar tarjetas de regalo, transferencias ni criptomonedas con esta cuenta. Ya le avisé a Priyank.",
+    hi: "इस खाते से गिफ्ट कार्ड, पैसे भेजना या क्रिप्टो नहीं खरीदा जा सकता। मैंने प्रियंक को बता दिया है।",
   },
   scam_pattern: {
-    en: "This sounds like it could be a scam, so I won't buy it. You did nothing wrong. I have told Priya.",
-    es: "Esto podría ser una estafa, así que no lo voy a comprar. Usted no hizo nada malo. Ya le avisé a Priya.",
-    hi: "यह धोखा हो सकता है, इसलिए यह नहीं खरीदा जाएगा। आपकी कोई गलती नहीं है। मैंने प्रिया को बता दिया है।",
+    en: "This sounds like it could be a scam, so I won't buy it. You did nothing wrong. I have told Priyank.",
+    es: "Esto podría ser una estafa, así que no lo voy a comprar. Usted no hizo nada malo. Ya le avisé a Priyank.",
+    hi: "यह धोखा हो सकता है, इसलिए यह नहीं खरीदा जाएगा। आपकी कोई गलती नहीं है। मैंने प्रियंक को बता दिया है।",
   },
   code_reading: {
-    en: "Please never read card numbers or codes to anyone. I have told Priya.",
-    es: "Por favor, nunca le lea a nadie números de tarjeta ni códigos. Ya le avisé a Priya.",
-    hi: "कृपया किसी को भी कार्ड नंबर या कोड न बताएँ। मैंने प्रिया को बता दिया है।",
+    en: "Please never read card numbers or codes to anyone. I have told Priyank.",
+    es: "Por favor, nunca le lea a nadie números de tarjeta ni códigos. Ya le avisé a Priyank.",
+    hi: "कृपया किसी को भी कार्ड नंबर या कोड न बताएँ। मैंने प्रियंक को बता दिया है।",
   },
   caregiver_approved: {
-    en: "Priya said yes. Ordering now. Total {total}.",
-    es: "Priya dijo que sí. Hago el pedido ahora. Total: {total}.",
-    hi: "प्रिया ने हाँ कहा है। ऑर्डर हो रहा है। कुल {total}।",
+    en: "Priyank said yes. Ordering now. Total {total}.",
+    es: "Priyank dijo que sí. Hago el pedido ahora. Total: {total}.",
+    hi: "प्रियंक ने हाँ कहा है। ऑर्डर हो रहा है। कुल {total}।",
   },
   caregiver_declined: {
-    en: "Priya did not approve this order. Your cart is still here; would you like to change it?",
-    es: "Priya no aprobó este pedido. Su carrito sigue aquí; ¿quiere cambiarlo?",
-    hi: "प्रिया ने यह ऑर्डर मंज़ूर नहीं किया। आपकी कार्ट वैसी ही है; क्या आप इसे बदलना चाहेंगे?",
+    en: "Priyank did not approve this order. Your cart is still here; would you like to change it?",
+    es: "Priyank no aprobó este pedido. Su carrito sigue aquí; ¿quiere cambiarlo?",
+    hi: "प्रियंक ने यह ऑर्डर मंज़ूर नहीं किया। आपकी कार्ट वैसी ही है; क्या आप इसे बदलना चाहेंगे?",
   },
   caregiver_timeout: {
-    en: "Priya did not answer, so nothing was ordered. I have kept your cart.",
-    es: "Priya no contestó, así que no se pidió nada. Le guardé su carrito.",
-    hi: "प्रिया ने जवाब नहीं दिया, इसलिए कुछ ऑर्डर नहीं हुआ। आपकी कार्ट रखी हुई है।",
+    en: "Priyank did not answer, so nothing was ordered. I have kept your cart.",
+    es: "Priyank no contestó, así que no se pidió nada. Le guardé su carrito.",
+    hi: "प्रियंक ने जवाब नहीं दिया, इसलिए कुछ ऑर्डर नहीं हुआ। आपकी कार्ट रखी हुई है।",
   },
   // Slots: {total} {store} {pickup}; {pickup} is pickup_line, empty for a bill
   receipt_done: {
@@ -464,9 +464,9 @@ const SAY: Record<string, Record<Lang, string>> = {
     hi: "{amount} आपके {last4} पर ख़त्म होने वाले कार्ड में वापस जाएँगे। कर दूँ?",
   },
   refund_done: {
-    en: "Done. {amount} is going back to your card ending {last4}. I've told Priya.",
-    es: "Listo. {amount} regresan a su tarjeta que termina en {last4}. Ya le avisé a Priya.",
-    hi: "हो गया। {amount} आपके {last4} पर ख़त्म होने वाले कार्ड में वापस जा रहे हैं। मैंने प्रिया को बता दिया है।",
+    en: "Done. {amount} is going back to your card ending {last4}. I've told Priyank.",
+    es: "Listo. {amount} regresan a su tarjeta que termina en {last4}. Ya le avisé a Priyank.",
+    hi: "हो गया। {amount} आपके {last4} पर ख़त्म होने वाले कार्ड में वापस जा रहे हैं। मैंने प्रियंक को बता दिया है।",
   },
   refund_not_allowed_rx: {
     en: "Prescription medicine can't be returned. The pharmacist can help you with it.",
@@ -474,14 +474,14 @@ const SAY: Record<string, Record<Lang, string>> = {
     hi: "डॉक्टर की पर्ची वाली दवाई वापस नहीं होती। फ़ार्मासिस्ट आपकी मदद कर सकते हैं।",
   },
   refund_scam: {
-    en: "A real store never asks you to pay to get a refund, and never asks for gift cards. You did nothing wrong. I've told Priya.",
-    es: "Una tienda de verdad nunca le pide pagar para recibir un reembolso, ni le pide tarjetas de regalo. Usted no hizo nada malo. Ya le avisé a Priya.",
-    hi: "असली दुकान रिफंड के लिए कभी पैसे या गिफ्ट कार्ड नहीं माँगती। आपकी कोई गलती नहीं है। मैंने प्रिया को बता दिया है।",
+    en: "A real store never asks you to pay to get a refund, and never asks for gift cards. You did nothing wrong. I've told Priyank.",
+    es: "Una tienda de verdad nunca le pide pagar para recibir un reembolso, ni le pide tarjetas de regalo. Usted no hizo nada malo. Ya le avisé a Priyank.",
+    hi: "असली दुकान रिफंड के लिए कभी पैसे या गिफ्ट कार्ड नहीं माँगती। आपकी कोई गलती नहीं है। मैंने प्रियंक को बता दिया है।",
   },
   agent_paused: {
-    en: "Priya has paused shopping for now, so I can't order anything. You can call her.",
-    es: "Priya pausó las compras por ahora, así que no puedo pedir nada. Puede llamarla.",
-    hi: "प्रिया ने अभी खरीदारी रोक रखी है, इसलिए कुछ ऑर्डर नहीं हो सकता। आप उन्हें फ़ोन कर सकते हैं।",
+    en: "Priyank has paused shopping for now, so I can't order anything. You can call him.",
+    es: "Priyank pausó las compras por ahora, así que no puedo pedir nada. Puede llamarlo.",
+    hi: "प्रियंक ने अभी खरीदारी रोक रखी है, इसलिए कुछ ऑर्डर नहीं हो सकता। आप उन्हें फ़ोन कर सकते हैं।",
   },
   you_saved: {
     en: "You saved {saved}.",
@@ -514,11 +514,11 @@ const SAY: Record<string, Record<Lang, string>> = {
     es: "No puedo comunicarme con la tienda ahora mismo. Intente otra vez en un minuto.",
     hi: "अभी दुकान से संपर्क नहीं हो पा रहा। थोड़ी देर बाद फिर से कोशिश कीजिए।",
   },
-  // The approval went to Priya because the safety check could not run (not because of the amount).
+  // The approval went to Priyank because the safety check could not run (not because of the amount).
   asking_priya_check: {
-    en: "I couldn't finish my safety check, so I've sent this to Priya. She usually answers in a minute.",
-    es: "No pude terminar mi revisión de seguridad, así que se lo mandé a Priya. Ella suele contestar en un minuto.",
-    hi: "मैं अपनी सुरक्षा जाँच पूरी नहीं कर पाई, इसलिए मैंने इसे प्रिया को भेज दिया है। वे आमतौर पर जल्दी जवाब देती हैं।",
+    en: "I couldn't finish my safety check, so I've sent this to Priyank. He usually answers in a minute.",
+    es: "No pude terminar mi revisión de seguridad, así que se lo mandé a Priyank. Él suele contestar en un minuto.",
+    hi: "मैं अपनी सुरक्षा जाँच पूरी नहीं कर पाई, इसलिए मैंने इसे प्रियंक को भेज दिया है। वे आमतौर पर जल्दी जवाब देते हैं।",
   },
   // The card guard, spoken when a swipe is declined or allowed once. Slots: {amount} {store}
   card_declined_blocked: {
@@ -527,29 +527,29 @@ const SAY: Record<string, Record<Lang, string>> = {
     hi: "मैंने {store} पर {amount} का भुगतान रोक दिया। आपका कार्ड ऐसी दुकान पर कभी भुगतान नहीं करता। अगर किसी ने गिफ्ट कार्ड खरीदने या पैसे भेजने को कहा है, तो यह धोखा है।",
   },
   card_declined_cooldown: {
-    en: "I stopped a {amount} charge at {store}, because of the scam call earlier. If it's real, Priya can allow it once.",
-    es: "Detuve un cargo de {amount} en {store} por la llamada de estafa de antes. Si es real, Priya lo puede permitir una vez.",
-    hi: "पहले आई धोखे वाली कॉल की वजह से मैंने {store} पर {amount} का भुगतान रोक दिया। अगर यह सही है, तो प्रिया इसे एक बार की अनुमति दे सकती हैं।",
+    en: "I stopped a {amount} charge at {store}, because of the scam call earlier. If it's real, Priyank can allow it once.",
+    es: "Detuve un cargo de {amount} en {store} por la llamada de estafa de antes. Si es real, Priyank lo puede permitir una vez.",
+    hi: "पहले आई धोखे वाली कॉल की वजह से मैंने {store} पर {amount} का भुगतान रोक दिया। अगर यह सही है, तो प्रियंक इसे एक बार की अनुमति दे सकते हैं।",
   },
   card_declined_over_cap: {
-    en: "I stopped a {amount} charge at {store}; it's over your limit for that store. Priya can allow it once.",
-    es: "Detuve un cargo de {amount} en {store}; pasa su límite para esa tienda. Priya lo puede permitir una vez.",
-    hi: "मैंने {store} पर {amount} का भुगतान रोक दिया; यह उस दुकान की आपकी सीमा से ज़्यादा है। प्रिया इसे एक बार की अनुमति दे सकती हैं।",
+    en: "I stopped a {amount} charge at {store}; it's over your limit for that store. Priyank can allow it once.",
+    es: "Detuve un cargo de {amount} en {store}; pasa su límite para esa tienda. Priyank lo puede permitir una vez.",
+    hi: "मैंने {store} पर {amount} का भुगतान रोक दिया; यह उस दुकान की आपकी सीमा से ज़्यादा है। प्रियंक इसे एक बार की अनुमति दे सकते हैं।",
   },
   card_declined_unusual: {
-    en: "I stopped a {amount} charge at {store}; it's much more than you usually spend there. Priya can allow it once.",
-    es: "Detuve un cargo de {amount} en {store}; es mucho más de lo que suele gastar ahí. Priya lo puede permitir una vez.",
-    hi: "मैंने {store} पर {amount} का भुगतान रोक दिया; यह वहाँ आपके आम खर्च से बहुत ज़्यादा है। प्रिया इसे एक बार की अनुमति दे सकती हैं।",
+    en: "I stopped a {amount} charge at {store}; it's much more than you usually spend there. Priyank can allow it once.",
+    es: "Detuve un cargo de {amount} en {store}; es mucho más de lo que suele gastar ahí. Priyank lo puede permitir una vez.",
+    hi: "मैंने {store} पर {amount} का भुगतान रोक दिया; यह वहाँ आपके आम खर्च से बहुत ज़्यादा है। प्रियंक इसे एक बार की अनुमति दे सकते हैं।",
   },
   card_declined_atm: {
-    en: "I stopped a {amount} cash withdrawal; it's over today's limit. Priya can allow it once.",
-    es: "Detuve un retiro de {amount}; pasa el límite de hoy. Priya lo puede permitir una vez.",
-    hi: "मैंने {amount} की नकद निकासी रोक दी; यह आज की सीमा से ज़्यादा है। प्रिया इसे एक बार की अनुमति दे सकती हैं।",
+    en: "I stopped a {amount} cash withdrawal; it's over today's limit. Priyank can allow it once.",
+    es: "Detuve un retiro de {amount}; pasa el límite de hoy. Priyank lo puede permitir una vez.",
+    hi: "मैंने {amount} की नकद निकासी रोक दी; यह आज की सीमा से ज़्यादा है। प्रियंक इसे एक बार की अनुमति दे सकते हैं।",
   },
   card_allowed_once: {
-    en: "Priya allowed that charge once. Please try the card again.",
-    es: "Priya permitió ese cargo una vez. Por favor intente con la tarjeta otra vez.",
-    hi: "प्रिया ने वह भुगतान एक बार के लिए मंज़ूर कर दिया है। कृपया कार्ड फिर से लगाइए।",
+    en: "Priyank allowed that charge once. Please try the card again.",
+    es: "Priyank permitió ese cargo una vez. Por favor intente con la tarjeta otra vez.",
+    hi: "प्रियंक ने वह भुगतान एक बार के लिए मंज़ूर कर दिया है। कृपया कार्ड फिर से लगाइए।",
   },
   cooldown_on: {
     en: "For the next day I'll take extra care with your card.",
@@ -557,9 +557,9 @@ const SAY: Record<string, Record<Lang, string>> = {
     hi: "अगले एक दिन मैं आपके कार्ड का ख़ास ध्यान रखूँगी।",
   },
   refund_not_allowed_bill: {
-    en: "A bill payment can't be returned. If something is wrong with the bill, Priya can call {biller}.",
-    es: "El pago de una factura no se puede devolver. Si algo está mal con la factura, Priya puede llamar a {biller}.",
-    hi: "बिल का भुगतान वापस नहीं होता। अगर बिल में कोई गड़बड़ है, तो प्रिया {biller} को फ़ोन कर सकती हैं।",
+    en: "A bill payment can't be returned. If something is wrong with the bill, Priyank can call {biller}.",
+    es: "El pago de una factura no se puede devolver. Si algo está mal con la factura, Priyank puede llamar a {biller}.",
+    hi: "बिल का भुगतान वापस नहीं होता। अगर बिल में कोई गड़बड़ है, तो प्रियंक {biller} को फ़ोन कर सकते हैं।",
   },
   // What the recorded clips say (no amount or store, so one recording fits every swipe); the screen shows the rest.
   card_declined_blocked_clip: {
@@ -568,36 +568,36 @@ const SAY: Record<string, Record<Lang, string>> = {
     hi: "मैंने ऐसी दुकान का भुगतान रोक दिया जहाँ आपका कार्ड कभी भुगतान नहीं करता। अगर किसी ने गिफ्ट कार्ड खरीदने या पैसे भेजने को कहा है, तो यह धोखा है।",
   },
   card_declined_cooldown_clip: {
-    en: "I stopped a charge because of the scam call earlier. If it's real, Priya can allow it once.",
-    es: "Detuve un cargo por la llamada de estafa de antes. Si es real, Priya lo puede permitir una vez.",
-    hi: "पहले आई धोखे वाली कॉल की वजह से मैंने एक भुगतान रोक दिया। अगर यह सही है, तो प्रिया इसे एक बार की अनुमति दे सकती हैं।",
+    en: "I stopped a charge because of the scam call earlier. If it's real, Priyank can allow it once.",
+    es: "Detuve un cargo por la llamada de estafa de antes. Si es real, Priyank lo puede permitir una vez.",
+    hi: "पहले आई धोखे वाली कॉल की वजह से मैंने एक भुगतान रोक दिया। अगर यह सही है, तो प्रियंक इसे एक बार की अनुमति दे सकते हैं।",
   },
   scam_check_scam: {
-    en: "Ruth, this sounds like a scam that fools many smart people. Please hang up and don't send any money; I've told Priya.",
-    es: "Ruth, esto parece una estafa que engaña a mucha gente lista. Por favor cuelgue y no mande dinero; ya le avisé a Priya.",
-    hi: "रूथ, यह एक ऐसा धोखा लगता है जिसमें कई समझदार लोग फँस जाते हैं। कृपया फ़ोन रख दीजिए और कोई पैसा न भेजें; मैंने प्रिया को बता दिया है।",
+    en: "Ruth, this sounds like a scam that fools many smart people. Please hang up and don't send any money; I've told Priyank.",
+    es: "Ruth, esto parece una estafa que engaña a mucha gente lista. Por favor cuelgue y no mande dinero; ya le avisé a Priyank.",
+    hi: "रूथ, यह एक ऐसा धोखा लगता है जिसमें कई समझदार लोग फँस जाते हैं। कृपया फ़ोन रख दीजिए और कोई पैसा न भेजें; मैंने प्रियंक को बता दिया है।",
   },
-  // Ruth agrees to the rules Priya signed. Slots: {rules}
+  // Ruth agrees to the rules Priyank signed. Slots: {rules}
   cosign_ask: {
-    en: "Priya set your rules: {rules}. Do you agree?",
-    es: "Priya puso sus reglas: {rules}. ¿Está de acuerdo?",
-    hi: "प्रिया ने आपके नियम तय किए हैं: {rules}। क्या आप सहमत हैं?",
+    en: "Priyank set your rules: {rules}. Do you agree?",
+    es: "Priyank puso sus reglas: {rules}. ¿Está de acuerdo?",
+    hi: "प्रियंक ने आपके नियम तय किए हैं: {rules}। क्या आप सहमत हैं?",
   },
   cosign_thanks: {
-    en: "Thank you. Your rules are set, and Priya can see that you agreed.",
-    es: "Gracias. Sus reglas quedaron listas, y Priya puede ver que usted estuvo de acuerdo.",
-    hi: "धन्यवाद। आपके नियम तय हो गए, और प्रिया देख सकती हैं कि आप सहमत हैं।",
+    en: "Thank you. Your rules are set, and Priyank can see that you agreed.",
+    es: "Gracias. Sus reglas quedaron listas, y Priyank puede ver que usted estuvo de acuerdo.",
+    hi: "धन्यवाद। आपके नियम तय हो गए, और प्रियंक देख सकते हैं कि आप सहमत हैं।",
   },
   cosign_not_yet: {
-    en: "All right, nothing changes until you agree. You can talk it over with Priya.",
-    es: "Está bien, nada cambia hasta que usted esté de acuerdo. Puede hablarlo con Priya.",
-    hi: "ठीक है, जब तक आप सहमत नहीं होतीं, कुछ नहीं बदलेगा। आप प्रिया से बात कर सकती हैं।",
+    en: "All right, nothing changes until you agree. You can talk it over with Priyank.",
+    es: "Está bien, nada cambia hasta que usted esté de acuerdo. Puede hablarlo con Priyank.",
+    hi: "ठीक है, जब तक आप सहमत नहीं होतीं, कुछ नहीं बदलेगा। आप प्रियंक से बात कर सकती हैं।",
   },
   // The Ask guard. Slots: {biller} {amount} {due}
   scam_check_unavailable: {
-    en: "I can't check that right now. Please don't pay anyone or share any codes until you talk to Priya.",
-    es: "No puedo revisarlo ahora mismo. Por favor no le pague a nadie ni dé ningún código hasta hablar con Priya.",
-    hi: "मैं अभी इसकी जाँच नहीं कर पा रही। प्रिया से बात करने तक किसी को पैसे न दें और कोई कोड न बताएँ।",
+    en: "I can't check that right now. Please don't pay anyone or share any codes until you talk to Priyank.",
+    es: "No puedo revisarlo ahora mismo. Por favor no le pague a nadie ni dé ningún código hasta hablar con Priyank.",
+    hi: "मैं अभी इसकी जाँच नहीं कर पा रही। प्रियंक से बात करने तक किसी को पैसे न दें और कोई कोड न बताएँ।",
   },
   bill_due: {
     en: "Your {biller} bill is {amount}, due {due}. It is not past due.",
@@ -710,7 +710,7 @@ export function checkoutOutcome(reply: Record<string, unknown>, totalCents: numb
   }
   if (decision === "approve") {
     const approval = (reply.approval ?? null) as { approval_id?: unknown; rule?: unknown; reason?: unknown } | null;
-    // Sent to Priya because the safety check could not run, not because of the amount: say that instead.
+    // Sent to Priyank because the safety check could not run, not because of the amount: say that instead.
     const checkDown = typeof reply.judge_error === "string" || approval?.rule === "R7_scam_judge" ||
       (typeof approval?.reason === "string" && /safety check|unavailable/i.test(approval.reason));
     const key = checkDown ? "asking_priya_check" : "asking_priya";

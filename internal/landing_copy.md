@@ -18,9 +18,9 @@ Buttons: **Set it up with Mom** · **For banks**
 
 **The call:** "This is Peachtree Power. Your power goes off at 7 tonight unless you pay $480. Stay on the line, and don't tell anyone."
 
-1. **She asks first.** Instead of driving to the drugstore, Ruth asks Chaperone, on the kitchen station or by phone. Chaperone looks up her real Peachtree Power account, sees the bill is paid, and says in her language: "Ruth, your Peachtree Power bill is paid, so this call is a scam. Please hang up and don't pay anyone; I've told Priya." Priya's app shows what happened, with links to recent reports of the same scam once the search comes back.
-2. **Her card takes extra care.** For the next 24 hours, any card charge over $25 and any cash withdrawal is declined. If the caller talks her into the drugstore anyway, the $480 charge is declined at the register; Priya sees the decline in her app, and the kitchen station says why out loud.
-3. **Nothing lost, nothing hidden.** Priya sees the scam check and the declined charge, each with a plain reason, and can let a real charge through once with one tap. Ruth keeps her card and her independence.
+1. **She asks first.** Instead of driving to the drugstore, Ruth asks Chaperone, on the kitchen station or by phone. Chaperone looks up her real Peachtree Power account, sees the bill is paid, and says in her language: "Ruth, your Peachtree Power bill is paid, so this call is a scam. Please hang up and don't pay anyone; I've told Priyank." Priyank's app shows what happened, with links to recent reports of the same scam once the search comes back.
+2. **Her card takes extra care.** For the next 24 hours, any card charge over $25 and any cash withdrawal is declined. If the caller talks her into the drugstore anyway, the $480 charge is declined at the register; Priyank sees the decline in his app, and the kitchen station says why out loud.
+3. **Nothing lost, nothing hidden.** Priyank sees the scam check and the declined charge, each with a plain reason, and can let a real charge through once with one tap. Ruth keeps her card and her independence.
 
 *Without Chaperone:* she buys the gift cards, reads the numbers over the phone, and the money is gone in minutes.
 
@@ -30,10 +30,10 @@ Buttons: **Set it up with Mom** · **For banks**
 
 | Guard | What it does |
 |---|---|
-| **Ask** (the conversation) | Ruth describes a call, text or pop-up. Chaperone checks her own accounts (her bill, recent orders, family numbers) and, when its rules don't already know the scam, recent scam reports. It answers in two short, calm sentences and logs every check for Priya, with an alert when it's a scam. |
+| **Ask** (the conversation) | Ruth describes a call, text or pop-up. Chaperone checks her own accounts (her bill, recent orders, family numbers) and, when its rules don't already know the scam, recent scam reports. It answers in two short, calm sentences and logs every check for Priyank, with an alert when it's a scam. |
 | **Card** (her Visa card) | Every swipe is checked against her rules before it's approved. Gift-card, money-transfer, crypto and betting merchants are blocked by store type; after a scam call, charges over $25 and cash withdrawals are declined for a day. |
 | **Agent** (errands and bills) | Groceries, medicine and the power bill, only from the stores and billers on her list and only within the limits. Every order is signed, so the store can check it came from Chaperone. It never buys gift cards, wires or crypto, and a refund only goes back to the card that paid. |
-| **Family** (shared rules) | Priya sets the rules and signs them with her passkey, and can change them on her own. Chaperone reads every new set to Ruth in her language and keeps her spoken yes on record. |
+| **Family** (shared rules) | Priyank sets the rules and signs them with his passkey, and can change them on his own. Chaperone reads every new set to Ruth in her language and keeps her spoken yes on record. |
 
 ---
 
@@ -67,6 +67,6 @@ Offer caregiver protection on the Visa debit cards your members already have. Th
 
 - **It can't hear a scammer's call unless she asks.** The habit comes from daily errands and a card on the fridge: "Before you pay anyone, ask Chaperone."
 - **Her card can't see what she's buying,** only the store and the amount. A drugstore charge is a drugstore charge, so Chaperone judges by store type, amount, her usual spending and the day's cool-down.
-- **Priya can't approve inside the card network's few seconds.** A held charge is declined first; after Priya's "allow once", Ruth simply tries again within 10 minutes.
+- **Priyank can't approve inside the card network's few seconds.** A held charge is declined first; after Priyank's "allow once", Ruth simply tries again within 10 minutes.
 - **It adds friction and family, not a guarantee.** A determined, willing victim can still find a way. Chaperone makes that way slower, visible and shared.
 - **This is a prototype.** Store payments run in the Visa sandbox and card swipes on a sandbox card; no real money moves and no real personal data is used.

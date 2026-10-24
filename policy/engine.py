@@ -60,7 +60,7 @@ def evaluate(
     blocked = set(mandate.get("blocked_categories") or [])
     allowed_cats = set(mandate.get("allowed_categories") or [])
     # A bill is capped by its biller's own monthly limit when it is priced (policy/bills.py), so the per-purchase
-    # cap and the ask-Priya threshold apply to goods only; the monthly cap still counts both.
+    # cap and the ask-Priyank threshold apply to goods only; the monthly cap still counts both.
     goods = sum(to_cents(item.get("price", 0)) * int(item.get("qty") or 1) for item in items
                 if mandate_category(item) != "utility_bill")
     cap = to_cents(mandate["per_purchase_cap"])

@@ -4,18 +4,18 @@
                       caller: {org, name, phone}}      (story or transcript, or both)
       -> {check_id, decision_id, verdict: scam|unsure|ok, pattern, say, actions[], facts_checked[], sources[],
           cooldown_until, amount, ms, from_cache}
-    GET  /scam-checks?mandate_id=&limit=20   Priya's Safety list (caregiver marker ("scam_checks", "list"))
+    GET  /scam-checks?mandate_id=&limit=20   Priyank's Safety list (caregiver marker ("scam_checks", "list"))
     GET  /scam-check/{check_id}              one stored check (caregiver marker (check_id, "view"))
 
 Every check is also saved as a decision document (decision "deny" for a scam, "caution" or "noted"
-otherwise, never "allow"), so /decisions/{decision_id}/explain answers Priya's "Why?".
+otherwise, never "allow"), so /decisions/{decision_id}/explain answers Priyank's "Why?".
 
 `story` is the voice model's summary; `transcript` is Ruth's exact words. The rules screen both, so a
 paraphrase can't hide a hard hit, and Grok sees both.
 
 Order of work:
 1. The rule screen. A hard hit answers at once (the say line from the cache or lines.<lang>.json);
-   Grok then runs in the background to attach sources to Priya's alert.
+   Grok then runs in the background to attach sources to Priyank's alert.
 2. Facts from Ruth's own accounts: trusted contacts (mandate v2), the biller balance and
    recent orders. They go to Grok and come back as facts_checked.
 3. Grok Responses with x_search and web_search. One budget covers the whole check (RADAR_BUDGET_S,
@@ -68,7 +68,7 @@ LATE_LIMIT_S = 30.0  # a Grok answer later than the budget is still cached until
 LANG_NAMES = {"en": "English", "es": "Spanish", "hi": "Hindi"}
 
 # Until mandate v2 and the biller land on main, the demo account's facts.
-DEMO_TRUSTED = [{"name": "Priya", "relation": "daughter", "phone": "+1-404-555-0142"},
+DEMO_TRUSTED = [{"name": "Priyank", "relation": "son", "phone": "+1-404-555-0142"},
                 {"name": "Alex", "relation": "grandson", "phone": "+1-404-555-0187"}]
 DEMO_BILLERS = [{"merchant_id": "peachtree_power", "account_ref": "PP-2231-0098"}]
 BILLER_WORDS = re.compile(r"\b(?:power|electric\w*|utility|light bill|peachtree|luz|electricidad|bijli|बिजली|लाइट)\b",
@@ -469,7 +469,8 @@ def _fact_line(pattern: str | None, facts: list[dict], lang: str) -> str | None:
             return lines(lang)["scam_check_bill_paid"].format(biller=paid)
     if pattern == "grandparent_emergency":
         name = next((f["fact"].split("'s number")[0] for f in facts
-                     if "'s number on file" in f["fact"] and "(daughter)" not in f["fact"]), None)
+                     if "'s number on file" in f["fact"]
+                     and not any(rel in f["fact"] for rel in ("(son)", "(daughter)"))), None)
         if name:
             return lines(lang)["scam_check_family"].format(name=name)
     return None
@@ -496,7 +497,7 @@ def remember(v: dict, text: str, lang: str, pattern: str) -> None:
 
 def _enrich_in_background(doc: dict, story: str, caller: dict, facts: list[dict], hints: list[str],
                           transcript: str = "") -> None:
-    """After a hard-rule answer, fetch sources for Priya's alert and warm the cache."""
+    """After a hard-rule answer, fetch sources for Priyank's alert and warm the cache."""
     def run() -> None:
         try:
             v = radar(story, doc["lang"], caller, facts, hints, float(env("RADAR_TIMEOUT_S", "12")), transcript)
@@ -523,7 +524,7 @@ _DECISION = {"scam": "deny", "unsure": "caution", "ok": "noted"}  # never "allow
 
 
 def _save_decision(doc: dict) -> None:
-    """Store the check as a decision document, so /decisions/{id}/explain can answer Priya's "Why?"."""
+    """Store the check as a decision document, so /decisions/{id}/explain can answer Priyank's "Why?"."""
     from policy.store import save_decision
 
     save_decision({
@@ -637,7 +638,7 @@ def public(doc: dict) -> dict:
 
 
 def summary(doc: dict) -> dict:
-    """One row of Priya's Safety list."""
+    """One row of Priyank's Safety list."""
     return {"check_id": doc["check_id"], "decision_id": doc.get("decision_id"), "verdict": doc["verdict"],
             "pattern": doc["pattern"], "story_excerpt": (doc.get("transcript") or doc.get("story") or "")[:160],
             "say": doc["say"], "sources": doc.get("sources") or [], "amount": doc.get("amount"), "at": doc["at"],
@@ -682,7 +683,7 @@ def scam_check_route(body: CheckBody) -> dict:
 
 @router.get("/scam-checks")
 def list_checks_route(request: Request, mandate_id: str = "", limit: int = 20) -> list[dict]:
-    """Priya's Safety list, newest first (caregiver marker for ("scam_checks", "list"))."""
+    """Priyank's Safety list, newest first (caregiver marker for ("scam_checks", "list"))."""
     _require_marker(request, "scam_checks", "list")
     with _lock:
         docs = list(_read(checks_path()).values())

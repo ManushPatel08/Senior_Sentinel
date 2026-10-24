@@ -141,13 +141,13 @@ def _finish_approval(document: dict, method: str) -> dict:
         )
         save_decision(document)
         return public_approval(document)
-    if load_paused():  # Priya paused after she was asked: nothing is bought
+    if load_paused():  # Priyank paused after he was asked: nothing is bought
         return _close_rejected(document, approval["approval_id"], "Shopping is paused")
     from policy.checkout import _carts_by_store
 
     mandate = load_mandate() or DEFAULT_MANDATE
     save_decision(document)
-    # Like checkout: one signed order per store, each exactly that store's share of what Priya approved.
+    # Like checkout: one signed order per store, each exactly that store's share of what Priyank approved.
     orders, spent, failure = [], 0, None
     for sub in _carts_by_store(document["cart"]):
         body = {
@@ -609,7 +609,7 @@ def mandate_cosign(payload: dict, request: Request):
     if not stored:
         raise HTTPException(404, "no signed mandate")
     digest = _rules_hash(stored)
-    # Ruth agrees to the rules she heard: if Priya signed new ones since, this yes is not for them
+    # Ruth agrees to the rules she heard: if Priyank signed new ones since, this yes is not for them
     if payload.get("mandate_hash") != digest:
         raise HTTPException(409, "rules changed since they were read to Ruth")
     record = {

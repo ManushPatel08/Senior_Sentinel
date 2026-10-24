@@ -81,7 +81,7 @@ Judges reward a team that names its own limits first. Each weak point has the ho
 
 | Weak point | Honest answer | What we did about it |
 |---|---|---|
-| "It is Alexa with parental controls" | Alexa cannot sign a mandate, refuse a scam, ask your daughter, or prove to a merchant that it was allowed to buy. The guardrails live in code below the model and every request is signed; that is the product | The trust chain is on the wall, not in the pitch |
+| "It is Alexa with parental controls" | Alexa cannot sign a mandate, refuse a scam, ask your son, or prove to a merchant that it was allowed to buy. The guardrails live in code below the model and every request is signed; that is the product | The trust chain is on the wall, not in the pitch |
 | The model could be talked into anything | It can be talked into proposing anything; it cannot spend anything. Checkout is a deterministic function of the cart and the mandate, and the merchant verifies a signature the model never holds | Policy engine unit tests and a live "try to jailbreak it" invitation |
 | Scam refusals will insult the shopper or block real purchases | Blocked categories are the caregiver's choice, not ours; soft patterns go to a judge, not straight to a refusal; the refusal script is written to protect dignity; the caregiver can approve anything the shopper genuinely wants | Refusal wording in three languages, an eval set of benign scripts with the false-refusal rate |
 | No real money moves | Correct: the Visa Acceptance sandbox and test cards. The API calls, the signatures and the settlement flow are the real ones; the card is not | Sandbox responses shown live on the wall |

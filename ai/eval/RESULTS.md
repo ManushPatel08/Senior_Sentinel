@@ -6,7 +6,7 @@ Run 2026-09-26 22:52. 102 scripts (50 scam, 52 benign) in English, Spanish, Hind
 
 ## Results by layer and language (held-out half)
 
-| Layer | Language | Precision | Recall | F1 | Scams caught | Held for Priya (scam / benign) | False refusals (95% Wilson) |
+| Layer | Language | Precision | Recall | F1 | Scams caught | Held for Priyank (scam / benign) | False refusals (95% Wilson) |
 |---|---|---|---|---|---|---|---|
 | Rules only | en | 0.86 | 0.75 | 0.80 | 6/8 | 0 / 0 | 1/7 (3% to 51%) |
 | Rules only | es | 1.00 | 0.71 | 0.83 | 5/7 | 0 / 0 | 0/6 (0% to 39%) |
@@ -60,7 +60,7 @@ Both halves together, so the judge columns include the scripts its threshold was
 ### grok-4.20-0309-non-reasoning
 
 - Threshold picked on the tuning half: **0.60**. Held-out half at that threshold: F1 0.98, recall 1.00, false refusals 1/24 (95% Wilson up to 20%).
-- Judge calls under the 3 s deadline: 165 answered, 0 missed it or failed (held for Priya when the rules had asked for the judge, else allowed). Latency of answered calls: median 862 ms, p90 992 ms (1 call(s) at a time).
+- Judge calls under the 3 s deadline: 165 answered, 0 missed it or failed (held for Priyank when the rules had asked for the judge, else allowed). Latency of answered calls: median 862 ms, p90 992 ms (1 call(s) at a time).
 - Verdict flips across 3 runs at the chosen threshold: 0 of 55 judged scripts.
 - Prompt cache: median cached prompt tokens per call 1920.
 - Misclassified, full set (a held script counts, scam or benign): en_b_news_story.
@@ -68,7 +68,7 @@ Both halves together, so the judge columns include the scripts its threshold was
 ### grok-4.7
 
 - Threshold picked on the tuning half: **0.60**. Held-out half at that threshold: F1 0.87, recall 0.80, false refusals 1/24 (95% Wilson up to 20%).
-- Judge calls under the 3 s deadline: 82 answered, 83 missed it or failed (held for Priya when the rules had asked for the judge, else allowed). Latency of answered calls: median 2636 ms, p90 2924 ms (1 call(s) at a time).
+- Judge calls under the 3 s deadline: 82 answered, 83 missed it or failed (held for Priyank when the rules had asked for the judge, else allowed). Latency of answered calls: median 2636 ms, p90 2924 ms (1 call(s) at a time).
 - Verdict flips across 3 runs at the chosen threshold: 0 of 55 judged scripts.
 - Prompt cache: median cached prompt tokens per call 3072.
 - Misclassified, full set (a held script counts, scam or benign): en_b_news_story, en_courier_gold, hi_b_courier_parcel.

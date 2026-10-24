@@ -127,7 +127,7 @@ def test_asa_is_idempotent_and_a_proxy_cannot_list_card_state(tmp_path, monkeypa
     # gift cards are a signed "never": no one-time pass opens them
     refused = api.post(f"/card/holds/{hold_id}/allow", headers={"X-Chaperone-Marker": action_marker(hold_id, "card")})
     assert refused.status_code == 409, refused.text
-    # Priya keeps it blocked: the hold leaves her list
+    # Priyank keeps it blocked: the hold leaves his list
     assert api.post(f"/card/holds/{hold_id}/keep").status_code == 401
     kept = api.post(f"/card/holds/{hold_id}/keep", headers={"X-Chaperone-Marker": action_marker(hold_id, "card")})
     assert kept.json() == {"hold_id": hold_id, "kept": True}

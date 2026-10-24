@@ -107,7 +107,7 @@ def test_rules_only_fallback_without_grok_or_cache():
 
 def test_ok_verdict_sets_no_cooldown(monkeypatch):
     monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_grok(verdict="ok", pattern="none", actions=["none"]))
-    out = scamcheck.check("My daughter Priya is coming for dinner, is that fine?", "en")
+    out = scamcheck.check("My son Priyank is coming for dinner, is that fine?", "en")
     assert out["verdict"] == "ok" and out["cooldown_until"] is None and out["actions"] == []
 
 
@@ -270,7 +270,7 @@ def test_say_is_two_short_sentences(say, ok):
 
 
 def test_a_long_say_falls_back_to_the_fixed_line_and_keeps_sources(monkeypatch):
-    long_say = "This is a scam. Your bill is paid. Please hang up and call Priya."
+    long_say = "This is a scam. Your bill is paid. Please hang up and call Priyank."
     monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_grok(say=long_say))
     out = scamcheck.check("A man says there is a problem with my power account.", "en")
     assert out["say"] == scamcheck.lines("en")["scam_check_scam"] and out["sources"]
@@ -325,7 +325,7 @@ def test_unsure_and_ok_checks_are_never_stored_as_allow(monkeypatch):
 
     unsure = scamcheck.check("Someone called about my account.", "en")
     monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_grok(verdict="ok", pattern="none", actions=["none"]))
-    ok = scamcheck.check("Priya is coming for dinner.", "en")
+    ok = scamcheck.check("Priyank is coming for dinner.", "en")
     assert get_decision(unsure["decision_id"])["decision"] == "caution"
     assert get_decision(ok["decision_id"])["decision"] == "noted"
 

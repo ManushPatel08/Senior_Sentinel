@@ -173,7 +173,7 @@ def _matching_pass(passes: list[dict], card_token: str, acceptor_id: str, amount
 
 def decide(payload: dict, mandate: dict, risk: dict | None = None, history: list | None = None,
            passes: list | None = None, now: datetime | None = None) -> dict:
-    """Pure decision. `passes` is the list of Priya's one-time allows; a match is marked used."""
+    """Pure decision. `passes` is the list of Priyank's one-time allows; a match is marked used."""
     now = now or datetime.now(timezone.utc)
     token = str(payload.get("token") or "")
     status = payload.get("status") or "AUTHORIZATION"
@@ -197,7 +197,7 @@ def decide(payload: dict, mandate: dict, risk: dict | None = None, history: list
     if status not in DECIDED:  # balance inquiries and credits move no money out
         return answer
 
-    # Blocked categories come first: they are what Ruth and Priya signed as "never", and no one-time pass opens them.
+    # Blocked categories come first: they are what Ruth and Priyank signed as "never", and no one-time pass opens them.
     blocked = {str(code) for code in (rules.get("blocked_mccs") or [])}
     if mcc in blocked:
         return _decline(answer, "card_blocked_category")
@@ -360,7 +360,7 @@ def allow_hold(hold_id: str, now: datetime | None = None, mandate_id: str | None
 
 
 def keep_hold(hold_id: str) -> dict:
-    """Priya keeps the charge blocked: the hold leaves her list, and no pass is made."""
+    """Priyank keeps the charge blocked: the hold leaves his list, and no pass is made."""
     with _lock:
         state = load_state()
         hold = state["holds"].get(hold_id)

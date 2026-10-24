@@ -211,7 +211,7 @@
         <div class="limits" id="limits"></div>
         <div class="stores-wrap" id="storesWrap"><ul class="stores" id="visaStores"></ul></div>
         <div class="never-block"><div class="overline">Never</div><div class="never" id="never"></div></div>
-        <div class="paused" id="paused"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg>Paused by Priya: the agent can't buy anything.</div>
+        <div class="paused" id="paused"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg>Paused by Priyank: the agent can't buy anything.</div>
         <div class="signers" id="signers"></div>
       </div>
       <div class="panel month">
@@ -237,7 +237,7 @@
       <ul class="rows"></ul>
     </section>
     <section class="lane" id="lane-family" aria-label="Family">
-      <div class="lane-head"><div class="tile" data-icon="people"></div><div><h2>Family</h2><div class="sub">Priya and Ruth, together</div></div></div>
+      <div class="lane-head"><div class="tile" data-icon="people"></div><div><h2>Family</h2><div class="sub">Priyank and Ruth, together</div></div></div>
       <ul class="rows"></ul>
     </section>
   </main>
@@ -317,7 +317,7 @@ const CARD_REASON = {
 const PROTECTING_CARD = new Set(["card_blocked_category", "card_cooldown", "card_unusual_amount"]);
 const RULE = {
   R1: "a kind of purchase Ruth's rules never allow", R2: "a store outside the rules", R3: "a category outside the rules",
-  R4: "over the per-purchase limit", R5: "over the monthly limit", R6: "above the ask-Priya amount", R7: "the scam check",
+  R4: "over the per-purchase limit", R5: "over the monthly limit", R6: "above the ask-Priyank amount", R7: "the scam check",
   S_screen: "scam words in the request",
 };
 const ruleText = (id) => { const key = Object.keys(RULE).find((k) => String(id || "").startsWith(k)); return key ? RULE[key] : words(id); };
@@ -333,12 +333,12 @@ const PATTERN = {
 };
 const patternText = (p) => PATTERN[p] || (p && p !== "none" ? capital(words(p)) : "A suspicious story");
 // risk_changed's reason is the scam pattern that started the cool-down, or "cleared by <who>"
-const reasonText = (r) => /^cleared by/.test(r || "") ? capital(words(r).replace("caregiver", "Priya").replace("host", "the host"))
+const reasonText = (r) => /^cleared by/.test(r || "") ? capital(words(r).replace("caregiver", "Priyank").replace("host", "the host"))
   : PATTERN[r] ? "after a call where " + PATTERN[r].charAt(0).toLowerCase() + PATTERN[r].slice(1) : r ? "after a " + words(r) + " call" : "";
 const LANG = { hi: "हिन्दी", es: "Español", en: "English" };
 const NEVER = { gift_card: "Gift cards", prepaid_card: "Prepaid cards", wire: "Wires", crypto: "Crypto", lottery: "Lottery", gambling: "Gambling" };
 const MCC = { 5411: "Groceries", 5912: "Pharmacy", 5251: "Hardware", 4900: "Utility bill", 5310: "Discount store", 5311: "Department store" };
-const APPROVAL_METHOD = { passkey: "With her passkey.", code: "With the backup code.", timeout: "No answer in time.", cancelled: "Cancelled." };
+const APPROVAL_METHOD = { passkey: "With his passkey.", code: "With the backup code.", timeout: "No answer in time.", cancelled: "Cancelled." };
 const VERDICT_SCAM = new Set(["scam", "likely_scam"]);
 const VERDICT_OK = new Set(["ok", "likely_safe", "safe"]);
 const channel = (c) => c === "line" ? "On the phone line" : "At home";
@@ -385,16 +385,16 @@ function describe(e) {
     case "card_decision": {
       const ok = e.result === "approved";
       const protecting = PROTECTING_CARD.has(e.reason_key) || (e.reason_key === "card_atm_cap" && e.cooldown);
-      const next = e.reason_key === "card_blocked_category" ? "Stays blocked." : e.hold_id ? "Priya can allow it once." : "";
+      const next = e.reason_key === "card_blocked_category" ? "Stays blocked." : e.hold_id ? "Priyank can allow it once." : "";
       return { lane: "card", status: ok ? "ok" : protecting ? "prot" : "info", badge: ok ? "Approved" : protecting ? "Declined" : "Over the limit",
         what: `${money(e.amount)} at ${e.store || "a store"}`,
-        detail: ok ? (e.consumed_pass ? "Priya allowed it once, from her phone." : e.card_last4 ? `Visa ending ${e.card_last4}` : "")
+        detail: ok ? (e.consumed_pass ? "Priyank allowed it once, from his phone." : e.card_last4 ? `Visa ending ${e.card_last4}` : "")
           : [CARD_REASON[e.reason_key] || e.reason || "", next].filter(Boolean).join(" "),
         chips: [e.consumed_pass ? chip("one-time pass used") : null, Number.isFinite(e.decided_ms) ? chip(`decided in ${e.decided_ms < 1 ? "under 1" : e.decided_ms} ms`) : null] };
     }
     case "vtc_decision": return null;  // shown as a chip on its card row
     case "card_hold_released": return { lane: "family", status: "ok", badge: "Allowed once",
-      what: `Priya let ${e.store || "a store"} through once`, detail: `Up to ${money(e.max_amount)}${e.allowed_until ? ", until " + clock(epochMs(e.allowed_until)) : ""}.` };
+      what: `Priyank let ${e.store || "a store"} through once`, detail: `Up to ${money(e.max_amount)}${e.allowed_until ? ", until " + clock(epochMs(e.allowed_until)) : ""}.` };
     // Agent
     case "items_found": return { lane: "agent", status: "", badge: "Found", what: `Found ${plural((e.items || []).length, "item")} for “${e.query || ""}”`,
       detail: (e.items || []).slice(0, 2).map((i) => `${i.name || i.sku}${i.store ? " at " + i.store : ""}`).join(" · ") };
@@ -404,7 +404,7 @@ function describe(e) {
     case "policy_decision": {
       const failed = e.rules_failed || [];
       if (e.decision === "allow") return { lane: "agent", status: "ok", badge: "Inside the rules", what: `${money(e.total)} is inside Ruth's rules`, detail: "Every rule passes." };
-      if (e.decision === "approve") return { lane: "agent", status: "wait", badge: "Asking Priya", what: `Asking Priya about ${money(e.total)}`,
+      if (e.decision === "approve") return { lane: "agent", status: "wait", badge: "Asking Priyank", what: `Asking Priyank about ${money(e.total)}`,
         detail: failed.length ? `Because it's ${failed.map(ruleText).join(" and ")}.` : "" };
       // over a limit is information (Handoff table); any other refusal is Chaperone protecting Ruth
       const limitsOnly = failed.length > 0 && failed.every((r) => /^R[45](_|$)/.test(String(r)));
@@ -441,22 +441,22 @@ function describe(e) {
     case "card_authorized": return { lane: "agent", status: "ok", badge: "Authorized", what: "Card authorized", detail: "" };
     case "card_auth_failed": return { lane: "agent", status: "err", badge: "Failed", what: "Card authorization failed", detail: capital(words(e.reason || e.status || "")) };
     // Family
-    case "approval_requested": return { lane: "family", status: "wait", badge: "Needs Priya", what: `Priya asked to approve ${money(e.amount)}`,
+    case "approval_requested": return { lane: "family", status: "wait", badge: "Needs Priyank", what: `Priyank asked to approve ${money(e.amount)}`,
       detail: `${e.reason || (e.rule ? "It's " + ruleText(e.rule) + "." : "")}${e.expires_at ? " Answer by " + clock(epochMs(e.expires_at)) + "." : ""}`.trim() };
     case "approval_result": {
-      if (e.approved) return { lane: "family", status: "ok", badge: "Approved", what: "Priya approved", detail: APPROVAL_METHOD[e.method] || "" };
-      if (e.method === "timeout") return { lane: "family", status: "info", badge: "No answer", what: "No answer from Priya: nothing bought", detail: "The request timed out." };
+      if (e.approved) return { lane: "family", status: "ok", badge: "Approved", what: "Priyank approved", detail: APPROVAL_METHOD[e.method] || "" };
+      if (e.method === "timeout") return { lane: "family", status: "info", badge: "No answer", what: "No answer from Priyank: nothing bought", detail: "The request timed out." };
       if (e.method === "cancelled") return { lane: "family", status: "info", badge: "Cancelled", what: "The request was cancelled: nothing bought", detail: "" };
-      return { lane: "family", status: "prot", badge: "Said no", what: "Priya said no: nothing bought", detail: APPROVAL_METHOD[e.method] || "" };
+      return { lane: "family", status: "prot", badge: "Said no", what: "Priyank said no: nothing bought", detail: APPROVAL_METHOD[e.method] || "" };
     }
     case "caregiver_alerted": return { lane: "family", status: "info", badge: "Told",
-      what: e.kind === "scam_check" ? "Priya was told about the call" : e.kind === "screen_refusal" ? "Priya was told about a refusal" : e.kind === "refund" ? "Priya was told about a return" : "Priya was told",
+      what: e.kind === "scam_check" ? "Priyank was told about the call" : e.kind === "screen_refusal" ? "Priyank was told about a refusal" : e.kind === "refund" ? "Priyank was told about a return" : "Priyank was told",
       detail: e.kind === "scam_check" ? `${e.amount ? wholeMoney(e.amount) + " asked for. " : ""}With sources and a plain-words Why.` : "With a plain-words Why." };
-    case "mandate_signed": return { lane: "family", status: "ok", badge: "Signed", seal: true, what: "Priya signed the rules", detail: "With her passkey." };
+    case "mandate_signed": return { lane: "family", status: "ok", badge: "Signed", seal: true, what: "Priyank signed the rules", detail: "With his passkey." };
     case "cosigned": return { lane: "family", status: "ok", badge: "Agreed", seal: true, what: `Ruth agreed to the rules${e.method === "voice" || !e.method ? " by voice" : ""}`, detail: e.said ? `“${e.said}”` : "" };
-    case "mandate_paused": return { lane: "family", status: "wait", badge: "Paused", what: "Priya paused the agent", detail: "Nothing can be bought." };
-    case "mandate_resumed": return { lane: "family", status: "ok", badge: "Resumed", what: "Priya resumed the agent", detail: APPROVAL_METHOD[e.method] || "" };
-    case "explanation_requested": return { lane: "family", status: "info", badge: "Asked why", what: "Priya asked why", detail: "Answered in plain words." };
+    case "mandate_paused": return { lane: "family", status: "wait", badge: "Paused", what: "Priyank paused the agent", detail: "Nothing can be bought." };
+    case "mandate_resumed": return { lane: "family", status: "ok", badge: "Resumed", what: "Priyank resumed the agent", detail: APPROVAL_METHOD[e.method] || "" };
+    case "explanation_requested": return { lane: "family", status: "info", badge: "Asked why", what: "Priyank asked why", detail: "Answered in plain words." };
     // conversation lines go to the Ask lane's "saying" box, not rows
     case "heard": case "session_started": case "replay_armed": case "reset": case "order_created": return null;
     default: return { lane: "agent", status: "", badge: "Event", what: capital(words(e.type || "event")), detail: "" };
@@ -571,8 +571,8 @@ function drawOrder(card, e) {
   const item = (state, text) => el("li", { class: state === "done" ? "" : "todo" },
     state === "done" ? icon("check", "#40996B", 3) : state === "fail" ? icon("cross", "#AD2929", 3) : icon("circle", "#8A8A8A", 2), el("span", {}, text));
   const proof = el("ul", { class: "proof" },
-    // an order only exists once policy signed it, so an "approve" decision with an order means Priya said yes
-    dec.policy && dec.policy.decision === "approve" ? item("done", "Priya approved it · above the ask-Priya amount")
+    // an order only exists once policy signed it, so an "approve" decision with an order means Priyank said yes
+    dec.policy && dec.policy.decision === "approve" ? item("done", "Priyank approved it · above the ask-Priyank amount")
       : item(dec.policy && dec.policy.decision === "allow" || o.approved ? "done" : "wait",
         policyRules ? `Inside Ruth's rules · ${policyRules.filter((r) => r.passed).length} of ${policyRules.length}` : "Inside Ruth's rules"),
     item(dec.signed ? "done" : "wait", "Signed by Chaperone · Ed25519"),
@@ -695,7 +695,7 @@ let momentTimer = null, momentActive = false, pendingProtected = null;
 async function showMoment(e) {
   $("mKicker").textContent = `Scam stopped · ${clock(e.rt || e.t || Date.now())} · ${channel(e.channel)}`;
   $("mHead").textContent = `${patternText(e.pattern)}${e.amount ? `, asking for ${wholeMoney(e.amount)}` : ""}.`;
-  $("mText").textContent = "Chaperone warned Ruth before any money moved, and Priya's phone got the alert, with sources.";
+  $("mText").textContent = "Chaperone warned Ruth before any money moved, and Priyank's phone got the alert, with sources.";
   $("mChips").replaceChildren(...[e.pattern && e.pattern !== "none" ? capital(words(e.pattern)) : null,
     (e.sources || []).length ? plural(e.sources.length, "source") : null, e.ms ? `answered in ${(e.ms / 1000).toFixed(1)} s` : null]
     .filter(Boolean).map((t) => el("span", {}, t)));
@@ -772,7 +772,7 @@ async function refreshMandate() {
     $("limits").replaceChildren(
       el("div", { class: "limit" }, el("b", {}, shortMoney(m.per_purchase_cap)), el("span", {}, "a purchase")),
       el("div", { class: "limit" }, el("b", {}, shortMoney(m.monthly_cap)), el("span", {}, "a month")),
-      el("div", { class: "limit" }, el("b", {}, shortMoney(m.approval_threshold)), el("span", {}, "asks Priya above")));
+      el("div", { class: "limit" }, el("b", {}, shortMoney(m.approval_threshold)), el("span", {}, "asks Priyank above")));
   }
   const entries = (visa && visa.mandates) || [];
   $("visaStores").replaceChildren(...(entries.length ? entries.map((x) => el("li", {},
@@ -785,7 +785,7 @@ async function refreshMandate() {
   const seal = () => icon("seal", "#FCC015", 2);
   $("signers").replaceChildren(
     el("div", { class: "signer" + (signed ? "" : " pending") }, seal(),
-      el("div", {}, el("b", {}, signed ? "Signed by Priya" : "Not signed by Priya yet"), el("span", {}, signed ? ["passkey", signedAt ? clock(signedAt) : ""].filter(Boolean).join(" · ") : "waiting for her passkey"))),
+      el("div", {}, el("b", {}, signed ? "Signed by Priyank" : "Not signed by Priyank yet"), el("span", {}, signed ? ["passkey", signedAt ? clock(signedAt) : ""].filter(Boolean).join(" · ") : "waiting for his passkey"))),
     el("div", { class: "signer" + (cosign ? "" : " pending") }, seal(),
       el("div", {}, el("b", {}, cosign ? "Agreed by Ruth" : "Ruth hasn't agreed yet"),
         el("span", {}, cosign ? [cosign.method === "voice" || !cosign.method ? "by voice" : words(cosign.method), cosign.said ? `“${cosign.said}”` : "", cosign.at ? clock(epochMs(cosign.at)) : ""].filter(Boolean).join(" · ") : "she agrees by voice"))));

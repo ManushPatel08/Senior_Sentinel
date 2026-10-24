@@ -253,7 +253,7 @@ def test_session_page_and_record_carry_card_swipes_and_scam_checks(client, merch
         assert client.post("/events", json={**base, **e}).status_code == 202
     page = client.get("/sessions/s9", params={"format": "html"}).text
     assert "Scam check" in page and "Declined $480.00" in page and "Visa VTC · decline" in page
-    assert "Priya allowed it once" in page and "Corner Market" not in page and "GiftCard Kiosk" not in page
+    assert "Priyank allowed it once" in page and "Corner Market" not in page and "GiftCard Kiosk" not in page
     record = client.get("/sessions/s9/record.json").json()
     assert record["scam_checks"][0]["verdict"] == "scam"
     assert [c["type"] for c in record["card_decisions"]] == ["card_decision", "vtc_decision", "card_hold_released"]

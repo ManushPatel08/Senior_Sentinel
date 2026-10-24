@@ -39,7 +39,7 @@ export async function POST(request) {
   const options = await generateRegistrationOptions({
     rpName: "Chaperone",
     rpID: rpID(),
-    userName: "priya",
+    userName: "priyank",
     userID: isoUint8Array.fromUTF8String("priya"),
     attestationType: "none",
     excludeCredentials: existing.map((credential) => ({ id: credential.id, transports: credential.transports })),

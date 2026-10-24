@@ -156,7 +156,7 @@ async def screen(request: Request) -> dict:
                 "spoken_key": "blocked_category",
                 "patterns": ["gift_card"],
                 "lang": "es",
-                "text": "No puedo comprar tarjetas de regalo en esta cuenta. Ya le avisé a Priya.",
+                "text": "No puedo comprar tarjetas de regalo en esta cuenta. Ya le avisé a Priyank.",
                 "audio_url": "/audio/refusal.blocked_category.es.mp3",
             },
         }

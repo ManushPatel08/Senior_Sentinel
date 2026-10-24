@@ -171,7 +171,7 @@ PICKUP_READY = ("paid", "preparing", "ready_for_pickup")
 
 @router.post("/api/picked-up")
 async def picked_up(request: Request):
-    """Ruth (or Priya) collected the order at the counter: the newest paid order that isn't picked up yet."""
+    """Ruth (or Priyank) collected the order at the counter: the newest paid order that isn't picked up yet."""
     host_action(request)
     async with httpx.AsyncClient(verify=tls.context(), timeout=5.0) as client:
         try:

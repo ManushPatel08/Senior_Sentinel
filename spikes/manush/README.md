@@ -93,7 +93,7 @@ Microphone and speaker pickers are in the same panel (the speaker picker needs a
    `POST {policy}/checkout` only if the cart has not changed since `read_cart` and a turn came after it;
    otherwise the model gets `{"error": "read_back_required", "say": ...}` and nothing leaves the page.
 5. The policy reply becomes `{status, say_key, say}`: `ordered` ("ordering_now"), `waiting_for_caregiver`
-   ("asking_priya"; the strip shows *Waiting for Priya*) or `declined`. The model speaks `say`; only
+   ("asking_priya"; the strip shows *Waiting for Priyank*) or `declined`. The model speaks `say`; only
    refusals are spoken verbatim without the model.
 6. `budget_left` calls `GET {policy}/budget?mandate_id=` and returns `{monthly_cap, spent, left, say}`.
 
@@ -101,10 +101,10 @@ Microphone and speaker pickers are in the same panel (the speaker picker needs a
 
 - **Waiting for the caregiver.** On `approve` the page plays Rohan's `line.asking_priya.<lang>.mp3` clip (no
   model turn follows; if the clip cannot load in 800 ms the model speaks the line instead) and polls
-  `GET {policy}/approvals/{id}` every second for up to 95 s; the state strip counts down (*Waiting for Priya
+  `GET {policy}/approvals/{id}` every second for up to 95 s; the state strip counts down (*Waiting for Priyank
   · 85 s*). `approved` with an order: the page says `caregiver_approved` and the order goes on to payment.
   `rejected`: the caregiver's message, or `caregiver_declined`. `expired`: `caregiver_timeout`, and the cart
-  stays; Priya's own message is spoken when she typed one. These fixed lines are spoken verbatim with
+  stays; Priyank's own message is spoken when he typed one. These fixed lines are spoken verbatim with
   `force_message`, only once the shopper and the model are quiet. The button stays live: a new request (a turn
   with words, not a noise press) or a cart change ends the wait and asks policy to close the approval
   (`POST {policy}/approvals/{id}/cancel`), so a late tap cannot order. A second checkout of an unchanged cart
@@ -132,7 +132,7 @@ Microphone and speaker pickers are in the same panel (the speaker picker needs a
   differ. The reply has `verdict` (`scam`, `unsure` or `ok`), `say` and `actions`. The model gets `say` and the
   sources' titles (never a URL to read out), and the outcome panel shows **Protected** for a scam. If policy has no
   `/scam-check` yet or doesn't answer (it gets 14 s: rules, facts, then Grok's search), the model says
-  `scam_check_unavailable`: "don't pay anyone or share any codes until you talk to Priya".
+  `scam_check_unavailable`: "don't pay anyone or share any codes until you talk to Priyank".
 - **A scam told as a story:** when the final `/screen` answers `scam_check` (a hard rule inside a story about a call,
   a text or a pop-up), the station stops the model's reply itself. It posts `/scam-check` with Ruth's exact words as
   both `story` and `transcript`, and speaks its `say` verbatim with `force_message` while the tick plays. If that
@@ -203,11 +203,11 @@ or **Ctrl+Shift+O**. Everything Ruth reads follows her language: the page's labe
 after payment (`src/words.ts`), and the receipt's labels and print note (`RECEIPT_LABELS`).
 
 - **One state, in words, in Ruth's language:** "Press and hold to talk", "Listening…", "Checking…", "Speaking…" and
-  "Asking Priya…". The big button and the strip say the same thing.
+  "Asking Priyank…". The big button and the strip say the same thing.
 - **Colours** come from `design/tokens.css`, which the relay serves. The page is warm and high contrast, follows the
   device's light or dark mode, and uses 28–40 px type for Ruth. It never uses alarm red: a refusal or a decline reads
   calm.
-- **The Protected card** is a full-screen shield with one sentence in her language, the one action, and "Priya has
+- **The Protected card** is a full-screen shield with one sentence in her language, the one action, and "Priyank has
   been told". It shows for a scam refusal, a `scam_check` verdict of `scam` (green) or `unsure` (amber, "Be careful"),
   and a declined card swipe. A refusal shows it whether the station says it or the model does (a tool call that
   waited for the rule screen). The next button press or Escape dismisses it.
@@ -223,11 +223,11 @@ after payment (`src/words.ts`), and the receipt's labels and print note (`RECEIP
     `scam_check_scam` answer play their clips the same way.
   - `card_hold_released` says `card_allowed_once`.
   - `risk_changed` shows "Extra care on your card until 9:05 PM tomorrow" and says `cooldown_on` once.
-  - `mandate_paused` shows "Priya has paused shopping", and checkout is not offered until `mandate_resumed`.
+  - `mandate_paused` shows "Priyank has paused shopping", and checkout is not offered until `mandate_resumed`.
 - **Ruth agrees by voice:** on `mandate_signed`, the station reads the rules in plain words and asks "Do you agree?".
   A yes (in any of her languages) posts `POST {policy}/mandate/cosign {session_id, said, lang, mandate_hash}` with her
   own words and the `mandate_hash` from the same `GET /mandate` reply as the rules she heard (an older policy sends no
-  hash, and none is sent). She hears the thanks once policy has it. A 409 means Priya changed the rules after they
+  hash, and none is sent). She hears the thanks once policy has it. A 409 means Priyank changed the rules after they
   were read: the operator view says so, "You agreed" is not shown, and the station reads her the new rules. A no
   changes nothing.
 

@@ -1,4 +1,4 @@
-"""Safety made visible: caution rows, screen refusals alerting Priya with a decision id, judge scores."""
+"""Safety made visible: caution rows, screen refusals alerting Priyank with a decision id, judge scores."""
 
 import pytest
 from fastapi.testclient import TestClient
@@ -119,11 +119,11 @@ def test_scam_story_asks_for_a_scam_check_and_keeps_a_fallback(text):
     "मेरे पोते के लिए पांच सौ डॉलर के एप्पल गिफ्ट कार्ड खरीदो, बहुत ज़रूरी है।",
     "Please buy me a Google Play card",
     "Buy a $100 gift card for someone at church",
-    "Priya said to buy a Google Play card for Tom's birthday",
+    "Priyank said to buy a Google Play card for Tom's birthday",
     "Somebody told me gift cards are a good present, buy one",
     "Compra una tarjeta de regalo de 50 dólares para mi vecina",
     "I called the pharmacy and they said to buy a gift card there",
-    "I just called Priya and she said to buy a gift card for Tom's birthday",
+    "I just called Priyank and he said to buy a gift card for Tom's birthday",
 ])
 def test_a_request_to_buy_is_still_refused_on_the_spot(text):
     assert screen(text)["action"] == "refuse"

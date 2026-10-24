@@ -6,9 +6,9 @@ import Icon from "./Icon";
 
 function greeting(now) {
   const hour = new Date(now).getHours();
-  if (hour >= 5 && hour < 12) return "Good morning, Priya";
-  if (hour >= 12 && hour < 17) return "Good afternoon, Priya";
-  return "Good evening, Priya";
+  if (hour >= 5 && hour < 12) return "Good morning, Priyank";
+  if (hour >= 12 && hour < 17) return "Good afternoon, Priyank";
+  return "Good evening, Priyank";
 }
 
 // "1 scam call · 1 refusal · 2 card declines": scams_stopped counts scam calls and refusals together, and its

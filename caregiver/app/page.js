@@ -43,7 +43,7 @@ const MANDATE = {
     cooldown: { hours: 24, caps: { 5912: 25, 5310: 25, 5311: 25, 6011: 0, default: 25 } },
   },
   trusted_contacts: [
-    { name: "Priya", relation: "daughter", phone: "+1-404-555-0142" },
+    { name: "Priyank", relation: "son", phone: "+1-404-555-0142" },
     { name: "Alex", relation: "grandson", phone: "+1-404-555-0187" },
   ],
 };
@@ -87,7 +87,7 @@ const HEADERS = { "ngrok-skip-browser-warning": "1" };
 const TAB_IDS = TABS.map((item) => item.id);
 const SEEN_KEY = "chaperone.safety.seen";
 
-// Set by the page: a 401 "sign in required" from any call sends Priya back to sign in.
+// Set by the page: a 401 "sign in required" from any call sends Priyank back to sign in.
 let sessionEnded = () => {};
 
 async function post(url, body) {
@@ -175,7 +175,7 @@ export default function Page() {
     screenRef.current = screen;
   }, [screen]);
 
-  // Back to sign in, once, when the session lapses while Priya is signed in.
+  // Back to sign in, once, when the session lapses while Priyank is signed in.
   useEffect(() => {
     sessionEnded = () => {
       if (screenRef.current !== "app") return;
@@ -229,7 +229,7 @@ export default function Page() {
   const signedIn = screen === "app";
   useEffect(() => {
     if (!signedIn) return undefined;
-    // Reopening the page with a live session skips Welcome: load what Priya last signed and the family data
+    // Reopening the page with a live session skips Welcome: load what Priyank last signed and the family data
     // here too, so a later Sign never starts from the defaults. Sound and the wake lock need a tap first.
     refreshHome().catch(() => {});
     loadFamily().catch(() => {});
@@ -256,7 +256,7 @@ export default function Page() {
     };
   }, [approvalId]);
 
-  // A success fades after a while; an error stays until Priya closes it or something new replaces it.
+  // A success fades after a while; an error stays until Priyank closes it or something new replaces it.
   useEffect(() => {
     if (!message || message.tone === "err") return undefined;
     const timer = setTimeout(() => setMessage((current) => (current === message ? null : current)), 8000);
@@ -267,7 +267,7 @@ export default function Page() {
     setMessage({ text, tone, at: Date.now() });
   }
 
-  // Priya sees plain words; the detail goes to the console.
+  // Priyank sees plain words; the detail goes to the console.
   function fail(error) {
     console.error(error);
     if (error && error.expired) return;
@@ -317,7 +317,7 @@ export default function Page() {
       setPaused(Boolean(body.paused));
       setCosign(body.cosign || null);
       setRulesSigned(Boolean(body.signed));
-      // Start the rules form from what Priya last signed, so signing again never resets a limit.
+      // Start the rules form from what Priyank last signed, so signing again never resets a limit.
       if (body.signed && body.mandate) {
         setMandate((prev) => ({ ...prev, ...body.mandate }));
         setSignedMandate({ ...MANDATE, ...body.mandate });
@@ -585,7 +585,7 @@ export default function Page() {
         if (stream.current.lastEventId) headers["Last-Event-ID"] = stream.current.lastEventId;
         const response = await fetch("/api/alerts/stream", { headers });
         if (response.status === 401) {
-          // The session lapsed: stop listening until Priya signs in again (signIn arms the alerts anew).
+          // The session lapsed: stop listening until Priyank signs in again (signIn arms the alerts anew).
           stream.current.started = false;
           setAlertsOn(false);
           sessionEnded();
@@ -610,7 +610,7 @@ export default function Page() {
             }
           }
           if (events.length) {
-            // Beep only for what needs Priya: an approval, a scam, a declined swipe.
+            // Beep only for what needs Priyank: an approval, a scam, a declined swipe.
             const loud = events.some((event) => event.type === "approval_requested"
               || (event.type === "scam_checked" && event.verdict === "scam")
               || (event.type === "card_decision" && event.result === "declined"));
@@ -681,7 +681,7 @@ export default function Page() {
     loadFamily().catch(() => {});
   }
 
-  // Safety's badge counts only what arrived since Priya last looked (kept on this phone).
+  // Safety's badge counts only what arrived since Priyank last looked (kept on this phone).
   const items = safetyItems({ checks, refusals: history && history.refusals, alerts, declines });
   const newest = items.reduce((latest, item) => Math.max(latest, Date.parse(item.at || "") || 0), 0);
   useEffect(() => {

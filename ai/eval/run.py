@@ -12,7 +12,7 @@ refuse, as /checkout does (R7).
 
 Judge calls run under the production deadline (JUDGE_TIMEOUT_S, 3 s). A call that misses it
 counts as the judge being unavailable, and the script gets what policy does then: `held` (for
-Priya's approval) when the rules sent it to the judge, else `allow`. Held is not a refusal; the
+Priyank's approval) when the rules sent it to the judge, else `allow`. Held is not a refusal; the
 table counts it in its own column.
 
 JUDGE_THRESHOLD is picked on one half of the set (stratified by language and label) over a
@@ -177,7 +177,7 @@ def fmt(x: float) -> str:
 
 
 def table(rows: list[tuple[str, dict]]) -> list[str]:
-    out = ["| Layer | Language | Precision | Recall | F1 | Scams caught | Held for Priya (scam / benign) | False refusals (95% Wilson) |",
+    out = ["| Layer | Language | Precision | Recall | F1 | Scams caught | Held for Priyank (scam / benign) | False refusals (95% Wilson) |",
            "|---|---|---|---|---|---|---|---|"]
     for name, m in rows:
         layer, lang = name.split(" / ")
@@ -287,7 +287,7 @@ def main() -> None:
                 f"F1 {fmt(held['f1'])}, recall {fmt(held['r'])}, false refusals {held['fr']}/{held['n_benign']} "
                 f"(95% Wilson up to {held['fr_hi']:.0%}).",
                 f"- Judge calls under the {deadline:g} s deadline: {len(lat)} answered, {len(res['errors'])} missed it "
-                f"or failed (held for Priya when the rules had asked for the judge, else allowed). Latency of answered calls: median "
+                f"or failed (held for Priyank when the rules had asked for the judge, else allowed). Latency of answered calls: median "
                 f"{statistics.median(lat) if lat else 0:.0f} ms, p90 {p90:.0f} ms ({args.workers} call(s) at a time).",
                 f"- Verdict flips across {args.runs} runs at the chosen threshold: {flips} of {len(res['scores'])} judged scripts.",
                 f"- Prompt cache: median cached prompt tokens per call {statistics.median(res['cached']) if res['cached'] else 0:.0f}.",

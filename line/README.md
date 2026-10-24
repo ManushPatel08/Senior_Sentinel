@@ -17,7 +17,7 @@ caller -> xAI number -> Builder agent (Grok voice, persona) --MCP--> https://<TU
 
 A phone call has no station screen, so safety lives in the tools:
 - `scam_check` sends her story to policy's `/scam-check` with `channel: "line"`. If that route isn't there yet, the
-  line says a safe fallback: "don't pay anyone or share any codes until you talk to Priya".
+  line says a safe fallback: "don't pay anyone or share any codes until you talk to Priyank".
 - `checkout` works only right after `read_cart`, for exactly that cart. Policy then runs the mandate, the rule screen
   and the judge on Ruth's words from the call.
 - `request_refund` with `confirmed: true` works only right after its own `confirmed: false` preview.
@@ -67,8 +67,9 @@ Tests use a real MCP client against the station's mock services:
      Replace the "station plays a soft sound" sentence with: say one short "Let me check that for you" before
      `scam_check` only. Then add an `## On the phone` section: pass Ruth's latest words as `ruth_said` on every tool
      call, and there is no screen.
-   - Add to the prompt: "Before any purchase, bill payment, cancel or return, ask Ruth for her four-digit PIN and call
-     verify_pin with it. Never repeat the PIN back."
+   - Add to the prompt: "Before any purchase, bill payment, cancel or return, ask Ruth for her four-digit PIN. Tell her
+     she can say it or type it on her phone's keypad and press the pound key. Typed digits reach you as a message of
+     digits: call verify_pin with them, even if they are only part of the PIN. Never repeat the PIN or the digits back."
    - **Welcome message:** "Hi, this is Chaperone. How can I help you today? Hola, soy Chaperone, ¿en qué le puedo
      ayudar?"
    - **Speech:** the voice Ara.

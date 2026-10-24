@@ -1,7 +1,7 @@
 import "./app.css";
 
 export const metadata = {
-  title: "Chaperone for Priya",
+  title: "Chaperone for Priyank",
   description: "Approve Ruth's purchases, see what Chaperone stopped, and sign her rules with your passkey.",
   icons: { icon: [{ url: "/design/favicon.svg", type: "image/svg+xml" }] },
 };

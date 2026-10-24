@@ -4,7 +4,7 @@
                -> {action, hits: [{rule_id, pattern, lang, term}], refusal | null}  (contracts/screen.schema.json)
                A hard hit inside a story about someone else ("Peachtree Power called and said...") answers
                action "scam_check" instead of "refuse": the station then calls POST /scam-check, which sets
-               the cool-down and alerts Priya. The refusal is still attached as the fallback if that fails.
+               the cool-down and alerts Priyank. The refusal is still attached as the fallback if that fails.
     POST /judge   {transcript, cart? (list or {items}), mandate_summary?, history_summary?, session_id?, mandate_id?}
                -> contracts/judge.schema.json; posts judge_scored to the relay
 
@@ -206,7 +206,7 @@ def screen_route(body: ScreenBody) -> dict:
     out, verdict = _screen(body.text, body.lang, session_id=body.session_id, partial=body.partial)
     if out["action"] == "refuse" and verdict.story:
         # Ruth is telling us about a call, not asking to buy: the scam check answers, cools the card
-        # and alerts Priya (it records its own check, so no decision or alert here).
+        # and alerts Priyank (it records its own check, so no decision or alert here).
         out["action"] = "scam_check"
         return out
     if not body.partial:
@@ -216,7 +216,7 @@ def screen_route(body: ScreenBody) -> dict:
 
 def report(out: dict, text: str, session_id: str, mandate_id: str) -> None:
     """Make a final screen visible: a caution row for soft signals; for a refusal, a stored decision
-    and an alert to Priya carrying its decision_id, so her "Why?" can explain it."""
+    and an alert to Priyank carrying its decision_id, so his "Why?" can explain it."""
     from policy.events import post_event as post
 
     rule_ids = sorted({h["rule_id"] for h in out["hits"]})

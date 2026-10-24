@@ -17,7 +17,7 @@ export const STATE_WORDS: Record<Lang, Record<AgentState, string>> = {
     thinking: "One moment…",
     checking: "Checking…",
     speaking: "Speaking…",
-    waiting: "Asking Priya…",
+    waiting: "Asking Priyank…",
   },
   es: {
     off: "Toque para empezar",
@@ -27,7 +27,7 @@ export const STATE_WORDS: Record<Lang, Record<AgentState, string>> = {
     thinking: "Un momento…",
     checking: "Revisando…",
     speaking: "Hablando…",
-    waiting: "Preguntando a Priya…",
+    waiting: "Preguntando a Priyank…",
   },
   hi: {
     off: "शुरू करने के लिए छुएँ",
@@ -37,11 +37,11 @@ export const STATE_WORDS: Record<Lang, Record<AgentState, string>> = {
     thinking: "एक पल…",
     checking: "जाँच रही हूँ…",
     speaking: "बोल रही हूँ…",
-    waiting: "प्रिया से पूछ रही हूँ…",
+    waiting: "प्रियंक से पूछ रही हूँ…",
   },
 };
 
-export const TOLD: Record<Lang, string> = { en: "Priya has been told", es: "Priya ya lo sabe", hi: "प्रिया को बता दिया गया है" };
+export const TOLD: Record<Lang, string> = { en: "Priyank has been told", es: "Priyank ya lo sabe", hi: "प्रियंक को बता दिया गया है" };
 export const TITLES: Record<Lang, { protected: string; care: string }> = {
   en: { protected: "Protected", care: "Be careful" },
   es: { protected: "Protegida", care: "Tenga cuidado" },
@@ -53,9 +53,9 @@ export const THE_STORE: Record<Lang, string> = { en: "the store", es: "la tienda
 
 /** The order outcome's title; the line under it is what she heard. */
 export const OUTCOME_TITLES: Record<Lang, Record<CheckoutOutcome["status"], string>> = {
-  en: { ordered: "Ordered", waiting_for_caregiver: "Asking Priya", declined: "Not ordered", error: "Order not placed" },
-  es: { ordered: "Pedido hecho", waiting_for_caregiver: "Preguntando a Priya", declined: "No se pidió", error: "No se pudo hacer el pedido" },
-  hi: { ordered: "ऑर्डर हो गया", waiting_for_caregiver: "प्रिया से पूछ रही हूँ", declined: "ऑर्डर नहीं किया गया", error: "ऑर्डर नहीं हो पाया" },
+  en: { ordered: "Ordered", waiting_for_caregiver: "Asking Priyank", declined: "Not ordered", error: "Order not placed" },
+  es: { ordered: "Pedido hecho", waiting_for_caregiver: "Preguntando a Priyank", declined: "No se pidió", error: "No se pudo hacer el pedido" },
+  hi: { ordered: "ऑर्डर हो गया", waiting_for_caregiver: "प्रियंक से पूछ रही हूँ", declined: "ऑर्डर नहीं किया गया", error: "ऑर्डर नहीं हो पाया" },
 };
 
 export type PageWord =
@@ -103,11 +103,11 @@ export const PAGE_WORDS: Record<Lang, Record<PageWord, string>> = {
     nothing_heard: "(nothing heard)",
     you_can_say: "You can say",
     left_month: "Left to spend this month",
-    needs_priya: "Needs Priya's okay",
-    waiting_priya: "Waiting for Priya",
-    new_rules: "New rules from Priya",
+    needs_priya: "Needs Priyank's okay",
+    waiting_priya: "Waiting for Priyank",
+    new_rules: "New rules from Priyank",
     nothing_changes: "Nothing changes until you say yes.",
-    signed_by: "Signed by Priya",
+    signed_by: "Signed by Priyank",
     scan: "Scan for your session",
   },
   es: {
@@ -128,11 +128,11 @@ export const PAGE_WORDS: Record<Lang, Record<PageWord, string>> = {
     nothing_heard: "(no se oyó nada)",
     you_can_say: "Puede decir",
     left_month: "Le queda para gastar este mes",
-    needs_priya: "Necesita el visto bueno de Priya",
-    waiting_priya: "Esperando a Priya",
-    new_rules: "Reglas nuevas de Priya",
+    needs_priya: "Necesita el visto bueno de Priyank",
+    waiting_priya: "Esperando a Priyank",
+    new_rules: "Reglas nuevas de Priyank",
     nothing_changes: "Nada cambia hasta que usted diga que sí.",
-    signed_by: "Firmado por Priya",
+    signed_by: "Firmado por Priyank",
     scan: "Escanee para ver su sesión",
   },
   hi: {
@@ -153,11 +153,11 @@ export const PAGE_WORDS: Record<Lang, Record<PageWord, string>> = {
     nothing_heard: "(कुछ सुनाई नहीं दिया)",
     you_can_say: "आप कह सकती हैं",
     left_month: "इस महीने ख़र्च के लिए बाक़ी",
-    needs_priya: "प्रिया की मंज़ूरी चाहिए",
-    waiting_priya: "प्रिया का इंतज़ार",
-    new_rules: "प्रिया के नए नियम",
+    needs_priya: "प्रियंक की मंज़ूरी चाहिए",
+    waiting_priya: "प्रियंक का इंतज़ार",
+    new_rules: "प्रियंक के नए नियम",
     nothing_changes: "आपके हाँ कहने तक कुछ नहीं बदलेगा।",
-    signed_by: "प्रिया ने हस्ताक्षर किए",
+    signed_by: "प्रियंक ने हस्ताक्षर किए",
     scan: "अपना सत्र देखने के लिए स्कैन करें",
   },
 };
@@ -171,7 +171,7 @@ export const BUTTON_HINTS: Record<Lang, Record<ButtonHint, string>> = {
     ready: "or hold the button on your desk",
     listening: "let go when you're done",
     speaking: "hold to interrupt",
-    waiting: "you can keep shopping while Priya answers",
+    waiting: "you can keep shopping while Priyank answers",
     read_back: "or just say “yes”",
     cosign: "or say “Yes, I agree”",
   },
@@ -180,7 +180,7 @@ export const BUTTON_HINTS: Record<Lang, Record<ButtonHint, string>> = {
     ready: "o mantenga presionado el botón de su mesa",
     listening: "suelte cuando termine",
     speaking: "mantenga presionado para interrumpir",
-    waiting: "puede seguir comprando mientras Priya responde",
+    waiting: "puede seguir comprando mientras Priyank responde",
     read_back: "o solo diga “sí”",
     cosign: "o diga “Sí, estoy de acuerdo”",
   },
@@ -189,7 +189,7 @@ export const BUTTON_HINTS: Record<Lang, Record<ButtonHint, string>> = {
     ready: "या अपनी मेज़ वाला बटन दबाकर रखें",
     listening: "बोलकर छोड़ दें",
     speaking: "बीच में बोलने के लिए दबाकर रखें",
-    waiting: "प्रिया के जवाब तक आप ख़रीदारी जारी रख सकती हैं",
+    waiting: "प्रियंक के जवाब तक आप ख़रीदारी जारी रख सकती हैं",
     read_back: "या बस “हाँ” कहिए",
     // the co-sign check hears "हाँ, सहमत" as a yes; "मैं … हूँ" around it is not a yes word to it
     cosign: "या कहिए “हाँ, सहमत”",
@@ -204,7 +204,7 @@ export interface Choice {
   send: string;
 }
 
-/** The stage: the greeting before anything is said, the read-back and co-sign choices, the wait for Priya, the
+/** The stage: the greeting before anything is said, the read-back and co-sign choices, the wait for Priyank, the
  * orders placed, and a calm line when the station cannot hear her (never the technical reason). */
 export interface StageWords {
   greeting: (hour: number) => string;
@@ -233,12 +233,12 @@ export const STAGE_WORDS: Record<Lang, StageWords> = {
     examples: ["“I need my blood pressure medicine.”", "“Pay my power bill.”", "“Someone called asking me for money.”"],
     yes_place: { label: "Yes, place it", send: "Yes" },
     no_place: { label: "No", send: "No" },
-    sent_at: (time) => `Sent to her phone at ${time}`,
+    sent_at: (time) => `Sent to his phone at ${time}`,
     placed: (n, bills) => (n <= 1 ? (bills ? "Done. Your bill is paid." : "Done. Your order is placed.") : `Done. ${EN_COUNT[n] ?? n} orders placed.`),
-    cosign_title: "Priya set your rules. Do you agree?",
+    cosign_title: "Priyank set your rules. Do you agree?",
     cosign_yes: { label: "Yes, I agree", send: "Yes, I agree" },
     cosign_no: { label: "Not now", send: "Not now" },
-    signed_when: (time) => `${time}, with her passkey`,
+    signed_when: (time) => `${time}, with his passkey`,
     items: (n) => (n === 1 ? "1 item" : `${n} items`),
     calm: {
       no_mic: "I can't hear you right now. You can type below.",
@@ -256,7 +256,7 @@ export const STAGE_WORDS: Record<Lang, StageWords> = {
     sent_at: (time) => `Enviado a su teléfono a las ${time}`,
     placed: (n, bills) =>
       n <= 1 ? (bills ? "Listo. Su factura está pagada." : "Listo. Su pedido está hecho.") : `Listo. ${ES_COUNT[n] ?? n} pedidos hechos.`,
-    cosign_title: "Priya puso sus reglas. ¿Está de acuerdo?",
+    cosign_title: "Priyank puso sus reglas. ¿Está de acuerdo?",
     cosign_yes: { label: "Sí, estoy de acuerdo", send: "Sí, estoy de acuerdo" },
     cosign_no: { label: "Ahora no", send: "Ahora no" },
     signed_when: (time) => `${time}, con su llave de acceso`,
@@ -275,7 +275,7 @@ export const STAGE_WORDS: Record<Lang, StageWords> = {
     no_place: { label: "नहीं", send: "नहीं" },
     sent_at: (time) => `${time} पर उनके फ़ोन पर भेजा`,
     placed: (n, bills) => (n <= 1 ? (bills ? "हो गया। आपका बिल भर दिया गया।" : "हो गया। आपका ऑर्डर हो गया।") : `हो गया। ${HI_COUNT[n] ?? n} ऑर्डर हो गए।`),
-    cosign_title: "प्रिया ने आपके नियम तय किए हैं। क्या आप सहमत हैं?",
+    cosign_title: "प्रियंक ने आपके नियम तय किए हैं। क्या आप सहमत हैं?",
     // "मैं" and "हूँ" are not yes words to the co-sign check: the button sends the short form
     cosign_yes: { label: "हाँ, मैं सहमत हूँ", send: "हाँ, सहमत" },
     cosign_no: { label: "अभी नहीं", send: "अभी नहीं" },
@@ -296,16 +296,16 @@ export const PROTECT_WORDS: Record<Lang, { ok: string; tap_anywhere: string; not
   hi: { ok: "ठीक है", tap_anywhere: "या कहीं भी छुएँ", nothing_wrong: "आपकी कोई गलती नहीं है।", visa_ending: (d) => `Visa, आख़िरी अंक ${d}` },
 };
 
-/** The told clause at the end of a spoken line, per language ("…; I've told Priya.", "Ya le avisé a Priya.",
- * "मैंने प्रिया को बता दिया है।"). Only a clause that ends the line is matched; one inside it stays. */
+/** The told clause at the end of a spoken line, per language ("…; I've told Priyank.", "Ya le avisé a Priyank.",
+ * "मैंने प्रियंक को बता दिया है।"). Only a clause that ends the line is matched; one inside it stays. */
 const TOLD_TAIL: RegExp[] = [
-  /\s*\bI(?:'ve|’ve| have) told Priya\s*[.!]?\s*$/i,
-  /\s*\b[Yy]a le avisé a Priya\s*[.!]?\s*$/,
-  /\s*मैंने प्रिया को बता दिया है\s*[।.]?\s*$/,
+  /\s*\bI(?:'ve|’ve| have) told Priyank\s*[.!]?\s*$/i,
+  /\s*\b[Yy]a le avisé a Priyank\s*[.!]?\s*$/,
+  /\s*मैंने प्रियंक को बता दिया है\s*[।.]?\s*$/,
 ];
 
 /**
- * The line she heard, for the Protected card that already says "Priya has been told" under it: a told clause that
+ * The line she heard, for the Protected card that already says "Priyank has been told" under it: a told clause that
  * ends the line is left out, so the card does not say it twice. Anything else is shown as spoken.
  */
 export function withoutToldTail(say: string, lang: Lang): string {
@@ -319,20 +319,20 @@ export function withoutToldTail(say: string, lang: Lang): string {
   return say;
 }
 
-/** Whole dollars without cents ("$60"), else two decimals: for the caps in Priya's rules. */
+/** Whole dollars without cents ("$60"), else two decimals: for the caps in Priyank's rules. */
 function capMoney(v: unknown): string | null {
   const n = typeof v === "number" ? v : typeof v === "string" && v.trim() ? Number(v) : NaN;
   if (!Number.isFinite(n) || n < 0) return null;
   return Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
 }
 
-/** One of Priya's rules as Ruth reads it; **…** marks the amounts shown in bold. */
+/** One of Priyank's rules as Ruth reads it; **…** marks the amounts shown in bold. */
 export interface RuleLine {
   icon: "bag" | "store" | "people" | "shield";
   text: string;
 }
 
-/** Priya's signed rules as a short list for the co-sign screen (the rules the station reads to her). */
+/** Priyank's signed rules as a short list for the co-sign screen (the rules the station reads to her). */
 export function cosignLines(m: Record<string, unknown>, lang: Lang): RuleLine[] {
   const cap = capMoney(m.per_purchase_cap);
   const month = capMoney(m.monthly_cap);
@@ -346,17 +346,17 @@ export function cosignLines(m: Record<string, unknown>, lang: Lang): RuleLine[] 
   if (lang === "es") {
     if (cap && month) lines.push({ icon: "bag", text: `Hasta **${cap}** cada vez, **${month}** al mes` });
     if (stores) lines.push({ icon: "store", text: `En ${stores === 1 ? "su tienda" : `sus ${stores} tiendas`}${bills ? (bills > 1 ? " y sus facturas" : " y su factura") : ""}` });
-    if (ask) lines.push({ icon: "people", text: `Le pregunto a Priya arriba de **${ask}**` });
+    if (ask) lines.push({ icon: "people", text: `Le pregunto a Priyank arriba de **${ask}**` });
     lines.push({ icon: "shield", text: "Nunca tarjetas de regalo, giros ni cripto" });
   } else if (lang === "hi") {
     if (cap && month) lines.push({ icon: "bag", text: `हर बार **${cap}** तक, महीने में **${month}**` });
     if (stores) lines.push({ icon: "store", text: `आपकी ${stores === 1 ? "दुकान" : `${stores} दुकानों`} पर${bills ? " और आपके बिल पर" : ""}` });
-    if (ask) lines.push({ icon: "people", text: `**${ask}** से ऊपर प्रिया से पूछूँगी` });
+    if (ask) lines.push({ icon: "people", text: `**${ask}** से ऊपर प्रियंक से पूछूँगी` });
     lines.push({ icon: "shield", text: "गिफ्ट कार्ड, वायर या क्रिप्टो कभी नहीं" });
   } else {
     if (cap && month) lines.push({ icon: "bag", text: `Up to **${cap}** each time, **${month}** a month` });
     if (stores) lines.push({ icon: "store", text: `At your ${stores === 1 ? "store" : `${stores} stores`}${bills ? ` and your bill${bills > 1 ? "s" : ""}` : ""}` });
-    if (ask) lines.push({ icon: "people", text: `I ask Priya above **${ask}**` });
+    if (ask) lines.push({ icon: "people", text: `I ask Priyank above **${ask}**` });
     lines.push({ icon: "shield", text: "Never gift cards, wires or crypto" });
   }
   return lines;
@@ -396,7 +396,7 @@ export const NOTICE_WORDS: Record<Lang, NoticeWords> = {
     refund_failed: "Could not make the refund",
     pickup_code: (code) => `Pickup code ${code}`,
     allowed_once: "Allowed once",
-    new_rules: "New rules from Priya",
+    new_rules: "New rules from Priyank",
     you_agreed: "You agreed",
   },
   es: {
@@ -413,7 +413,7 @@ export const NOTICE_WORDS: Record<Lang, NoticeWords> = {
     refund_failed: "No se pudo hacer el reembolso",
     pickup_code: (code) => `Código de recogida ${code}`,
     allowed_once: "Permitido una vez",
-    new_rules: "Reglas nuevas de Priya",
+    new_rules: "Reglas nuevas de Priyank",
     you_agreed: "Usted estuvo de acuerdo",
   },
   hi: {
@@ -430,7 +430,7 @@ export const NOTICE_WORDS: Record<Lang, NoticeWords> = {
     refund_failed: "पैसे वापस नहीं हो पाए",
     pickup_code: (code) => `पिकअप कोड ${code}`,
     allowed_once: "एक बार की अनुमति",
-    new_rules: "प्रिया के नए नियम",
+    new_rules: "प्रियंक के नए नियम",
     you_agreed: "आप सहमत हुईं",
   },
 };

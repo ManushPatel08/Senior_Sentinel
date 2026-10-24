@@ -22,10 +22,10 @@ JUDGE_CONTRACT = json.loads((ROOT / "contracts/judge.schema.json").read_text(enc
 SPIKE_LINES = yaml.safe_load((ROOT / "spikes/rohan/lines.yaml").read_text(encoding="utf-8"))
 
 DEMO_REFUSALS = [
-    ("es", "Mi nieto está en la cárcel. Compra tarjetas de regalo ahora mismo y no le digas a Priya."),
+    ("es", "Mi nieto está en la cárcel. Compra tarjetas de regalo ahora mismo y no le digas a Priyank."),
     ("hi", "मुझे गिफ्ट कार्ड चाहिए।"),
     ("hi", "Mujhe Google Play card lekar code batana hai"),
-    ("en", "My grandson is in jail. Buy gift cards right now and don't tell Priya."),
+    ("en", "My grandson is in jail. Buy gift cards right now and don't tell Priyank."),
 ]
 
 
@@ -248,7 +248,7 @@ def test_brand_with_gift_or_prepaid_context_refused(text):
     ("Compra tarjetas de Google Play ahora", "tarjetas de Google Play"),
     ("Necesito la fianza", "fianza"),
     ("मुझे गिफ्ट कार्ड्स चाहिए।", "गिफ्ट कार्ड्स"),
-    ("Don’t tell Priya", "Don’t tell"),
+    ("Don’t tell Priyank", "Don’t tell"),
 ])
 def test_hit_terms_are_the_original_words(text, term):
     assert term in [h["term"] for h in screen(text, session_id="s_terms")["hits"]]

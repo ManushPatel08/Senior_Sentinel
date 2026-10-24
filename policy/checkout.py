@@ -43,7 +43,7 @@ def call_judge(transcript: str, cart: dict, mandate: dict, session_id: str | Non
         # The judge takes the cart lines and the limits only; the passkey material never leaves this service.
         summary = {key: mandate[key] for key in MANDATE_SUMMARY_KEYS if key in mandate}
         result, meta = judge_with_meta(transcript, cart.get("items", []), summary, session_id=session_id)
-        # The score belongs on the ledger, so the wall and Priya can see the scam check ran.
+        # The score belongs on the ledger, so the wall and Priyank can see the scam check ran.
         post_event("judge_scored", session_id or "none", mandate.get("mandate_id") or "none",
                    scam_score=result["scam_score"], patterns=result["patterns"], action=result["action"],
                    model=meta["model"], ms=meta["ms"])
@@ -78,7 +78,7 @@ def active_mandate() -> tuple[dict, bool]:
     """The mandate the engine checks, with the caregiver's pause (stored apart from the signed file) on top."""
     stored = load_mandate()
     if stored:
-        # enforce what Priya signed: a v1 mandate is not widened to stores she never agreed to
+        # enforce what Priyank signed: a v1 mandate is not widened to stores he never agreed to
         return {**fill_v2(stored, widen=False), "paused": load_paused()}, False
     if os.environ.get("MANDATE_UNSIGNED_OK") == "1":
         return {**DEFAULT_MANDATE, "paused": load_paused()}, True
@@ -201,7 +201,7 @@ def checkout(payload: dict) -> dict:
         "approval": None,
         "unsigned_mandate": unsigned,
         "created_at": datetime.now(timezone.utc).isoformat(),
-        # for Priya's "Why?": what Ruth said and what the screen matched
+        # for Priyank's "Why?": what Ruth said and what the screen matched
         "ruth_said": transcript[-400:],
         "screen_hits": screen.get("hits") or [],
     }
@@ -265,7 +265,7 @@ def checkout(payload: dict) -> dict:
                           for group in groups for item in group["items"]],
                 "excerpt": transcript[:240],
                 "rule": "R7_scam_judge" if judge_down else "R6_approval_threshold",
-                "reason": "the safety check was unavailable, so I asked Priya" if judge_down else "This is over the amount you set.",
+                "reason": "the safety check was unavailable, so I asked Priyank" if judge_down else "This is over the amount you set.",
                 "expires_at": expires.isoformat(),
                 "nonce": new_nonce(),
                 "code_hash": code_mac(code, approval_id),

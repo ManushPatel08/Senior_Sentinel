@@ -1,4 +1,4 @@
-// Plain words for ids and fields Priya would otherwise see raw.
+// Plain words for ids and fields Priyank would otherwise see raw.
 const CATEGORIES = {
   grocery: "Groceries",
   pharmacy: "Pharmacy",
@@ -73,7 +73,7 @@ export function patternWords(pattern) {
   return pattern && pattern !== "unknown" ? humanize(pattern) : "";
 }
 
-// "1:14 AM" in Priya's own time zone; "" for a missing or broken time.
+// "1:14 AM" in Priyank's own time zone; "" for a missing or broken time.
 export function clockTime(iso) {
   const time = new Date(iso || "");
   if (!iso || Number.isNaN(time.getTime())) return "";

@@ -118,7 +118,7 @@ export interface AgentUI {
   readBack?(waiting: boolean): void;
   /** what is left to spend this month, when the budget was read */
   budget?(left: number): void;
-  /** Priya's new rules, read to Ruth and waiting for her yes (her next turn answers) */
+  /** Priyank's new rules, read to Ruth and waiting for her yes (her next turn answers) */
   cosign?(mandate: Record<string, unknown>): void;
 }
 
@@ -218,9 +218,9 @@ const CARD_LINES: Record<string, string> = {
 };
 
 const PAUSED_BANNER: Record<Lang, string> = {
-  en: "Priya has paused shopping for now",
-  es: "Priya pausó las compras por ahora",
-  hi: "प्रिया ने अभी खरीदारी रोक रखी है",
+  en: "Priyank has paused shopping for now",
+  es: "Priyank pausó las compras por ahora",
+  hi: "प्रियंक ने अभी खरीदारी रोक रखी है",
 };
 
 /** "Extra care on your card until 9:05 PM tomorrow", in Ruth's language. */
@@ -247,10 +247,10 @@ function actionWords(actions: string[], lang: Lang): string {
     if (a === "hang_up") return { en: "Please hang up.", es: "Por favor cuelgue.", hi: "कृपया फ़ोन रख दीजिए।" }[lang];
     if (a === "do_not_pay") return { en: "Don't pay anyone.", es: "No le pague a nadie.", hi: "किसी को पैसे न दें।" }[lang];
     if (a.startsWith("call_trusted")) {
-      const who = a.split(":")[1] || "Priya";
+      const who = a.split(":")[1] || "Priyank";
       return { en: `Call ${who} on the number you know.`, es: `Llame a ${who} al número de siempre.`, hi: `${who} को उनके पुराने नंबर पर फ़ोन कीजिए।` }[lang];
     }
-    if (a === "call_priya") return { en: "Call Priya.", es: "Llame a Priya.", hi: "प्रिया को फ़ोन कीजिए।" }[lang];
+    if (a === "call_priya") return { en: "Call Priyank.", es: "Llame a Priyank.", hi: "प्रियंक को फ़ोन कीजिए।" }[lang];
   }
   return "";
 }
@@ -262,9 +262,9 @@ function rulesInWords(m: Record<string, unknown>, lang: Lang): string {
   const month = money(toCents(n(m.monthly_cap)), lang);
   const ask = money(toCents(n(m.approval_threshold)), lang);
   const stores = Array.isArray(m.allowed_merchants) ? m.allowed_merchants.length : 1;
-  if (lang === "es") return `hasta ${cap} por compra en sus ${stores} tiendas, ${month} al mes, y le pregunto a Priya arriba de ${ask}; nunca tarjetas de regalo, giros ni cripto`;
-  if (lang === "hi") return `आपकी ${stores} दुकानों पर एक बार में ${cap} तक, महीने में ${month}, ${ask} से ऊपर प्रिया से पूछूँगी; गिफ्ट कार्ड, वायर या क्रिप्टो कभी नहीं`;
-  return `up to ${cap} a trip at your ${stores} stores, ${month} a month, and I ask Priya above ${ask}; never gift cards, wires or crypto`;
+  if (lang === "es") return `hasta ${cap} por compra en sus ${stores} tiendas, ${month} al mes, y le pregunto a Priyank arriba de ${ask}; nunca tarjetas de regalo, giros ni cripto`;
+  if (lang === "hi") return `आपकी ${stores} दुकानों पर एक बार में ${cap} तक, महीने में ${month}, ${ask} से ऊपर प्रियंक से पूछूँगी; गिफ्ट कार्ड, वायर या क्रिप्टो कभी नहीं`;
+  return `up to ${cap} a trip at your ${stores} stores, ${month} a month, and I ask Priyank above ${ask}; never gift cards, wires or crypto`;
 }
 const SHORT_AUDIO_MS = 100;
 const MAX_OUTBOX = 1200;
@@ -388,7 +388,7 @@ export class StationAgent {
   private toolsRunning = 0;
   /** station work with no model reply running (the scam check it asks for itself) keeps the tick going */
   private stationBusy = 0;
-  /** Priya paused shopping (policy declines every checkout with agent_paused) */
+  /** Priyank paused shopping (policy declines every checkout with agent_paused) */
   private paused = false;
   /** the cool-down already announced, so cooldown_on is said once per cool-down */
   private cooldownSaid: string | null = null;
@@ -944,7 +944,7 @@ export class StationAgent {
   /**
    * A scam told as a story ("Peachtree Power called, pay in gift cards"): POST /scam-check with Ruth's exact words
    * (policy checks her real bill, her trusted contacts and this week's reports, sets the card cool-down and tells
-   * Priya), then say its answer verbatim. If the check fails, the screen's refusal is the fallback.
+   * Priyank), then say its answer verbatim. If the check fails, the screen's refusal is the fallback.
    */
   private async scamCheckOutOfBand(turn: Turn, result: ScreenResult): Promise<void> {
     if (turn.scamChecked || (turn.refusal !== "none" && turn.refusal !== "out_of_band")) return;
@@ -1362,7 +1362,7 @@ export class StationAgent {
     const said = this.silentResponses.get(responseId);
     this.silentResponses.delete(responseId);
     if (said !== undefined) {
-      // The station already played this moment's line (the asking-Priya clip): record it in the history after the
+      // The station already played this moment's line (the asking-Priyank clip): record it in the history after the
       // tool outputs, so the model sees call, result, then its own words; the model then waits for the shopper.
       // Also when the shopper pressed during the clip: they heard it, so the model must know it was said.
       if (said && sessionId === this.sessionId) {
@@ -1804,7 +1804,7 @@ export class StationAgent {
     if (closeAtPolicy) void this.closeApproval(wait);
   }
 
-  /** Asks policy to close the approval; if it already closed (Priya tapped in the same second), finish it instead. */
+  /** Asks policy to close the approval; if it already closed (Priyank tapped in the same second), finish it instead. */
   private async closeApproval(wait: NonNullable<StationAgent["approvalWait"]>): Promise<void> {
     if (await cancelApproval(wait.id)) return;
     const status = await getApproval(wait.id);
@@ -1844,7 +1844,7 @@ export class StationAgent {
     } else if (status.state === "cancelled") {
       this.ui.outcome({ status: "declined", say_key: "cancelled", say: "", decision_id: decisionId });
     } else if (status.state === "rejected") {
-      // Priya's own words when she typed a message on the phone, else the standard line.
+      // Priyank's own words when he typed a message on the phone, else the standard line.
       const say = status.message ?? sayFor("caregiver_declined", lang);
       this.ui.outcome({ status: "declined", say_key: "caregiver_declined", say, decision_id: decisionId });
       void this.speakFixed(say);
@@ -1977,7 +1977,7 @@ export class StationAgent {
     this.ui.banner("paused", on ? PAUSED_BANNER[this.lang] : null);
   }
 
-  /** Priya signed new rules: read them to Ruth in plain words and ask if she agrees (her next turn answers). */
+  /** Priyank signed new rules: read them to Ruth in plain words and ask if she agrees (her next turn answers). */
   private async askCosign(): Promise<void> {
     const ask = ++this.cosignAsk;
     this.cosignPending = null; // an answer to an earlier reading is not a yes to these rules
@@ -2022,7 +2022,7 @@ export class StationAgent {
     const result = await postCosign({ session_id: this.sessionId, said: text, lang: turn.lang ?? this.lang, ...(hash ? { mandate_hash: hash } : {}) })
       .finally(() => this.stationBusy--);
     if (result === "stale") {
-      // Priya changed the rules after they were read to Ruth: this yes is not for them, so she hears the new ones
+      // Priyank changed the rules after they were read to Ruth: this yes is not for them, so she hears the new ones
       const msg = "Co-sign not recorded: the rules changed after they were read to Ruth (policy answered 409); reading her the new rules.";
       console.warn(`[${ts()}] ${msg}`);
       this.ui.note(msg, "warn");

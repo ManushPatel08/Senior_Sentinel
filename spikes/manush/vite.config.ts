@@ -56,7 +56,7 @@ export default defineConfig(({ mode }) => {
   const tunnelHost = env.TUNNEL_HOST || "";
   const proxy = {
     "/svc/relay": proxyTo("relay", servicesHost),
-    // Ruth says yes to Priya's rules at the station: only this laptop may post her co-sign. Every other policy
+    // Ruth says yes to Priyank's rules at the station: only this laptop may post her co-sign. Every other policy
     // route stays open to the LAN.
     "/svc/policy": {
       ...proxyTo("policy", servicesHost),

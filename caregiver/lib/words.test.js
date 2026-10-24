@@ -41,7 +41,7 @@ test("whole dollars drop the cents", () => {
   assert.equal(shortMoney(undefined), "");
 });
 
-test("errors reach Priya as plain words", () => {
+test("errors reach Priyank as plain words", () => {
   const cancelled = new Error("The operation either timed out or was not allowed.");
   cancelled.name = "NotAllowedError";
   assert.equal(plainError(cancelled), "Cancelled");
@@ -80,8 +80,8 @@ test("scam patterns and channels read as plain words", () => {
   assert.equal(channelWords(undefined), "");
 });
 
-test("an approval's reason is written to Priya, never about her", () => {
-  const judgeDown = { rule: "R7_scam_judge", reason: "the safety check was unavailable, so I asked Priya" };
+test("an approval's reason is written to Priyank, never about him", () => {
+  const judgeDown = { rule: "R7_scam_judge", reason: "the safety check was unavailable, so I asked Priyank" };
   assert.equal(approvalReason(judgeDown, 40), "The safety check couldn't finish, so it came to you.");
   assert.equal(approvalReason({ rule: "R6_approval_threshold", reason: "This is over the amount you set." }, 40), "Over your $40 ask-me line.");
   assert.equal(approvalReason({ reason: "over the cap" }), "Over the cap.");

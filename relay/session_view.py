@@ -35,13 +35,13 @@ TITLES = {
     "bill_checked": "Checked the bill",
     "risk_scored": "Visa risk check",
     "cosigned": "Ruth agreed to the rules",
-    "mandate_signed": "Priya signed the rules",
+    "mandate_signed": "Priyank signed the rules",
     "refusal": "Chaperone said no",
-    "caregiver_alerted": "Priya was told",
+    "caregiver_alerted": "Priyank was told",
     "policy_decision": "Checked against Ruth's rules",
     "judge_scored": "Checked for scam signs",
-    "approval_requested": "Asked Priya",
-    "approval_result": "Priya answered",
+    "approval_requested": "Asked Priyank",
+    "approval_result": "Priyank answered",
     "request_signed": "Chaperone signed the order",
     "signature_verified": "The store checked the signature",
     "signature_rejected": "The store rejected a request",
@@ -52,8 +52,8 @@ TITLES = {
     "order_cancelled": "Order cancelled, nothing charged",
     "refund_requested": "Return asked",
     "refund_result": "Refund",
-    "mandate_paused": "Priya paused Chaperone",
-    "mandate_resumed": "Priya turned Chaperone back on",
+    "mandate_paused": "Priyank paused Chaperone",
+    "mandate_resumed": "Priyank turned Chaperone back on",
 }
 STEP_NAMES = {"awaiting_payment": "ordered", "paid": "paid", "preparing": "preparing",
               "ready_for_pickup": "ready for pickup", "picked_up": "picked up", "cancelled": "cancelled",
@@ -74,7 +74,7 @@ RULE_WORDS = {
     "R3": "a category outside the rules",
     "R4": "over the per-purchase limit",
     "R5": "over the monthly limit",
-    "R6": "above the ask-Priya amount",
+    "R6": "above the ask-Priyank amount",
     "R7": "flagged by the scam check",
 }
 PATTERN_WORDS = {
@@ -100,7 +100,7 @@ PATTERN_WORDS = {
 }
 VERDICT_WORDS = {"scam": "a scam", "likely_scam": "likely a scam", "unsure": "not sure", "unclear": "not sure",
                  "suspicious": "not sure", "ok": "looks fine", "safe": "looks fine", "likely_safe": "looks fine"}
-METHOD_WORDS = {"passkey": "with her passkey", "code": "with the backup code", "timeout": "no answer in time",
+METHOD_WORDS = {"passkey": "with his passkey", "code": "with the backup code", "timeout": "no answer in time",
                 "cancelled": "cancelled", "voice": "by voice"}
 RISK_WORDS = {"ACCEPT": "accept", "ACCEPTED": "accept", "REJECT": "reject", "REJECTED": "reject",
               "REVIEW": "review", "PENDING_REVIEW": "review", "AUTHORIZED_PENDING_REVIEW": "review"}
@@ -357,7 +357,7 @@ def _describe(e: dict, stores: dict[str, str]) -> tuple[str, str, str, str, str]
         return "ok", "Agreed", title, _join(_cap(METHOD_WORDS.get(str(e.get("method") or "voice"))
                                                  or f"by {_words(e.get('method'))}"), said), ""
     if kind == "mandate_signed":
-        return "ok", "Signed", title, "With her passkey", ""
+        return "ok", "Signed", title, "With his passkey", ""
     if kind == "refusal":
         ids = e.get("rule_ids") or [e.get("rule_id") or e.get("rule") or ""]
         lang = LANG_NAMES.get(str(e.get("lang") or ""))
@@ -377,7 +377,7 @@ def _describe(e: dict, stores: dict[str, str]) -> tuple[str, str, str, str, str]
         if decision == "allow":
             return "ok", "Passed", "Inside Ruth's rules", _join(total, "every rule passed"), mono
         if decision == "approve":
-            return "wait", "Needs Priya", "Asked Priya first", _join(total, _rules(failed)), mono
+            return "wait", "Needs Priyank", "Asked Priyank first", _join(total, _rules(failed)), mono
         if decision == "deny":
             # a limit is information (Handoff table); a blocked kind of purchase or a scam is Chaperone protecting
             limits_only = bool(failed) and all(re.match(r"R[45](_|$)", str(r)) for r in failed)
@@ -398,17 +398,17 @@ def _describe(e: dict, stores: dict[str, str]) -> tuple[str, str, str, str, str]
             return "prot", "Protected", "Checked: scam signs", _join(_cap(score_text), found), ""
         return "wait", "Extra care", "Checked: some scam signs", _join(_cap(score_text), found), ""
     if kind == "approval_requested":
-        return "wait", "Needs Priya", title, _join(_money(e.get("amount")), e.get("reason") or _rule(e.get("rule"))), ""
+        return "wait", "Needs Priyank", title, _join(_money(e.get("amount")), e.get("reason") or _rule(e.get("rule"))), ""
     if kind == "approval_result":
         method = str(e.get("method") or "")
         how = METHOD_WORDS.get(method) or _words(method)
         if e.get("approved"):
-            return "ok", "Approved", "Priya approved", _cap(how), ""
+            return "ok", "Approved", "Priyank approved", _cap(how), ""
         if method == "timeout":
-            return "info", "No answer", "Priya did not answer in time", "Nothing was bought", ""
+            return "info", "No answer", "Priyank did not answer in time", "Nothing was bought", ""
         if method == "cancelled":
             return "info", "Cancelled", "The request was cancelled", "Nothing was bought", ""
-        return "prot", "Protected", "Priya said no", _join(_cap(how), "nothing was bought"), ""
+        return "prot", "Protected", "Priyank said no", _join(_cap(how), "nothing was bought"), ""
     if kind == "request_signed":
         return "ok", "Signed", title, "", _join(f"key {e['keyid']}" if e.get("keyid") else "",
                                                f"nonce {e['nonce']}" if e.get("nonce") else "")
@@ -523,7 +523,7 @@ def _status(events: list[dict]) -> str:
                 f'{_el("span", "ch-badge ch-badge--money", f"{amount} kept safe" if amount else "")}</div></div>')
         elif e.get("type") == "refusal":
             reasons = _rules(e.get("rule_ids") or [e.get("rule_id") or e.get("rule") or ""])
-            note = " ".join(p for p in (_cap(reasons) + "." if reasons else "", "Priya was told." if told else "") if p)
+            note = " ".join(p for p in (_cap(reasons) + "." if reasons else "", "Priyank was told." if told else "") if p)
             stopped.append(
                 f'<div class="st">{_circle("prot")}<div class="st-main"><div class="st-what">Chaperone said no</div>'
                 f'{_el("div", "st-note", note)}</div></div>')
@@ -657,7 +657,7 @@ def _swipes(card_events: list[dict] | None) -> str:
             detail = (f'up to {_money(e.get("max_amount"))}{" at " + str(e.get("store")) if e.get("store") else ""}'
                       f', for 10 minutes')
             rows.append(f'<li>{when}<div class="sw-b"><div class="tl-h"><span class="ch-badge ch-badge--ok">'
-                        f'{_icon("check", 12, 2.6)}Priya allowed it once</span></div>'
+                        f'{_icon("check", 12, 2.6)}Priyank allowed it once</span></div>'
                         f'<div class="tl-d">{escape(_cap(detail))}</div></div></li>')
     if not rows:
         return ""
@@ -719,14 +719,14 @@ def _record_section(record: dict, session_id: str) -> str:
     """The dispute-ready record in plain words, with the download. Every value is escaped where it is built."""
     mandate = record.get("mandate") or {}
     signed = [s for s in record.get("signatures") or [] if s.get("type") == "signature_verified"]
-    decision_words = {"allow": "allowed", "approve": "asked Priya", "deny": "refused"}
+    decision_words = {"allow": "allowed", "approve": "asked Priyank", "deny": "refused"}
     agreed = next((c for c in record.get("cosign") or []), None)
     turns = len(record.get("shopper_words") or [])
     rows = [
         ("Session", _mono(session_id)),
         ("Ruth's words", f'{turns} turn{"" if turns == 1 else "s"}, word for word'),
         ("Rules", (f'{_mono(mandate.get("mandate_id", ""))}<br>'
-                   + ("Priya's rules, signed by passkey " + escape(str(mandate.get("credential_id") or "")[:16])
+                   + ("Priyank's rules, signed by passkey " + escape(str(mandate.get("credential_id") or "")[:16])
                       if mandate.get("signed") else "Not signed (demo setting)")
                    + (f'. Ruth agreed {escape(METHOD_WORDS.get(str(agreed.get("method") or "voice")) or "by " + _words(agreed.get("method")))}.'
                       if agreed else "")

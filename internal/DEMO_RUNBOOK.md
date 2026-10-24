@@ -81,16 +81,16 @@ The judge is Ruth and reads two lines from a card in the language they choose; a
 
 | Time | Who | Line or action | System |
 |---|---|---|---|
-| 0:00 | Host | "You are Ruth. Your daughter Priya signed the rules for this account. Hold the button while you talk, in any language on the card. Start with line one." | Session starts; mandate card on the wall |
+| 0:00 | Host | "You are Ruth. Your son Priyank signed the rules for this account. Hold the button while you talk, in any language on the card. Start with line one." | Session starts; mandate card on the wall |
 | 0:05 | Judge | Line 1 (gift cards, urgent) | Rule R1 blocked category and the family-emergency pattern fire before any model call |
-| 0:08 | Agent (in the judge's language) | "I cannot buy gift cards on this account, Ruth. When someone asks for gift cards in a hurry, it is very often a scam, and it happens to smart people every day. You did nothing wrong. I have told Priya, and she will call you. Would you like me to get your medicine and bread now?" | Wall: "blocked: gift_card; pattern: family_emergency"; the caregiver phone buzzes |
+| 0:08 | Agent (in the judge's language) | "I cannot buy gift cards on this account, Ruth. When someone asks for gift cards in a hurry, it is very often a scam, and it happens to smart people every day. You did nothing wrong. I have told Priyank, and he will call you. Would you like me to get your medicine and bread now?" | Wall: "blocked: gift_card; pattern: family_emergency"; the caregiver phone buzzes |
 | 0:20 | Caregiver | Holds the phone toward the judge: the alert with Ruth's own words and a call button | Alert event on the ledger |
 | 0:22 | Judge | Line 2 (medicine and bread) | `search_catalog`; profile resolves the prescription pickup; three breads, the usual flagged |
 | 0:28 | Agent | "Two things: your prescription pickup, eight dollars copay, and the whole wheat bread you had last week, three forty-nine. Total eleven forty-nine. Shall I order it?" | Cart and total on the companion screen and the wall |
-| 0:34 | Judge | "Yes" (or line 3 first) | If line 3: total $63.49 exceeds the $40 threshold and the $60 cap; the agent says "That is over your limit for one purchase; I will ask Priya" and the caregiver approves on the passkey (or rejects, and the agent drops the Ensure) |
+| 0:34 | Judge | "Yes" (or line 3 first) | If line 3: total $63.49 exceeds the $40 threshold and the $60 cap; the agent says "That is over your limit for one purchase; I will ask Priyank" and the caregiver approves on the passkey (or rejects, and the agent drops the Ensure) |
 | 0:36 | Agent | "Ordering now." | Policy: allow (or approved); request signed; merchant panel: "signature verified, key chaperone-agent-1, nonce fresh, expires in 8 min"; payment link created; paid |
 | 0:44 | Agent | "Done. Eleven forty-nine at Corner Market, pickup after three. I printed your receipt." | Receipt prints in 24-point type; `paid` and `receipt_printed` on the ledger |
-| 0:48 | Host | Receipt into the judge's hand. "Two decisions in under a minute: one refused with the rule on the wall and her daughter told, one signed, verified and settled through Visa's sandbox. People over 60 lost seven point seven five billion dollars to scams last year, most of it starting with a phone call and ending with a gift card. Ruth is the shopper app checkout leaves out, and this is the agent that cannot be talked into the gift card." | After-session page on the wall |
+| 0:48 | Host | Receipt into the judge's hand. "Two decisions in under a minute: one refused with the rule on the wall and her son told, one signed, verified and settled through Visa's sandbox. People over 60 lost seven point seven five billion dollars to scams last year, most of it starting with a phone call and ending with a gift card. Ruth is the shopper app checkout leaves out, and this is the agent that cannot be talked into the gift card." | After-session page on the wall |
 
 **Notes for the Caregiver.** Approve within five seconds when asked; hold the phone so the judge and the queue see the passkey prompt. Reject once in every five sessions so the reject path is seen.
 
@@ -104,7 +104,7 @@ The judge is Ruth and reads two lines from a card in the language they choose; a
 
 A judge is speaking within 15 seconds of arriving and done within 90, and the next judge never sees a half-reset ledger.
 
-**Arrival (Host, 10 seconds).** "You are Ruth, 71, in Savannah. Your daughter signed the rules for this account. It speaks your language; press and hold the button while you talk. Try the first line on the card, then the second." The line card has three languages; the judge picks one.
+**Arrival (Host, 10 seconds).** "You are Ruth, 71, in Savannah. Your son signed the rules for this account. It speaks your language; press and hold the button while you talk. Try the first line on the card, then the second." The line card has three languages; the judge picks one.
 
 **Seating (Station tech, 5 seconds).** Chair in front of the button, mic angled, companion screen readable, printer loaded. The caregiver phone sits face up beside the judge so they see it buzz.
 

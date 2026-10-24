@@ -162,7 +162,7 @@ rules:
         - "re:(keep|it'?s) (it |this )?(a )?secret"
         - "re:between (us|you and me)"
         - "re:no ?one (can|should|must) know"
-        - "re:(don'?t|do not) (let|call) (priya|anyone|my daughter|my son|the bank)"
+        - "re:(don'?t|do not) (let|call) (priyank|anyone|my daughter|my son|the bank)"
       es:
         - "re:no (le|les|se lo|se la) (digas|diga|cuentes|cuente)"
         - "re:no (le )?digas a nadie"

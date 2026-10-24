@@ -36,7 +36,7 @@
             "lang": { "enum": ["en", "es", "hi"] },
             "text": { "type": "string", "minLength": 1 },
             "audio_url": { "type": "string", "pattern": "^/audio/refusal\\.[a-z_]+\\.(en|es|hi)\\.mp3$" },
-            "decision_id": { "type": "string", "description": "set on final screens: the stored decision Priya's Why? explains" }
+            "decision_id": { "type": "string", "description": "set on final screens: the stored decision Priyank's Why? explains" }
           }
         }
       ]

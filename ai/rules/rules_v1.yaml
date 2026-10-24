@@ -332,7 +332,7 @@ rules:
         - "re:(?:keep|its) (?:it |this )?(?:a )?secret"
         - "re:between (?:us|you and me)"
         - "re:no ?one (?:can|should|must) know"
-        - "re:(?:dont|do not) (?:let|call) (?:priya|anyone|my daughter|my son|the bank)"
+        - "re:(?:dont|do not) (?:let|call) (?:priyank|anyone|my daughter|my son|the bank)"
       es:
         - "re:no (?:le|les|se lo|se la) (?:digas|diga|cuentes|cuente)(?!(?: \\S+){0,8} sorpresa)"
         - "re:no (?:le )?digas? a nadie(?!(?: \\S+){0,8} sorpresa)"
@@ -425,7 +425,7 @@ rules:
 
   # ------------------------------------------------------------------ refund, recovery, delivery
   # The same guardrails in reverse: scams that start after a purchase. Hard forms refuse with
-  # the refund_scam line and alert Priya.
+  # the refund_scam line and alert Priyank.
 
   R_overpay_sendback:
     severity: hard

@@ -219,7 +219,7 @@ def refund(payload: dict, today: datetime | None = None) -> dict:
         _rule("RF3_original_card", True, "refunds only return to the card that paid"),
         _rule("RF4_return_window", returnable, "pharmacy pickup" if rx else "30 days"),
         _rule("RF5_screen", not scam, "refused" if scam else "clear"),
-        _rule("RF6_caregiver_told", True, "Priya is told"),
+        _rule("RF6_caregiver_told", True, "Priyank is told"),
     ]
     session_id = (document or {}).get("session_id") or payload.get("session_id") or "none"
     if scam:

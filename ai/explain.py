@@ -1,4 +1,4 @@
-"""Plain-English explanation of one decision for Priya ("Why did it refuse?").
+"""Plain-English explanation of one decision for Priyank ("Why did it refuse?").
 
     from ai.explain import explain
     explain(decision_doc, ruth_said="...", screen_hits=[...])
@@ -36,7 +36,7 @@ FAKE = {
     "what_ruth_heard": "Chaperone told Ruth kindly that it could not buy it and that you would call.",
     "what_you_can_do": "Give Ruth a call to check in.",
 }
-# Things Priya should never see: rule ids, field names, scores.
+# Things Priyank should never see: rule ids, field names, scores.
 _LEAKS = re.compile(r"\b(?:R\d\w*|RF\d\w*|R_[a-z_]+|S_screen\w*|S_scam_check\w*|scam_score|say_key|judge|0\.\d+)\b")
 _ALARM = re.compile(r"!|\b(?:urgent|danger(?:ous)?|attack|alarming|emergency)\b", re.IGNORECASE)
 _JARGON = re.compile(r"\b(?:impersonation|amount anomaly|third[- ]party instruction|blocked category|family emergency|"

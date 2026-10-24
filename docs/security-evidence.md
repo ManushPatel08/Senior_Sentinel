@@ -43,7 +43,7 @@ On 26 September 2026 those tests were run together: 303 policy tests passed, and
 
 NIST SP 800-63B describes authenticator assurance in terms of a cryptographic authenticator, user verification, and a fresh challenge so an old signature cannot be reused. Chaperone's caregiver path follows that shape. It is not an AAL2 assessment.
 
-- Priya's passkey is bound to the tunnel hostname. The phone signs a server-made challenge. Policy checks the signature, the origin, and user verification.
+- Priyank's passkey is bound to the tunnel hostname. The phone signs a server-made challenge. Policy checks the signature, the origin, and user verification.
 - Resume (turning the agent back on) is a new challenge over `{action, mandate_id, nonce, expires_at}`, not a replay of the mandate signature (`policy/postpurchase.py` `resume_challenge`).
 - Chrome's payment dialog signs `payment.get` over the amount and "Corner Market". The caregiver server checks the type, the total, and the payee before policy will place the order.
 - The six-digit host code is a shared secret for when the passkey cannot be used. That path is not the cryptographic authenticator above. It is rate-limited, kept off the phone, and hidden from `GET /decisions`.

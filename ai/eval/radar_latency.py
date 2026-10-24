@@ -76,7 +76,7 @@ def main() -> None:
         "so Grok answers Ruth; every such check calls Grok, and the cache is only the fallback when Grok is late or fails.",
         "- **A rule hit is not free:** Ruth's answer doesn't wait for Grok, but unless the story, or an earlier scam check "
         "of the same pattern in the same language, has cached sources, one Grok call with the same X and web search still "
-        "runs in the background (up to `RADAR_TIMEOUT_S`, 12 s) to attach sources to Priya's alert, at about the cost of "
+        "runs in the background (up to `RADAR_TIMEOUT_S`, 12 s) to attach sources to Priyank's alert, at about the cost of "
         "a check above. Once it returns a scam verdict with sources, later hits of that pattern and language reuse them "
         "and make no call. With `RADAR_FAKE=1` no call is made.",
         "", "| Lang | Story | Verdict | ms | Sources | From |", "|---|---|---|---|---|---|", *rows, "",

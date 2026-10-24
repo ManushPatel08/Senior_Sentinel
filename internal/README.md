@@ -9,8 +9,9 @@
 - `PHASE4_PLAYBOOK.md`: Saturday 12:30-5pm: Visa's stage 04 (status, cancel, returns, refunds, savings), refund-scam rules, the caregiver app as a product, open fixes, and the plan to the expo
 - `PRODUCT_V2.md`: Saturday 4pm rethink: how Chaperone stops real scams (before and after), the four guards (conversation, card, agent, family), real-life fit and business, track mapping, per-person workstreams, the new demo, timeline and open decisions
 - `PHASE5_PLAYBOOK.md`: Saturday 5-7:30pm: trial runs for the card network sandbox (Lithic), the scam radar, the phone line, several Visa sandbox merchants and Visa's probes; contracts C1-C11; mandate v2; design system; the filler fix; every open fix from Phases 1-4
-- `PHASE6_PLAYBOOK.md`: Saturday 9pm-12:30am: the four guards made visible: station kiosk and Protected card, card events spoken, store-aware cart and receipts, Priya's app with tabs (Safety, card holds, co-sign), card terminal tablet, Trust Ledger, Visa card-controls mirror and Decision Manager per order, line PIN; contracts C12-C19; every open fix from the Phase 5 reviews
-- `TRY_IT.md`: a walkthrough of everything built so far: what to open, then each guard step by step with what you should see on the station, Priya's phone, the terminal and the wall
+- `PHASE6_PLAYBOOK.md`: Saturday 9pm-12:30am: the four guards made visible: station kiosk and Protected card, card events spoken, store-aware cart and receipts, Priyank's app with tabs (Safety, card holds, co-sign), card terminal tablet, Trust Ledger, Visa card-controls mirror and Decision Manager per order, line PIN; contracts C12-C19; every open fix from the Phase 5 reviews
+- `TRY_IT.md`: a walkthrough of everything built so far: what to open, then each guard step by step with what you should see on the station, Priyank's phone, the terminal and the wall
+- `DEMO_VIDEO.md`: the demo video as a four-person skit (Grandpa vs. the Scammer): judge criteria mapped to scenes, the script with Chaperone's real lines, the filming runs, editing and fallbacks
 - `DEMO_RUNBOOK.md`: table layout, shopping list, 60-second script, handoff, failure fallbacks, Sunday timeline
 - `DEVPOST.md`: submission checklist, write-up draft, Visa and xAI sections, video storyboard
 - `JUDGE_QA.md`: answers to judge questions and weak points

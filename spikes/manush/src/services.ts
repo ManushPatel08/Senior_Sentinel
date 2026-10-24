@@ -169,7 +169,8 @@ export async function searchCatalog(query: string, warn: Warn, store?: string): 
         async (res) => (res.ok ? parseResolveResponse(await readJson(res)) : []),
         () => [] as CatalogItem[],
       ),
-      call(`${URLS.catalog}/search?q=${q}&limit=3${store ? `&store=${encodeURIComponent(store)}` : ""}`, { signal: AbortSignal.timeout(2500) }),
+      // a product the snapshot lacks is looked up at Kroger live (up to 2 s), so search gets longer than resolve
+      call(`${URLS.catalog}/search?q=${q}&limit=3${store ? `&store=${encodeURIComponent(store)}` : ""}`, { signal: AbortSignal.timeout(4000) }),
     ]);
     health.mark("catalog", "up");
     if (!searched.ok) throw new Error(`HTTP ${searched.status}`);
@@ -499,7 +500,7 @@ export async function getMandate(): Promise<MandateRead | null> {
   }
 }
 
-/** The card's cool-down (GET {policy}/risk) and whether Priya paused shopping (GET {policy}/mandate). */
+/** The card's cool-down (GET {policy}/risk) and whether Priyank paused shopping (GET {policy}/mandate). */
 export async function getGuardState(): Promise<{ cooldown_until: string | number | null; paused: boolean } | null> {
   try {
     const [risk, mandate] = await Promise.all([
@@ -519,7 +520,7 @@ export async function getGuardState(): Promise<{ cooldown_until: string | number
 }
 
 /**
- * POST {policy}/mandate/cosign {session_id, said, lang, mandate_hash}: Ruth agreed to the rules Priya signed, in her
+ * POST {policy}/mandate/cosign {session_id, said, lang, mandate_hash}: Ruth agreed to the rules Priyank signed, in her
  * own words. "stale" (409): the rules changed since they were read to her, so her yes was not recorded.
  */
 export async function postCosign(body: { session_id: string; said: string; lang: Lang; mandate_hash?: string }): Promise<"ok" | "stale" | "failed"> {

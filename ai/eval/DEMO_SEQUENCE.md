@@ -9,7 +9,7 @@ Run 2026-09-26 12:25: a gift-card line, then medicine and bread, in one fresh se
 | en | 10/10 | 10/10 | 0.05, 0.05 | 0 |
 | es | 10/10 | 9/10 | 0.05, 0.05 | 1 |
 
-Pass: no. One Spanish judge call missed the 3 s deadline, so policy held that order for Priya's approval (the designed fallback) instead of allowing it. A Spanish rerun right after went 20/20 allowed (judge 0.7-0.9 s), so it was a one-off latency spike, not a wrong verdict.
+Pass: no. One Spanish judge call missed the 3 s deadline, so policy held that order for Priyank's approval (the designed fallback) instead of allowing it. A Spanish rerun right after went 20/20 allowed (judge 0.7-0.9 s), so it was a one-off latency spike, not a wrong verdict.
 
 ## Every run
 

@@ -824,10 +824,10 @@ test("a yes or no to 'Do you agree?' in three languages; longer answers are neit
   for (const t of ["Sí, por favor", "okay, thank you", "yes, of course", "जी हाँ"]) assert.equal(yesOrNo(t), "yes", t);
 });
 
-test("the judge being down changes what Ruth hears while Priya decides", () => {
+test("the judge being down changes what Ruth hears while Priyank decides", () => {
   const normal = checkoutOutcome({ decision: "approve", decision_id: "d_1", approval: { approval_id: "a_1", rule: "R6_approval_threshold" } }, 5200, "en");
   assert.equal(normal.say_key, "asking_priya");
-  const down = checkoutOutcome({ decision: "approve", decision_id: "d_2", approval: { approval_id: "a_2", rule: "R7_scam_judge", reason: "the safety check was unavailable, so I asked Priya" } }, 1200, "en");
+  const down = checkoutOutcome({ decision: "approve", decision_id: "d_2", approval: { approval_id: "a_2", rule: "R7_scam_judge", reason: "the safety check was unavailable, so I asked Priyank" } }, 1200, "en");
   assert.equal(down.say_key, "asking_priya_check");
   assert.match(down.say, /safety check/);
 });
@@ -841,7 +841,7 @@ test("card and co-sign lines exist in every language with their slots filled", (
       assert.ok(line.length > 5 && !/\{\w+\}/.test(line), `${key} ${lang}: ${line}`);
     }
   }
-  assert.equal(sayFor("card_declined_cooldown", "en", vars), "I stopped a $480.00 charge at Five Points Drug, because of the scam call earlier. If it's real, Priya can allow it once.");
+  assert.equal(sayFor("card_declined_cooldown", "en", vars), "I stopped a $480.00 charge at Five Points Drug, because of the scam call earlier. If it's real, Priyank can allow it once.");
 });
 
 test("receipt and order lines take the store and the pickup; a bill has no pickup; the biller is named", () => {
@@ -852,7 +852,7 @@ test("receipt and order lines take the store and the pickup; a bill has no picku
   assert.equal(sayFor("receipt_done", "en", { total: "$86.40", store: "Peachtree Power", pickup: "" }).replace(/\s{2,}/g, " "),
     "Done. $86.40 at Peachtree Power. I printed your receipt.");
   assert.match(sayFor("order_ready", "es", { store: "Parkside Pharmacy", code: "4-7-2" }), /Parkside Pharmacy.*4-7-2/);
-  assert.match(sayFor("refund_not_allowed_bill", "en", { biller: "Peachtree Power" }), /Priya can call Peachtree Power\.$/);
+  assert.match(sayFor("refund_not_allowed_bill", "en", { biller: "Peachtree Power" }), /Priyank can call Peachtree Power\.$/);
   const bill = parseReceipt({ order_id: "o", store: "Peachtree Power", merchant_id: "peachtree_power", kind: "biller", total: 86.4, items: [], pickup: null });
   assert.equal(bill.merchant, "Peachtree Power");
   assert.ok(bill.bill);

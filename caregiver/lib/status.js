@@ -1,4 +1,4 @@
-// What Priya reads on the status line. The technical detail stays in the console.
+// What Priyank reads on the status line. The technical detail stays in the console.
 export const RETRY = "That didn't go through. Please try again.";
 
 const KNOWN = [
@@ -36,7 +36,7 @@ export function approvalWords(state) {
   return STATES[state] || RETRY;
 }
 
-// Why an approval came to Priya, in her words. The policy's own reason is the fallback.
+// Why an approval came to Priyank, in his words. The policy's own reason is the fallback.
 export function approvalReason(approval, threshold) {
   const rule = String((approval && approval.rule) || "");
   const reason = String((approval && approval.reason) || "").trim();

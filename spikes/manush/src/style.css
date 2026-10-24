@@ -1,6 +1,6 @@
 /* Ruth's station on the Chaperone design tokens (design/tokens.css, served by the relay). Light only: a grey page,
    white cards, near-black text. One meaning per colour: Visa Blue protects and acts, green is done or paid, yellow
-   means a person decides (Priya, extra care, a pause), red only when something broke, gold is money kept safe and
+   means a person decides (Priyank, extra care, a pause), red only when something broke, gold is money kept safe and
    listening. Nothing Ruth reads is under 24px. Every colour falls back to the token's value if tokens.css cannot
    load. The operator view (?operator, Ctrl+Shift+O) adds the status, strip, latency, rules and hardware panels. */
 :root {
@@ -124,7 +124,7 @@ body.shopper .stage.greeting-on .log { display: none; } /* before the first word
 .stage-foot:not(:has(> :not([hidden]))) { display: none; }
 .calm { margin: 0; padding: 18px 22px; border-radius: 10px; background: var(--raised); font-size: 28px; line-height: 1.3; }
 
-/* Waiting for Priya: yellow, a countdown ring, when it was sent. */
+/* Waiting for Priyank: yellow, a countdown ring, when it was sent. */
 .asking { display: flex; align-items: center; gap: 24px; padding: 22px 26px; border-radius: 10px; background: var(--wait-bg); color: var(--wait-strong); }
 .ring { position: relative; width: 96px; height: 96px; flex-shrink: 0; }
 .ring svg { display: block; }
@@ -191,7 +191,7 @@ body.shopper .stage.greeting-on .log { display: none; } /* before the first word
   font-size: 24px; color: var(--text-2); }
 .found-foot .num { font-size: 28px; font-weight: 700; color: var(--text); }
 
-/* ------------------------------------------------------------------ Priya's new rules: Ruth's yes */
+/* ------------------------------------------------------------------ Priyank's new rules: Ruth's yes */
 body.cosign-on .kiosk, body.placed-on .kiosk, body.placed-on .cosign { display: none; }
 .cosign { flex: 1 1 auto; min-height: 0; overflow: hidden; margin: 0 var(--gutter); padding: 30px 40px; display: grid;
   grid-template-columns: minmax(0, 1fr) 380px; gap: 40px; }
@@ -286,7 +286,7 @@ body:not(.shopper) .ptt.no-hint .ptt-hint { display: block; }
 .ptt.state-off { background: var(--raised); border-color: #b3b3b3; }
 .ptt.state-connecting { background: var(--raised); color: var(--text-2); }
 .ptt.state-connecting .i-wait { animation: spin 1.1s linear infinite; }
-/* hold to talk (and while Priya answers: she can keep shopping): Visa Blue */
+/* hold to talk (and while Priyank answers: she can keep shopping): Visa Blue */
 .ptt.state-ready, .ptt.state-waiting { background: var(--blue); color: #ffffff; }
 .ptt.state-ready:hover, .ptt.state-waiting:hover { background: var(--blue-hover); }
 .ptt.state-ready .ptt-hint, .ptt.state-waiting .ptt-hint { color: var(--on-blue-2); }
