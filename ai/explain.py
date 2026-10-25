@@ -8,9 +8,10 @@
 Policy's GET /decisions/{id}/explain calls this once per decision and caches the answer.
 
 Env:
-    XAI_API_KEY         required unless EXPLAIN_FAKE=1
+    ANTHROPIC_API_KEY   required unless EXPLAIN_FAKE=1
     EXPLAIN_FAKE=1      a fixed answer, for tests
-    EXPLAIN_MODEL       default grok-4.20-0309-non-reasoning
+    EXPLAIN_MODEL       default claude-opus-5-5
+    EXPLAIN_EFFORT      default low
     EXPLAIN_TIMEOUT_S   default 3; a hard deadline for the whole call (raises ExplainError)
 """
 
@@ -24,11 +25,12 @@ from concurrent.futures import TimeoutError as FutureTimeout
 from functools import lru_cache
 from pathlib import Path
 
+from common import claude
 from common.config import env
 
 PROMPTS = Path(__file__).resolve().parent / "prompts"
 FIELDS = ("headline", "what_happened", "rule_in_plain_words", "what_ruth_heard", "what_you_can_do")
-MODEL = "grok-4.20-0309-non-reasoning"
+MODEL = claude.MODEL
 FAKE = {
     "headline": "Chaperone stopped a purchase",
     "what_happened": "Ruth asked for something the spending rules do not allow, so nothing was bought.",
@@ -64,14 +66,11 @@ def _spoken_en() -> dict:
     return json.loads((PROMPTS / "lines.en.json").read_text(encoding="utf-8"))
 
 
-@lru_cache(maxsize=1)
 def _client():
-    from openai import OpenAI
-
-    key = env("XAI_API_KEY")
-    if not key:
-        raise ExplainError("XAI_API_KEY is not set (set EXPLAIN_FAKE=1 to run without it)")
-    return OpenAI(base_url="https://api.x.ai/v1", api_key=key, max_retries=0)
+    try:
+        return claude.client()
+    except claude.MissingKey as e:
+        raise ExplainError(f"{e} (set EXPLAIN_FAKE=1 to run without it)") from e
 
 
 def build_input(decision: dict, *, ruth_said: str = "", screen_hits: list | None = None,
@@ -136,20 +135,21 @@ def explain(decision: dict, *, ruth_said: str = "", screen_hits: list | None = N
                       ensure_ascii=False)
     kwargs = dict(
         model=env("EXPLAIN_MODEL", MODEL),
-        temperature=0,
+        max_tokens=16000,
         timeout=deadline,
-        messages=[{"role": "system", "content": _system()}, {"role": "user", "content": user}],
-        response_format={"type": "json_schema",
-                         "json_schema": {"name": "decision_explanation", "schema": _schema(), "strict": True}},
+        system=[{"type": "text", "text": _system(), "cache_control": {"type": "ephemeral"}}],
+        messages=[{"role": "user", "content": user}],
+        output_config={"effort": env("EXPLAIN_EFFORT", "low"), "format": {"type": "json_schema", "schema": _schema()}},
+        **claude.FALLBACK,
     )
     try:
-        resp = _pool.submit(_client().chat.completions.create, **kwargs).result(timeout=deadline)
-        raw = json.loads(resp.choices[0].message.content)
+        resp = _pool.submit(_client().beta.messages.create, **kwargs).result(timeout=deadline)
+        raw = json.loads(claude.reply_text(resp))
     except FutureTimeout as e:
         raise ExplainError(f"no answer within {deadline:g} s") from e
     except ExplainError:
         raise
-    except Exception as e:  # HTTP error, invalid JSON
+    except Exception as e:  # HTTP error, refusal, invalid JSON
         raise ExplainError(f"{type(e).__name__}: {e}") from e
     if not isinstance(raw, dict) or any(not isinstance(raw.get(f), str) for f in FIELDS):
         raise ExplainError("malformed explanation")

@@ -12,6 +12,8 @@ cp .env.example .env
 
 The agent signing key is `keys/agent_ed25519.pem`. The matching public key is `relay/jwks.json`. On a new laptop, `python -c "from signer.keys import public_jwk, load_jwks; print(public_jwk()['x'] == load_jwks()['keys'][0]['x'])"` must print `True`.
 
+Two model keys. `XAI_API_KEY` is for Grok Voice only: the station's voice, the Chaperone Line, and the rendered spoken clips. `ANTHROPIC_API_KEY` is for Claude (`claude-opus-5-5`, in `common/claude.py`), which runs the scam judge, the "Why did it refuse?" explanation, and the scam radar's web search. Without it, set `JUDGE_FAKE=1`, `EXPLAIN_FAKE=1`, and `RADAR_FAKE=1`.
+
 `POLICY_CODE_KEY` must be set or policy will not start. `POLICY_DEV_KEY_OK=1` allows the public default, for tests only. For a laptop smoke test set `JUDGE_FAKE=1`, `MOCK_VISA=1`, and `MERCHANT_VERIFY=enforce`. `MANDATE_UNSIGNED_OK=1` lets checkout run before a passkey mandate is stored. On the team router, point `MERCHANT_PUBLIC_URL` at `http://192.168.8.10:8002`.
 
 ## Services
@@ -78,7 +80,7 @@ cd spikes/manush && npm test
 cd caregiver && node --test lib/*.test.js
 ```
 
-Scam-eval results are in `ai/eval/RESULTS.md`. The radar probe is in `ai/eval/RADAR_PROBE.md`.
+Scam-eval results are in `ai/eval/RESULTS.md`. The radar probe is in `ai/eval/RADAR_PROBE.md`. Both were measured on Grok, before the judge and the radar moved to Claude. Rerun `python -m ai.eval.run`, `python -m ai.radar_probe`, `python -m ai.eval.explain_check`, and `python -m ai.eval.radar_latency` to measure Claude.
 
 ## Notes for a reviewer
 

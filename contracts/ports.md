@@ -23,7 +23,7 @@ Service endpoints each part calls:
 - Policy for the station and merchant: `POST http://192.168.8.10:8001/checkout`
 - Decision lookup for the merchant: `GET http://192.168.8.10:8001/decisions/{decision_id}`
 - Merchant for the signer: `POST http://192.168.8.10:8002/orders`
-- Judge for policy: `POST http://192.168.8.10:8001/judge` (score `0.05` when `XAI_API_KEY` is unset and `JUDGE_FAKE=1`)
+- Judge for policy: `POST http://192.168.8.10:8001/judge` (score `0.05` when `ANTHROPIC_API_KEY` is unset and `JUDGE_FAKE=1`)
 - Ledger for everyone: `POST http://192.168.8.10:8000/events` (shape in `contracts/events.schema.json`, answers 202)
 
 Relay routes (8000). `relay/main.py` owns the token routes; `relay/ledger.py` owns the rest:

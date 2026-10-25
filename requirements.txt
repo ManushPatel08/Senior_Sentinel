@@ -14,8 +14,8 @@ requests==2.34.2
 python-dotenv>=1.0
 jsonschema==4.26.0
 
-# AI and Visa
-openai==3.19.2
+# AI and Visa (Grok Voice is called over plain HTTP and WebSocket, no SDK)
+anthropic==2.3.0  # Claude: the scam judge, the "Why?" explainer and the scam radar
 PyYAML==6.0.3
 mcp==2.2.0
 lithic  # the card network sandbox (Auth Stream Access, simulated swipes)

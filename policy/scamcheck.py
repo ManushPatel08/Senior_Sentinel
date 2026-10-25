@@ -11,25 +11,25 @@ Every check is also saved as a decision document (decision "deny" for a scam, "c
 otherwise, never "allow"), so /decisions/{decision_id}/explain answers Priyank's "Why?".
 
 `story` is the voice model's summary; `transcript` is Ruth's exact words. The rules screen both, so a
-paraphrase can't hide a hard hit, and Grok sees both.
+paraphrase can't hide a hard hit, and Claude sees both.
 
 Order of work:
 1. The rule screen. A hard hit answers at once (the say line from the cache or lines.<lang>.json);
-   Grok then runs in the background to attach sources to Priyank's alert.
+   Claude then runs in the background to attach sources to Priyank's alert.
 2. Facts from Ruth's own accounts: trusted contacts (mandate v2), the biller balance and
-   recent orders. They go to Grok and come back as facts_checked.
-3. Grok Responses with x_search and web_search. One budget covers the whole check (RADAR_BUDGET_S,
-   11 s): the facts get at most 1.5 s of it and Grok the rest. A Grok answer that arrives late is cached
-   for the next check of the same story. Then the cache (sessions/radar_cache.json): by story, the full
-   answer; by pattern and language, only the sources and the generic line, never another story's details.
-   Then a rules-only verdict.
+   recent orders. They go to Claude and come back as facts_checked.
+3. Claude with web search (limited to DOMAINS), answering through the strict report_verdict tool. One budget
+   covers the whole check (RADAR_BUDGET_S, 11 s): the facts get at most 1.5 s of it and Claude the rest. A Claude
+   answer that arrives late is cached for the next check of the same story. Then the cache
+   (sessions/radar_cache.json): by story, the full answer; by pattern and language, only the sources and the
+   generic line, never another story's details. Then a rules-only verdict.
 `say` is at most two sentences and 30 words (36 in Spanish, 45 in Hindi); a longer one is replaced by the fixed
 line (sources kept). A pattern's cached entry lends only its sources, never another story's words.
 
 Events: scam_checked; for a scam, caregiver_alerted {check_id, sources} and risk_changed (a 24-hour
 card cool-down through policy.risk).
 
-Env: XAI_API_KEY, RADAR_MODEL (grok-4.20-0309-non-reasoning), RADAR_BUDGET_S (the whole check's budget),
+Env: ANTHROPIC_API_KEY, RADAR_MODEL (claude-opus-5-5), RADAR_EFFORT (low), RADAR_BUDGET_S (the whole check's budget),
 RADAR_TIMEOUT_S (12, the background sources call after a hard-rule answer), RADAR_FAKE=1
 (no network: rules, cache and fallback only), MERCHANT_PUBLIC_URL for the biller.
 """
@@ -52,19 +52,19 @@ import httpx
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 
+from common import claude
 from common.config import decisions_path, env, merchant_public_url
 from policy import risk
 from policy.events import post_event
 from policy.rules import normalize
 from policy.screen import lines, screen
 
-RESPONSES_URL = "https://api.x.ai/v1/responses"
 DOMAINS = ["consumer.ftc.gov", "ic3.gov", "aarp.org", "bbb.org", "fcc.gov"]
 DEFAULT_MANDATE_ID = "m_ruth_2026_09"
 COOLDOWN_HOURS = 24
 BUDGET_S = 11.0  # the whole check; the station and the line give up at 14 s
-FACTS_S = 1.5  # facts get at most this slice of it; Grok gets the rest
-LATE_LIMIT_S = 30.0  # a Grok answer later than the budget is still cached until this
+FACTS_S = 1.5  # facts get at most this slice of it; Claude gets the rest
+LATE_LIMIT_S = 30.0  # a Claude answer later than the budget is still cached until this
 LANG_NAMES = {"en": "English", "es": "Spanish", "hi": "Hindi"}
 
 # Until mandate v2 and the biller land on main, the demo account's facts.
@@ -89,8 +89,8 @@ RULE_PATTERNS = [
 
 INSTRUCTIONS = (
     "You protect Ruth, an older adult, from scams. You get her words, what the caller claimed, facts from her own "
-    "accounts, and hints from safety rules. Search X (last 30 days) and the web for current reports of this scam. "
-    "Reply only in the schema.\n"
+    "accounts, and hints from safety rules. Search the web for current reports of this scam, then call "
+    "report_verdict exactly once with your answer.\n"
     "- verdict: scam when the story matches a known scam or contradicts her facts; unsure when you cannot tell; "
     "ok for an ordinary request.\n"
     "- pattern: a short snake_case name for the scam (for example grandparent_emergency, utility_shutoff, "
@@ -101,11 +101,12 @@ INSTRUCTIONS = (
     "Warm, calm, never a score, never blame her, no source names.\n"
     "- actions: the one or two actions that fit.\n"
     "- reported_recently: one short English sentence on what the sources report now, or 'no'.\n"
-    "Only use sources the tools returned."
+    "- source_urls: the URLs of the search results that report this scam, at most five, exactly as the search "
+    "returned them; empty when none do."
 )
 SCHEMA = {
     "type": "object", "additionalProperties": False,
-    "required": ["verdict", "pattern", "say", "actions", "reported_recently"],
+    "required": ["verdict", "pattern", "say", "actions", "reported_recently", "source_urls"],
     "properties": {
         "verdict": {"type": "string", "enum": ["scam", "unsure", "ok"]},
         "pattern": {"type": "string"},
@@ -113,8 +114,13 @@ SCHEMA = {
         "actions": {"type": "array", "items": {"type": "string", "enum": [
             "hang_up", "call_priya", "call_trusted", "do_not_pay", "none"]}},
         "reported_recently": {"type": "string"},
+        "source_urls": {"type": "array", "items": {"type": "string"}},
     },
 }
+# The verdict comes back as a strict tool call rather than a JSON text reply: web search always cites its
+# sources, and citations can't be mixed with a JSON-schema text format.
+VERDICT_TOOL = {"name": "report_verdict", "description": "Report the verdict for Ruth. Call it once, after searching.",
+                "strict": True, "input_schema": SCHEMA}
 
 # Calls wait on the network, not the CPU: a late answer may hold its thread for LATE_LIMIT_S, so there are enough
 # threads that late answers never make a new check wait.
@@ -124,7 +130,7 @@ _lock = threading.RLock()
 
 
 class RadarError(RuntimeError):
-    """Grok gave no usable verdict in time."""
+    """Claude gave no usable verdict in time."""
 
 
 # ---------------------------------------------------------------- storage
@@ -263,64 +269,68 @@ def gather_facts(mandate_id: str, story: str, caller: dict) -> list[dict]:
     return facts
 
 
-# ---------------------------------------------------------------- Grok radar
+# ---------------------------------------------------------------- Claude radar
 
-def _parse(resp: dict) -> dict:
-    """The verdict and its sources from a Responses API reply; raises RadarError."""
-    verdict, sources = None, []
-    parts = [part for item in resp.get("output", []) if item.get("type") == "message"
-             for part in item.get("content") or [] if part.get("type") == "output_text"]
-    for part in parts:
-        try:
-            verdict = json.loads(part.get("text") or "")
-        except json.JSONDecodeError as e:
-            raise RadarError("unparsable verdict") from e
-        sources += [{"title": a.get("title") or "", "url": a["url"]}
-                    for a in part.get("annotations") or [] if a.get("type") == "url_citation" and a.get("url")]
+def _url_key(url: str) -> str:
+    return url.strip().rstrip("/").lower()
+
+
+def _parse(resp) -> dict:
+    """The verdict and its sources from a Claude reply; raises RadarError.
+
+    Sources are the search results Claude named in source_urls, so a URL it made up never reaches Priyank.
+    """
+    if resp.stop_reason == "refusal":
+        raise RadarError("Claude declined")
+    verdict = next((b.input for b in resp.content if b.type == "tool_use" and b.name == VERDICT_TOOL["name"]), None)
     if not isinstance(verdict, dict) or verdict.get("verdict") not in ("scam", "unsure", "ok") or not verdict.get("say"):
         raise RadarError("no usable verdict")
-    verdict["sources"] = list({s["url"]: s for s in sources}.values())[:8]
-    verdict["cost_usd_ticks"] = (resp.get("usage") or {}).get("cost_in_usd_ticks")
-    return verdict
+    found = {_url_key(r.url): {"title": getattr(r, "title", "") or "", "url": r.url}
+             for b in resp.content if b.type == "web_search_tool_result" and isinstance(b.content, list)
+             for r in b.content if getattr(r, "url", None)}
+    picked = [found[k] for k in dict.fromkeys(_url_key(u) for u in verdict.pop("source_urls", None) or []) if k in found]
+    usage = resp.usage
+    tools = getattr(usage, "server_tool_use", None)
+    return {**verdict, "sources": picked[:8], "usage": {
+        "input_tokens": usage.input_tokens, "output_tokens": usage.output_tokens,
+        "cache_read_input_tokens": usage.cache_read_input_tokens or 0,
+        "cache_creation_input_tokens": usage.cache_creation_input_tokens or 0,
+        "web_searches": getattr(tools, "web_search_requests", 0) or 0}}
 
 
 def radar(story: str, lang: str, caller: dict, facts: list[dict], hints: list[str], timeout: float,
           transcript: str = "", on_late=None) -> dict:
-    """One Grok Responses call with X and web search; raises RadarError.
+    """One Claude call with web search; raises RadarError.
 
     If the deadline passes first, `on_late(verdict)` still gets the answer when it arrives, so it can be cached.
     """
     if env("RADAR_FAKE", "0") == "1":
         raise RadarError("RADAR_FAKE=1")
-    key = env("XAI_API_KEY")
-    if not key:
-        raise RadarError("XAI_API_KEY is not set")
+    try:
+        client = claude.client()
+    except claude.MissingKey as e:
+        raise RadarError(str(e)) from e
     if timeout <= 0.2:
         raise RadarError("no time left in the budget")
-    today = dt.date.today()
     said = f"Ruth's exact words: {transcript}\nSummary: {story}" if transcript else f"Ruth said: {story}"
     content = (f"Language: {LANG_NAMES.get(lang, 'English')}. {said}\n"
                f"Caller claimed: {json.dumps(caller, ensure_ascii=False)}\n"
                f"Facts from her accounts: {json.dumps(facts, ensure_ascii=False)}\n"
                f"Safety rule hints: {', '.join(hints) or 'none'}")
-    body = {
-        "model": env("RADAR_MODEL", "grok-4.20-0309-non-reasoning"),
-        "instructions": INSTRUCTIONS,
-        "input": [{"role": "user", "content": content}],
-        "tools": [{"type": "x_search", "from_date": (today - dt.timedelta(days=30)).isoformat(), "to_date": today.isoformat()},
-                  {"type": "web_search", "filters": {"allowed_domains": DOMAINS}}],
-        "max_turns": 3,
-        "include": ["no_inline_citations"],
-        "text": {"format": {"type": "json_schema", "name": "scam_verdict", "strict": True, "schema": SCHEMA}},
-    }
-
-    def call() -> dict:
+    body = dict(
+        model=env("RADAR_MODEL", claude.MODEL),
+        max_tokens=16000,
+        system=[{"type": "text", "text": INSTRUCTIONS, "cache_control": {"type": "ephemeral"}}],
+        messages=[{"role": "user", "content": content}],
+        tools=[{"type": "web_search_20260209", "name": "web_search", "max_uses": 3, "allowed_domains": DOMAINS},
+               VERDICT_TOOL],
+        output_config={"effort": env("RADAR_EFFORT", "low")},
         # The HTTP call itself may run past the budget, so a late answer can still be cached.
-        r = httpx.post(RESPONSES_URL, headers={"Authorization": f"Bearer {key}"}, json=body, timeout=LATE_LIMIT_S)
-        r.raise_for_status()
-        return r.json()
+        timeout=LATE_LIMIT_S,
+        **claude.FALLBACK,
+    )
 
-    future = _pool.submit(call)
+    future = _pool.submit(client.beta.messages.create, **body)
     try:
         resp = future.result(timeout=timeout)
     except FutureTimeout as e:
@@ -484,7 +494,7 @@ def pattern_entry(pattern: str | None, lang: str) -> dict | None:
 
 
 def remember(v: dict, text: str, lang: str, pattern: str) -> None:
-    """Cache a Grok verdict: the full answer for this story; for the pattern, only its sources (never another
+    """Cache a Claude verdict: the full answer for this story; for the pattern, only its sources (never another
     story's details, which the generic line replaces)."""
     say = v.get("say") if say_ok(v.get("say"), lang) else None
     cache_put({"verdict": v["verdict"], "pattern": pattern, "say": say, "actions": v.get("actions") or [],
@@ -580,7 +590,7 @@ def check(story: str = "", lang: str = "en", *, session_id: str | None = None, m
         sources = (cached or {}).get("sources") or []
         reported = (cached or {}).get("reported_recently")
     else:
-        # Facts get a small slice of the budget; Grok gets what is left.
+        # Facts get a small slice of the budget; Claude gets what is left.
         facts = _wait(facts_future, min(FACTS_S, deadline - time.perf_counter()), [])
         late = lambda v: remember(v, key_text, lang, _slug(v.get("pattern")) or rule_pattern or "unknown")  # noqa: E731
         try:
@@ -591,8 +601,8 @@ def check(story: str = "", lang: str = "en", *, session_id: str | None = None, m
         if v:
             verdict, raw_actions = v["verdict"], v.get("actions") or []
             sources, reported = v.get("sources") or [], v.get("reported_recently")
-            grok_pattern = _slug(v.get("pattern"))
-            pattern = grok_pattern if grok_pattern not in ("none", "unknown") else (rule_pattern or grok_pattern)
+            model_pattern = _slug(v.get("pattern"))
+            pattern = model_pattern if model_pattern not in ("none", "unknown") else (rule_pattern or model_pattern)
             say = (v.get("say") if say_ok(v.get("say"), lang)
                    else (verdict == "scam" and _fact_line(pattern, facts, lang)) or _fallback(verdict, lang))
             if not from_cache:

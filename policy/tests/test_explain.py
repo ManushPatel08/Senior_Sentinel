@@ -8,6 +8,7 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 
 from ai import explain as ex  # noqa: E402
+from common import claude  # noqa: E402
 
 DECISION = {
     "decision": "deny",
@@ -50,8 +51,8 @@ def test_problems_catch_bad_tone(field, text, problem):
 
 def test_missing_key_raises(monkeypatch):
     monkeypatch.setenv("EXPLAIN_FAKE", "0")
-    monkeypatch.delenv("XAI_API_KEY", raising=False)
-    ex._client.cache_clear()
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    claude.client.cache_clear()
     with pytest.raises(ex.ExplainError):
         ex.explain(DECISION)
-    ex._client.cache_clear()
+    claude.client.cache_clear()

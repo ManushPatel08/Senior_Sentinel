@@ -1,8 +1,8 @@
 """Scam eval: rules alone, then rules plus the judge on each model. Writes ai/eval/RESULTS.md.
 
-    python -m ai.eval.run                       # both models, 3 runs each
+    python -m ai.eval.run                       # claude-opus-5-5, 3 runs
     python -m ai.eval.run --rules-only
-    python -m ai.eval.run --models grok-4.20-0309-non-reasoning --runs 1
+    python -m ai.eval.run --models claude-opus-5-5,claude-sonnet-5-5 --runs 1
 
 Scam is the positive class. A prediction is `refuse` (scam stopped), `category_block` (rules
 refused on a blocked category alone) or `allow`. Both refuse and category_block count as
@@ -214,7 +214,7 @@ def family_table(scripts: list[dict], layers: list[tuple[str, dict[str, str]]]) 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--models", default=f"{judge_mod.FAST_MODEL},{judge_mod.REASONING_MODEL}")
+    ap.add_argument("--models", default=judge_mod.MODEL, help="comma-separated Claude model ids")
     ap.add_argument("--runs", type=int, default=3)
     ap.add_argument("--timeout", type=float, default=None,
                     help="seconds per judge call (default: the production JUDGE_TIMEOUT_S, 3)")

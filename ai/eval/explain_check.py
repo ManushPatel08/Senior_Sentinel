@@ -15,7 +15,7 @@ from pathlib import Path
 
 import yaml
 
-from ai.explain import FIELDS, ExplainError, explain, problems
+from ai.explain import FIELDS, MODEL, ExplainError, explain, problems
 from common.config import env
 
 HERE = Path(__file__).resolve().parent
@@ -26,7 +26,7 @@ def main() -> None:
         raise SystemExit("EXPLAIN_FAKE=1: the fixed answer is not evidence; unset it and rerun")
     spec = yaml.safe_load((HERE / "explain_cases.yaml").read_text(encoding="utf-8"))
     out = ["# \"Why did it refuse?\" check", "",
-           f"Run {dt.datetime.now().strftime('%Y-%m-%d %H:%M')} on {env('EXPLAIN_MODEL', 'grok-4.20-0309-non-reasoning')}, "
+           f"Run {dt.datetime.now().strftime('%Y-%m-%d %H:%M')} on {env('EXPLAIN_MODEL', MODEL)}, "
            "prompt `ai/prompts/explain_system.md`, cases `ai/eval/explain_cases.yaml`.", ""]
     ok = 0
     for case in spec["cases"]:

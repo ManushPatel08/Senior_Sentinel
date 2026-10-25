@@ -1,10 +1,10 @@
-"""Radar latency and cost: 10 full /scam-check runs where Grok answers (stories the rules don't refuse on
-their own), end to end: rules, facts, then Grok with X and web search. Writes ai/eval/RADAR_LATENCY.md.
+"""Radar latency and cost: 10 full /scam-check runs where Claude answers (stories the rules don't refuse on
+their own), end to end: rules, facts, then Claude with web search. Writes ai/eval/RADAR_LATENCY.md.
 
     python -m ai.eval.radar_latency
 
-Runs against temporary files, so Ruth's real cool-down and checks are untouched. Cost comes from xAI's
-usage.cost_in_usd_ticks (1 USD = 10^10 ticks).
+Runs against temporary files, so Ruth's real cool-down and checks are untouched. Cost is each reply's usage at
+claude-opus-5-5 list prices (PRICES); rerun with other prices if RADAR_MODEL names another model.
 """
 
 from __future__ import annotations
@@ -26,7 +26,10 @@ os.environ["RELAY_URL"] = ""
 from policy import scamcheck  # noqa: E402
 from policy.screen import screen  # noqa: E402
 
-TICKS_PER_USD = 10_000_000_000
+# claude-opus-5-5 list prices: USD per million tokens of each usage field, and per web search
+PRICES = {"input_tokens": 4.00, "output_tokens": 20.00, "cache_read_input_tokens": 0.20,
+          "cache_creation_input_tokens": 5.00}
+SEARCH_USD = 0.01
 STORIES = [
     ("en", "Someone from Social Security called and says my number was used in a crime and I need to verify it today."),
     ("en", "A man called saying he's from my bank's fraud team and my account has suspicious activity."),
@@ -42,40 +45,41 @@ STORIES = [
 
 
 def main() -> None:
-    costs: list[int] = []
+    costs: list[float] = []
     real_radar = scamcheck.radar
 
     def counting_radar(*args, **kwargs):
         v = real_radar(*args, **kwargs)
-        if v.get("cost_usd_ticks"):
-            costs.append(int(v["cost_usd_ticks"]))
+        u = v.get("usage") or {}
+        costs.append(sum(u.get(k, 0) * p for k, p in PRICES.items()) / 1_000_000 + u.get("web_searches", 0) * SEARCH_USD)
         return v
 
     scamcheck.radar = counting_radar
     rows, times = [], []
     for lang, story in STORIES:
         if screen(story, lang)["action"] == "refuse":
-            rows.append(f"| {lang} | {story[:70]} | skipped (a rule refuses it; Grok would not run) | | | |")
+            rows.append(f"| {lang} | {story[:70]} | skipped (a rule refuses it; Claude would not run) | | | |")
             continue
         out = scamcheck.check(story, lang)
         times.append(out["ms"])
         rows.append(f"| {lang} | {story[:70]} | {out['verdict']} | {out['ms']} | {len(out['sources'])} | "
-                    f"{'cache' if out['from_cache'] else 'Grok'} |")
+                    f"{'cache' if out['from_cache'] else 'Claude'} |")
         print(f"{lang} {out['ms']:6} ms  {out['verdict']:6} sources={len(out['sources'])}  {story[:50]}")
     times.sort()
     p90 = times[min(len(times) - 1, math.ceil(0.9 * len(times)) - 1)] if times else 0
-    usd = [c / TICKS_PER_USD for c in costs]
+    usd = costs
     lines = [
         "# Scam radar latency and cost", "",
-        f"Run {dt.datetime.now().strftime('%Y-%m-%d %H:%M')}: {len(times)} full `/scam-check` runs where Grok answers "
-        "(rules, account facts, then Grok with X and web search), one after another, against temporary files.", "",
+        f"Run {dt.datetime.now().strftime('%Y-%m-%d %H:%M')}: {len(times)} full `/scam-check` runs where Claude answers "
+        "(rules, account facts, then Claude with web search), one after another, against temporary files.", "",
         f"- **Latency:** median {statistics.median(times) if times else 0:.0f} ms, p90 {p90} ms, max {max(times) if times else 0} ms "
         f"(budget 11 s; the station and the line wait up to 14 s).",
         f"- **Cost per check:** median ${statistics.median(usd) if usd else 0:.3f}, max ${max(usd) if usd else 0:.3f} "
-        f"({len(usd)} calls; xAI's `cost_in_usd_ticks`, 1 USD = 10^10 ticks). These are checks the rules don't settle, "
-        "so Grok answers Ruth; every such check calls Grok, and the cache is only the fallback when Grok is late or fails.",
-        "- **A rule hit is not free:** Ruth's answer doesn't wait for Grok, but unless the story, or an earlier scam check "
-        "of the same pattern in the same language, has cached sources, one Grok call with the same X and web search still "
+        f"({len(usd)} calls; each reply's usage at claude-opus-5-5 list prices, $4/$20 per million tokens in/out and "
+        "$0.01 per web search). These are checks the rules don't settle, so Claude answers Ruth; every such check calls "
+        "Claude, and the cache is only the fallback when Claude is late or fails.",
+        "- **A rule hit is not free:** Ruth's answer doesn't wait for Claude, but unless the story, or an earlier scam check "
+        "of the same pattern in the same language, has cached sources, one Claude call with the same web search still "
         "runs in the background (up to `RADAR_TIMEOUT_S`, 12 s) to attach sources to Priyank's alert, at about the cost of "
         "a check above. Once it returns a scam verdict with sources, later hits of that pattern and language reuse them "
         "and make no call. With `RADAR_FAKE=1` no call is made.",

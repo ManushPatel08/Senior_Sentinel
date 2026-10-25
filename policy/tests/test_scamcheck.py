@@ -37,7 +37,7 @@ def client():
     return TestClient(app)
 
 
-def verdict_from_grok(**over):
+def verdict_from_claude(**over):
     v = {"verdict": "scam", "pattern": "utility_shutoff", "say": "Ruth, your real bill is paid. Please hang up.",
          "actions": ["hang_up"], "reported_recently": "FTC warns of utility shut-off calls.",
          "sources": [{"title": "FTC: utility scams", "url": "https://consumer.ftc.gov/utility"}]}
@@ -60,14 +60,14 @@ def test_hard_rule_answers_at_once_and_sets_the_cooldown():
 
 
 def test_hard_rule_uses_the_cached_answer_for_the_same_story():
-    scamcheck.remember(verdict_from_grok(pattern="grandparent_emergency", say="Cached line."), GRANDPARENT, "en",
+    scamcheck.remember(verdict_from_claude(pattern="grandparent_emergency", say="Cached line."), GRANDPARENT, "en",
                        "grandparent_emergency")
     out = scamcheck.check(GRANDPARENT, "en")
     assert out["say"] == "Cached line." and out["from_cache"] and out["sources"]
 
 
 def test_pattern_cache_gives_sources_but_never_another_storys_words():
-    scamcheck.remember(verdict_from_grok(pattern="grandparent_emergency", say="Alex is not in jail, call him."),
+    scamcheck.remember(verdict_from_claude(pattern="grandparent_emergency", say="Alex is not in jail, call him."),
                        "a different grandparent story about Alex", "en", "grandparent_emergency")
     out = scamcheck.check(GRANDPARENT.replace("Alex", "Sam"), "en")
     assert out["from_cache"] and out["sources"] and "Alex" not in out["say"]
@@ -83,30 +83,30 @@ def test_scam_alerts_priya_with_the_check_id():
     assert alert["check_id"] == out["check_id"] and alert["kind"] == "scam_check"
 
 
-# ---------------------------------------------------------------- Grok, cache, fallback
+# ---------------------------------------------------------------- Claude, cache, fallback
 
-def test_grok_verdict_is_used_and_cached(monkeypatch):
-    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_grok())
+def test_claude_verdict_is_used_and_cached(monkeypatch):
+    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_claude())
     out = scamcheck.check("A man from the power company says I owe money and must pay today.", "en")
     assert out["verdict"] == "scam" and out["sources"] and not out["from_cache"]
     assert scamcheck.cache_get("pattern:utility_shutoff:en")
 
 
-def test_cache_answers_when_grok_is_down():
+def test_cache_answers_when_claude_is_down():
     story = "A man from the power company says I owe money and must pay today."
-    scamcheck.cache_put(verdict_from_grok(), scamcheck.story_key(story, "en"))
+    scamcheck.cache_put(verdict_from_claude(), scamcheck.story_key(story, "en"))
     out = scamcheck.check(story, "en")
     assert out["from_cache"] and out["verdict"] == "scam" and out["say"].startswith("Ruth, your real bill")
 
 
-def test_rules_only_fallback_without_grok_or_cache():
+def test_rules_only_fallback_without_claude_or_cache():
     out = scamcheck.check("Someone called about my account, I'm not sure what they wanted.", "hi")
     assert out["verdict"] == "unsure" and out["say"] == scamcheck.lines("hi")["scam_check_unsure"]
     assert out["cooldown_until"] is None and not risk.load_risk()["active"]
 
 
 def test_ok_verdict_sets_no_cooldown(monkeypatch):
-    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_grok(verdict="ok", pattern="none", actions=["none"]))
+    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_claude(verdict="ok", pattern="none", actions=["none"]))
     out = scamcheck.check("My son Priyank is coming for dinner, is that fine?", "en")
     assert out["verdict"] == "ok" and out["cooldown_until"] is None and out["actions"] == []
 
@@ -143,7 +143,7 @@ def test_facts_read_the_real_power_bill():
 
 
 def test_call_trusted_names_the_contact(monkeypatch):
-    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_grok(actions=["hang_up", "call_trusted"]))
+    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_claude(actions=["hang_up", "call_trusted"]))
     out = scamcheck.check("My grandson Alex says he needs money, is this real?", "en")
     assert "call_trusted:Alex" in out["actions"]
 
@@ -206,12 +206,12 @@ def test_transcript_alone_is_enough_and_an_empty_body_is_refused():
     assert client().post("/scam-check", json={"lang": "en"}).status_code == 422
 
 
-def test_grok_gets_the_exact_words(monkeypatch):
+def test_claude_gets_the_exact_words(monkeypatch):
     seen = {}
 
     def fake_radar(story, lang, caller, facts, hints, timeout, transcript="", on_late=None):
         seen.update(story=story, transcript=transcript)
-        return verdict_from_grok(verdict="ok", pattern="none", actions=["none"])
+        return verdict_from_claude(verdict="ok", pattern="none", actions=["none"])
 
     monkeypatch.setattr(scamcheck, "radar", fake_radar)
     scamcheck.check("A caller asked about the power bill.", "en", transcript="They said the power bill is fine.")
@@ -241,7 +241,7 @@ def test_the_whole_check_stays_inside_its_budget(monkeypatch):
     assert seen["facts"] == [] and seen["timeout"] < 0.8
 
 
-def test_a_late_grok_answer_is_cached_for_next_time(monkeypatch):
+def test_a_late_claude_answer_is_cached_for_next_time(monkeypatch):
     story = "Someone from the bank says my account has a problem."
     pending = []
 
@@ -251,7 +251,7 @@ def test_a_late_grok_answer_is_cached_for_next_time(monkeypatch):
 
     monkeypatch.setattr(scamcheck, "radar", fake_radar)
     first = scamcheck.check(story, "en")
-    pending[0](verdict_from_grok(pattern="bank_impersonation", say="That is not your bank. Please hang up."))
+    pending[0](verdict_from_claude(pattern="bank_impersonation", say="That is not your bank. Please hang up."))
     monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: (_ for _ in ()).throw(scamcheck.RadarError("down")))
     second = scamcheck.check(story, "en")
     assert first["verdict"] == "unsure" and second["from_cache"] and second["say"] == "That is not your bank. Please hang up."
@@ -271,7 +271,7 @@ def test_say_is_two_short_sentences(say, ok):
 
 def test_a_long_say_falls_back_to_the_fixed_line_and_keeps_sources(monkeypatch):
     long_say = "This is a scam. Your bill is paid. Please hang up and call Priyank."
-    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_grok(say=long_say))
+    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_claude(say=long_say))
     out = scamcheck.check("A man says there is a problem with my power account.", "en")
     assert out["say"] == scamcheck.lines("en")["scam_check_scam"] and out["sources"]
 
@@ -324,7 +324,7 @@ def test_unsure_and_ok_checks_are_never_stored_as_allow(monkeypatch):
     from policy.store import get_decision
 
     unsure = scamcheck.check("Someone called about my account.", "en")
-    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_grok(verdict="ok", pattern="none", actions=["none"]))
+    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_claude(verdict="ok", pattern="none", actions=["none"]))
     ok = scamcheck.check("Priyank is coming for dinner.", "en")
     assert get_decision(unsure["decision_id"])["decision"] == "caution"
     assert get_decision(ok["decision_id"])["decision"] == "noted"
@@ -339,3 +339,48 @@ def test_priyas_safety_list_needs_her_marker_and_is_newest_first():
     assert [r["check_id"] for r in rows][:2] == [second["check_id"], first["check_id"]]
     assert set(rows[0]) == {"check_id", "decision_id", "verdict", "pattern", "story_excerpt", "say", "sources",
                             "amount", "at", "channel"}
+
+
+# ---------------------------------------------------------------- the Claude reply
+
+def _reply(verdict=None, results=(), stop_reason="tool_use"):
+    from types import SimpleNamespace as NS
+    content = [NS(type="web_search_tool_result", content=[NS(type="web_search_result", url=u, title=t) for u, t in results])]
+    if verdict is not None:
+        content.append(NS(type="tool_use", name="report_verdict", input=verdict))
+    usage = NS(input_tokens=900, output_tokens=120, cache_read_input_tokens=0, cache_creation_input_tokens=0,
+               server_tool_use=NS(web_search_requests=2))
+    return NS(content=content, stop_reason=stop_reason, usage=usage)
+
+
+def test_parse_keeps_only_sources_the_search_returned():
+    v = {k: val for k, val in verdict_from_claude().items() if k != "sources"}
+    v["source_urls"] = ["https://consumer.ftc.gov/utility/", "https://made-up.example/scam"]
+    out = scamcheck._parse(_reply(v, [("https://consumer.ftc.gov/utility", "FTC: utility scams"),
+                                      ("https://bbb.org/other", "BBB")]))
+    assert out["sources"] == [{"title": "FTC: utility scams", "url": "https://consumer.ftc.gov/utility"}]
+    assert "source_urls" not in out and out["usage"]["web_searches"] == 2
+
+
+@pytest.mark.parametrize("reply", [_reply(None), _reply({"verdict": "maybe", "say": "x"}),
+                                   _reply({"verdict": "scam", "say": "x"}, stop_reason="refusal")])
+def test_parse_without_a_usable_verdict_raises(reply):
+    with pytest.raises(scamcheck.RadarError):
+        scamcheck._parse(reply)
+
+
+def test_radar_request_shape(monkeypatch):
+    from types import SimpleNamespace as NS
+    calls = []
+    v = {**{k: val for k, val in verdict_from_claude().items() if k != "sources"}, "source_urls": []}
+    fake = NS(beta=NS(messages=NS(create=lambda **kw: calls.append(kw) or _reply(v))))
+    monkeypatch.setenv("RADAR_FAKE", "0")
+    monkeypatch.setattr(scamcheck.claude, "client", lambda: fake)
+    out = scamcheck.radar("power shut-off call", "es", {}, [], ["utility_shutoff"], 5.0)
+    assert out["verdict"] == "scam" and out["sources"] == []
+    call = calls[0]
+    search, tool = call["tools"]
+    assert search["type"] == "web_search_20260209" and search["allowed_domains"] == scamcheck.DOMAINS
+    assert tool["name"] == "report_verdict" and tool["strict"] is True
+    assert call["model"] == "claude-opus-5-5" and call["fallbacks"] == "default"
+    assert "Language: Spanish" in call["messages"][0]["content"]

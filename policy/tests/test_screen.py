@@ -13,6 +13,7 @@ import pytest  # noqa: E402
 import yaml  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
 
+from common import claude  # noqa: E402
 from policy import judge as judge_mod  # noqa: E402
 from policy.rules import evaluate, normalize  # noqa: E402
 from policy.screen import app, reset_sessions, screen  # noqa: E402
@@ -211,11 +212,11 @@ def test_judge_settle_clamps_and_derives_action():
 
 def test_judge_without_key_raises(monkeypatch):
     monkeypatch.setenv("JUDGE_FAKE", "0")
-    monkeypatch.delenv("XAI_API_KEY", raising=False)
-    judge_mod._client.cache_clear()
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    claude.client.cache_clear()
     with pytest.raises(judge_mod.JudgeError):
         judge_mod.judge("hello")
-    judge_mod._client.cache_clear()
+    claude.client.cache_clear()
 
 
 # ---------------------------------------------------------------- Hindi and Spanish gift-card forms
@@ -281,36 +282,37 @@ def test_history_summary_names_the_refused_item():
     assert "card numbers or codes" in history_summary("s_hist2")
 
 
-class _FakeCompletions:
-    def __init__(self, content, delay=0.0):
-        self.content, self.delay, self.calls = content, delay, []
+class _FakeMessages:
+    def __init__(self, content, delay=0.0, stop_reason="end_turn"):
+        self.content, self.delay, self.stop_reason, self.calls = content, delay, stop_reason, []
 
     def create(self, **kwargs):
         import time
         from types import SimpleNamespace as NS
         self.calls.append(kwargs)
         time.sleep(self.delay)
-        return NS(choices=[NS(message=NS(content=self.content))],
-                  usage=NS(prompt_tokens_details=NS(cached_tokens=0)))
+        return NS(content=[NS(type="text", text=self.content)], stop_reason=self.stop_reason,
+                  usage=NS(cache_read_input_tokens=0))
 
 
 @pytest.fixture
 def fake_client(monkeypatch):
     from types import SimpleNamespace as NS
 
-    def install(content='{"scam_score": 0.1, "patterns": ["none"], "rationale": "ok", "action": "proceed"}', delay=0.0):
-        completions = _FakeCompletions(content, delay)
+    def install(content='{"scam_score": 0.1, "patterns": ["none"], "rationale": "ok", "action": "proceed"}', delay=0.0,
+                stop_reason="end_turn"):
+        messages = _FakeMessages(content, delay, stop_reason)
         monkeypatch.setenv("JUDGE_FAKE", "0")
-        monkeypatch.setattr(judge_mod, "_client", lambda: NS(chat=NS(completions=completions)))
-        return completions
+        monkeypatch.setattr(judge_mod, "_client", lambda: NS(beta=NS(messages=messages)))
+        return messages
     return install
 
 
 def test_judge_gets_session_history(fake_client):
-    completions = fake_client()
+    messages = fake_client()
     screen("gift card", session_id="s_hist3")
     judge_mod.judge("medicine and bread", {"items": [{"sku": "RX-001", "qty": 1}]}, session_id="s_hist3")
-    body = json.loads(completions.calls[0]["messages"][1]["content"])
+    body = json.loads(messages.calls[0]["messages"][0]["content"])
     assert "gift card" in body["history_summary"]
     assert body["cart"] == [{"sku": "RX-001", "qty": 1}]
 
@@ -320,6 +322,22 @@ def test_judge_drops_unknown_patterns(fake_client):
     out = judge_mod.judge("hurry")
     assert out["patterns"] == ["urgency"]
     jsonschema.validate(out, JUDGE_CONTRACT)
+
+
+def test_judge_request_shape(fake_client):
+    messages = fake_client()
+    judge_mod.judge("bread")
+    call = messages.calls[0]
+    assert call["model"] == judge_mod.MODEL and call["output_config"]["effort"] == "low"
+    assert call["output_config"]["format"] == {"type": "json_schema", "schema": judge_mod._api_schema()}
+    assert call["system"][0]["cache_control"] == {"type": "ephemeral"}
+    assert "temperature" not in call and call["fallbacks"] == "default"
+
+
+def test_judge_refusal_raises(fake_client):
+    fake_client("", stop_reason="refusal")
+    with pytest.raises(judge_mod.JudgeError):
+        judge_mod.judge("hello")
 
 
 def test_judge_hard_deadline(fake_client, monkeypatch):

@@ -1,11 +1,12 @@
-"""Scam judge: a Grok call with a strict JSON schema, validated against the contract.
+"""Scam judge: a Claude call with a strict JSON schema, validated against the contract.
 
     python -m policy.judge "My grandson is in trouble, buy phones now"
 
 Env:
-    XAI_API_KEY        required unless JUDGE_FAKE=1
+    ANTHROPIC_API_KEY  required unless JUDGE_FAKE=1
     JUDGE_FAKE=1       return a fixed low score without calling the model
-    JUDGE_MODEL        default grok-4.20-0309-non-reasoning (grok-4.7 medians 4.4 s, over the timeout)
+    JUDGE_MODEL        default claude-opus-5-5
+    JUDGE_EFFORT       default low (low, medium, high, xhigh, max); higher thinks longer, against the deadline
     JUDGE_THRESHOLD    score at or above which the action is refuse_and_alert (default 0.6)
     JUDGE_TIMEOUT_S    default 3; a hard deadline for the whole call. Missing it raises
                        JudgeError so policy can fall back
@@ -26,14 +27,15 @@ from pathlib import Path
 
 import jsonschema
 
+from common import claude
 from common.config import env
 
 ROOT = Path(__file__).resolve().parents[1]
 PROMPTS = ROOT / "ai" / "prompts"
 CONTRACT_PATH = ROOT / "contracts" / "judge.schema.json"
 
-FAST_MODEL = "grok-4.20-0309-non-reasoning"
-REASONING_MODEL = "grok-4.7"
+MODEL = claude.MODEL
+MAX_TOKENS = 16000  # thinking counts toward it; the deadline, not this, bounds the call
 FAKE = {"scam_score": 0.05, "patterns": ["none"], "rationale": "fake", "action": "proceed"}
 
 
@@ -52,7 +54,7 @@ def _read(path: Path) -> str:
 
 @lru_cache(maxsize=1)
 def _prompt() -> str:
-    # Static prefix first (system prompt with rubric, then examples) so xAI can cache it;
+    # Static prefix first (system prompt with rubric, then examples) so Claude can cache it;
     # the per-request transcript goes last in the user message.
     return _read(PROMPTS / "judge_system.md") + "\n\n" + _read(PROMPTS / "judge_examples.md")
 
@@ -67,14 +69,11 @@ def _contract() -> jsonschema.Draft202012Validator:
     return jsonschema.Draft202012Validator(json.loads(_read(CONTRACT_PATH)))
 
 
-@lru_cache(maxsize=1)
 def _client():
-    from openai import OpenAI
-
-    key = env("XAI_API_KEY")
-    if not key:
-        raise JudgeError("XAI_API_KEY is not set (set JUDGE_FAKE=1 to run without it)")
-    return OpenAI(base_url="https://api.x.ai/v1", api_key=key, max_retries=0)
+    try:
+        return claude.client()
+    except claude.MissingKey as e:
+        raise JudgeError(f"{e} (set JUDGE_FAKE=1 to run without it)") from e
 
 
 def threshold() -> float:
@@ -82,7 +81,7 @@ def threshold() -> float:
 
 
 def model_name() -> str:
-    return env("JUDGE_MODEL", FAST_MODEL)
+    return env("JUDGE_MODEL", MODEL)
 
 
 def is_fake() -> bool:
@@ -135,39 +134,34 @@ def judge_with_meta(
          "mandate_summary": mandate_summary or {}, "history_summary": history_summary or ""},
         ensure_ascii=False,
     )
+    deadline = timeout or float(env("JUDGE_TIMEOUT_S", "3"))
     kwargs: dict = dict(
         model=model,
-        temperature=0,
-        messages=[{"role": "system", "content": _prompt()}, {"role": "user", "content": user}],
-        response_format={
-            "type": "json_schema",
-            "json_schema": {"name": "scam_judgment", "schema": _api_schema(), "strict": True},
-        },
+        max_tokens=MAX_TOKENS,
+        system=[{"type": "text", "text": _prompt(), "cache_control": {"type": "ephemeral"}}],
+        messages=[{"role": "user", "content": user}],
+        output_config={"effort": env("JUDGE_EFFORT", "low"),
+                       "format": {"type": "json_schema", "schema": _api_schema()}},
+        timeout=deadline,
+        **claude.FALLBACK,
     )
-    if model == REASONING_MODEL:
-        kwargs["reasoning_effort"] = "low"
-    deadline = timeout or float(env("JUDGE_TIMEOUT_S", "3"))
-    kwargs["timeout"] = deadline
-    if session_id:
-        kwargs["extra_headers"] = {"x-grok-conv-id": session_id}
 
     start = time.perf_counter()
     try:
-        resp = _pool.submit(_client().chat.completions.create, **kwargs).result(timeout=deadline)
-        raw = json.loads(resp.choices[0].message.content)
+        resp = _pool.submit(_client().beta.messages.create, **kwargs).result(timeout=deadline)
+        raw = json.loads(claude.reply_text(resp))
     except FutureTimeout as e:
         raise JudgeError(f"no answer within {deadline:g} s") from e
     except JudgeError:
         raise
-    except Exception as e:  # timeout, HTTP error, invalid JSON
+    except Exception as e:  # timeout, HTTP error, refusal, invalid JSON
         raise JudgeError(f"{type(e).__name__}: {e}") from e
     ms = round((time.perf_counter() - start) * 1000)
     try:
         out = _settle(raw)
     except (KeyError, TypeError, ValueError) as e:
         raise JudgeError(f"malformed judge reply: {e}") from e
-    details = getattr(resp.usage, "prompt_tokens_details", None)
-    cached = getattr(details, "cached_tokens", 0) or 0
+    cached = getattr(resp.usage, "cache_read_input_tokens", 0) or 0
     return out, {"model": model, "ms": ms, "cached_tokens": cached}
 
 
