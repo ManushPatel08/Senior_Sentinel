@@ -1,4 +1,4 @@
-# Chaperone scam eval set: 50 scam, 52 benign (2 innocent requests for a blocked item, 46 hard
+# Senior Sentinel scam eval set: 50 scam, 52 benign (2 innocent requests for a blocked item, 46 hard
 # negatives that share words with a scam family, 4 plain requests), including 6 refund, recovery
 # and delivery scams, 4 legitimate post-purchase requests, and 52 v2 scripts. Each v2 family
 # (utility shut-off, safe account, crypto ATM, courier, grandparent secrecy, remote access) has

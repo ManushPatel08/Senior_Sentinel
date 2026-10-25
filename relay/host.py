@@ -17,7 +17,7 @@ POST /host/api/swipe               {acceptor_id, amount_cents}: the card termina
 GET  /terminal                     the card terminal tablet page (a store's card reader), LAN only
 
 Requests that came through a proxy or tunnel, or from outside a private network, get 403. Every POST here,
-and the relay's POST /reset, also needs the header X-Chaperone-Host: 1: a cross-site form or fetch cannot set
+and the relay's POST /reset, also needs the header X-Senior-Sentinel-Host: 1: a cross-site form or fetch cannot set
 it, so a page open in some other LAN browser (the wall display, say) cannot press the Host's buttons.
 """
 
@@ -41,7 +41,7 @@ SWIPE_TIMEOUT_S = 12.0  # Lithic's simulate answers after our /card/asa decided;
 MAX_SWIPE_CENTS = 1_000_000
 PROXY_HEADERS = ("x-forwarded-for", "x-forwarded-host", "x-real-ip", "forwarded", "ngrok-trace-id", "x-original-url")
 NO_STORE = {"Cache-Control": "no-store"}
-HOST_HEADER = "x-chaperone-host"
+HOST_HEADER = "x-senior-sentinel-host"
 
 router = APIRouter(prefix="/host")
 terminal_router = APIRouter()
@@ -76,7 +76,7 @@ def host_action(request: Request) -> None:
     """For requests that change something: LAN only, and sent by the Host page or the station on purpose."""
     lan_only(request)
     if request.headers.get(HOST_HEADER) != "1":
-        raise HTTPException(403, "missing X-Chaperone-Host: 1")
+        raise HTTPException(403, "missing X-Senior-Sentinel-Host: 1")
 
 
 def _merchant() -> str:

@@ -37,7 +37,7 @@ export async function POST(request) {
     }
   }
   const options = await generateRegistrationOptions({
-    rpName: "Chaperone",
+    rpName: "Senior Sentinel",
     rpID: rpID(),
     userName: "priyank",
     userID: isoUint8Array.fromUTF8String("priya"),

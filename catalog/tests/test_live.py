@@ -91,7 +91,7 @@ def test_a_missing_product_is_found_live_and_kept(shop):
     found = cat.search("cat food", 5)
     assert [it["name"] for it in found][:2] == ["Friskies Indoor Delights Dry Cat Food", "Meow Mix Original Choice Dry Cat Food"]
     meow = next(it for it in found if it["brand"] == "Meow Mix")
-    # the promo price is what Chaperone charges; the shelf price stays for the receipt's savings line
+    # the promo price is what Senior Sentinel charges; the shelf price stays for the receipt's savings line
     assert meow["price"] == 8.99 and meow["regular_price"] == 9.99
     assert meow["merchant"] == "corner_market" and meow["mandate_category"] == "grocery" and meow["store"] == "Corner Market"
     assert cat.search("cat food", 5) and len(fake.searches()) == 1  # asked once

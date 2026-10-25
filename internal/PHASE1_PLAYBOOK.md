@@ -1,4 +1,4 @@
-# Chaperone: Phase 1 Playbook
+# Senior Sentinel: Phase 1 Playbook
 
 As of 2026-09-25, 11:55pm
 
@@ -178,7 +178,7 @@ Policy is the hub: the station, the merchant and the caregiver all call it. So a
 
 **Fixes (first 20 minutes).**
 - **D4** (do first, 5 min):
-  - The agent private key is in the repo root as `agent_ed25519.pem`; the signer reads `keys/agent_ed25519.pem`. On the services laptop: `mkdir keys && mv agent_ed25519.pem keys/`. I checked at 12:05am: that key matches `relay/jwks.json` on main (kid `chaperone-agent-1`).
+  - The agent private key is in the repo root as `agent_ed25519.pem`; the signer reads `keys/agent_ed25519.pem`. On the services laptop: `mkdir keys && mv agent_ed25519.pem keys/`. I checked at 12:05am: that key matches `relay/jwks.json` on main (kid `senior-sentinel-agent-1`).
   - After the move, `python -c "from signer.keys import public_jwk, load_jwks; print(public_jwk()['x'] == load_jwks()['keys'][0]['x'])"` must print `True`.
   - Put `TUNNEL_HOST` (the ngrok dev domain, bare host) in `.env`; it is not there yet.
 - **D1: registration gate** (OWASP MFA guidance):

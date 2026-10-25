@@ -1,4 +1,4 @@
-# Chaperone v2: a real product, and the plan to the expo
+# Senior Sentinel v2: a real product, and the plan to the expo
 
 As of Sat Sep 26, 4:00pm. Written after the team's review ("bigger scope, a finished product, it must make sense, fit the tracks, better UI, too many 'One moment's, it sounds like a Kroger assistant, the safety angle isn't evident") and Manush's question: **how does this actually save anyone from a scam, what happened before, what happens after, and how does it fit into real life?**
 
@@ -10,20 +10,20 @@ Nothing here has been built yet. Section 10 lists the decisions we need before a
 
 ## 0. The short version
 
-**The honest problem with v1.** Chaperone only protects purchases made *through Chaperone*. A real scammer never says "ask your shopping assistant to buy gift cards." They keep Ruth on the phone and send her to a drugstore with her own debit card, or have her read out card numbers, withdraw cash for a crypto ATM, or install remote-access software. In v1 our refusal happens on a road the scammer never takes. That is why it doesn't yet feel like it saves anyone.
+**The honest problem with v1.** Senior Sentinel only protects purchases made *through Senior Sentinel*. A real scammer never says "ask your shopping assistant to buy gift cards." They keep Ruth on the phone and send her to a drugstore with her own debit card, or have her read out card numbers, withdraw cash for a crypto ATM, or install remote-access software. In v1 our refusal happens on a road the scammer never takes. That is why it doesn't yet feel like it saves anyone.
 
-**v2 in one sentence.** Chaperone is an AI that runs an older adult's errands and payments by voice, in her language, and **guards every place her money can leave: the conversation, her card and her agent**. The rules are ones she and her family sign together.
+**v2 in one sentence.** Senior Sentinel is an AI that runs an older adult's errands and payments by voice, in her language, and **guards every place her money can leave: the conversation, her card and her agent**. The rules are ones she and her family sign together.
 
 **The four guards:**
 
 | Guard | What Ruth sees | What stops the scam |
 |---|---|---|
-| **Ask** (the conversation) | She calls Chaperone on any phone, or talks to it at home: "Peachtree Power says they'll cut my power tonight unless I pay $480 in gift cards." | Chaperone checks her real bill (it's paid) and today's scam reports (Grok searching X and the web), then says plainly: "This is a scam. Please hang up. Shall I call Priya?" Priya's phone shows it, with sources. |
-| **Card** (her Visa card) | She goes to the drugstore anyway, coached by the caller. The terminal declines $480. | Every swipe is checked against the signed rules in under a second. After a scam call the card is on a 24-hour cool-down for risky spending. Chaperone tells Ruth why; Priya can allow it once with one tap. |
+| **Ask** (the conversation) | She calls Senior Sentinel on any phone, or talks to it at home: "Peachtree Power says they'll cut my power tonight unless I pay $480 in gift cards." | Senior Sentinel checks her real bill (it's paid) and today's scam reports (Grok searching X and the web), then says plainly: "This is a scam. Please hang up. Shall I call Priya?" Priya's phone shows it, with sources. |
+| **Card** (her Visa card) | She goes to the drugstore anyway, coached by the caller. The terminal declines $480. | Every swipe is checked against the signed rules in under a second. After a scam call the card is on a 24-hour cool-down for risky spending. Senior Sentinel tells Ruth why; Priya can allow it once with one tap. |
 | **Agent** (errands) | "Order my blood pressure medicine and pay my power bill." | The agent buys only from verified stores and billers, only inside the rules, with signed requests. It can't be talked into gift cards, wires or fake "refunds". |
 | **Family** (co-signed rules) | Ruth and Priya agree the rules together; Ruth can hear them any time. | Priya approves exceptions and sees every blocked attempt with a plain reason. 72% of elder financial exploitation is by someone the victim knows, so neither of them can change the rules alone. |
 
-The link between the guards is what makes it work: **the conversation informs the card.** A scam story heard by Chaperone puts Ruth's card into a cool-down before she reaches the store. The research says "active call plus payment attempt" is the strongest scam signal anyone can get (Section 2.4).
+The link between the guards is what makes it work: **the conversation informs the card.** A scam story heard by Senior Sentinel puts Ruth's card into a cool-down before she reaches the store. The research says "active call plus payment attempt" is the strongest scam signal anyone can get (Section 2.4).
 
 **What changes tonight:**
 - A real phone number Ruth can call (Grok Voice over SIP).
@@ -52,7 +52,7 @@ The details are in Section 5.
 
 ---
 
-## 2. How a scam works today, and where Chaperone stops it
+## 2. How a scam works today, and where Senior Sentinel stops it
 
 ### 2.1 The numbers we'll use
 
@@ -67,11 +67,11 @@ The details are in Section 5.
 
 **The scam:** "Peachtree Power" says Ruth's power is cut off tonight unless she pays. It's a real pattern: FTC and IC3 list utility impersonation and gift-card payment.
 
-| Time | **Before (today)** | **After (with Chaperone)** |
+| Time | **Before (today)** | **After (with Senior Sentinel)** |
 |---|---|---|
-| 6:02pm | A caller says he's from Peachtree Power: $480 overdue, power cut at 7pm, "stay on the line, don't tell anyone". | Same call. Ruth has the fridge card: *"Before you pay anyone, ask Chaperone."* She says, "Wait, I need to ask my helper." |
-| 6:04 | He tells her to drive to the drugstore and buy Apple gift cards. | Ruth asks Chaperone (station, or the Chaperone Line from her landline). Chaperone checks her Peachtree Power account: **paid through October**. The radar finds **this exact script reported in Atlanta this week**, and the rules know **utilities never take gift cards**. In Spanish: "This is a scam. Your bill is paid. Please hang up. Shall I call Priya?" |
-| 6:05 | — | Priya's phone: **"Chaperone stopped a scam call: fake Peachtree Power, $480 in gift cards"**, with sources and **Call Mom**. Ruth's card goes on a 24-hour cool-down for risky spending. |
+| 6:02pm | A caller says he's from Peachtree Power: $480 overdue, power cut at 7pm, "stay on the line, don't tell anyone". | Same call. Ruth has the fridge card: *"Before you pay anyone, ask Senior Sentinel."* She says, "Wait, I need to ask my helper." |
+| 6:04 | He tells her to drive to the drugstore and buy Apple gift cards. | Ruth asks Senior Sentinel (station, or the Senior Sentinel Line from her landline). Senior Sentinel checks her Peachtree Power account: **paid through October**. The radar finds **this exact script reported in Atlanta this week**, and the rules know **utilities never take gift cards**. In Spanish: "This is a scam. Your bill is paid. Please hang up. Shall I call Priya?" |
+| 6:05 | — | Priya's phone: **"Senior Sentinel stopped a scam call: fake Peachtree Power, $480 in gift cards"**, with sources and **Call Mom**. Ruth's card goes on a 24-hour cool-down for risky spending. |
 | 6:25 | She buys $480 of gift cards with her debit card. The cashier doesn't ask; fewer than half of stores have limits, and store measures fully stop only about 9% of such purchases. | Suppose the scammer called back and she went anyway. At the register, **her card declines**: a pharmacy purchase far above her usual, during a cool-down. The station or her line: "I stopped a $480 charge at Five Points Drug. Is someone asking you to buy gift cards?" Priya gets **Keep blocked / Allow once**. |
 | 6:30 | She reads the card numbers over the phone. The money is gone in minutes. | Nothing to read. Nothing lost. |
 | Days later | Priya sees the statement. Recovery is near zero, the bank's dispute needs evidence nobody kept, and the family takes Ruth's card away. | Ruth keeps her card and her independence. The incident is in a **dispute-ready record** in case anything did get through. |
@@ -89,12 +89,12 @@ The details are in Section 5.
 **Honest limits, said out loud at the table:**
 - **Gift cards are not visible at the card level.** A drugstore purchase is a drugstore purchase; True Link says so too. We infer from amount, merchant type, Ruth's history and the cool-down.
 - **Priya can't approve inside the card network's 2–6 s window.** The industry pattern is decline → confirm → retry within a window. That's what we build.
-- **Chaperone can't hear the scammer's call** unless Ruth asks. The habit comes from daily use (errands, bills) and the fridge card. Future versions could add carrier call-screening (Grok SIP can answer calls) or Android's in-call signal.
+- **Senior Sentinel can't hear the scammer's call** unless Ruth asks. The habit comes from daily use (errands, bills) and the fridge card. Future versions could add carrier call-screening (Grok SIP can answer calls) or Android's in-call signal.
 
 ### 2.4 Why these interventions work (evidence)
 
-- **Talking to someone first:** targets who knew about the scam lost money 9% of the time, against 34% for those who didn't. Those who talked it over with anyone lost less (FINRA Foundation/Stanford, 2019, older). Chaperone is the someone who always answers and knows this week's scams.
-- **A specific action beats a warning:** a "cancel this payment" button cut fraudulent payments from 22% to 10%, and to 4% with a risk warning. Generic warnings alone didn't work, and showing one twice backfired (Behaviouralist/Open Banking, n=10,000, 2021). So Chaperone gives one clear action ("hang up; shall I call Priya?"), not a lecture.
+- **Talking to someone first:** targets who knew about the scam lost money 9% of the time, against 34% for those who didn't. Those who talked it over with anyone lost less (FINRA Foundation/Stanford, 2019, older). Senior Sentinel is the someone who always answers and knows this week's scams.
+- **A specific action beats a warning:** a "cancel this payment" button cut fraudulent payments from 22% to 10%, and to 4% with a risk warning. Generic warnings alone didn't work, and showing one twice backfired (Behaviouralist/Open Banking, n=10,000, 2021). So Senior Sentinel gives one clear action ("hang up; shall I call Priya?"), not a lecture.
 - **Friction at the moment of payment works in the real world:**
   - CommBank's scam losses are down 76% from the 2023 peak, with NameCheck and CallerCheck.
   - Android now pauses banking apps during calls from unknown numbers (UK and US pilots).
@@ -108,19 +108,19 @@ The details are in Section 5.
 
 ### 3.1 Who uses what
 
-| Who | How they use Chaperone | Built as |
+| Who | How they use Senior Sentinel | Built as |
 |---|---|---|
-| **Ruth**, 71, Spanish at home, landline, low vision | **Chaperone Line:** a phone number she calls from any phone. **Chaperone at home:** a speaker or tablet with one big button. Both are the same agent, in her language. | Grok Voice (realtime); SIP for the phone line; the station for home |
-| **Ruth's card** | Her Visa debit card, enrolled in Chaperone protection through her bank, or a Chaperone Visa card | Demo: a Lithic sandbox card whose every swipe calls our rules. Production: an issuer partner using **Visa Transaction Controls**, or a card program on Visa |
+| **Ruth**, 71, Spanish at home, landline, low vision | **Senior Sentinel Line:** a phone number she calls from any phone. **Senior Sentinel at home:** a speaker or tablet with one big button. Both are the same agent, in her language. | Grok Voice (realtime); SIP for the phone line; the station for home |
+| **Ruth's card** | Her Visa debit card, enrolled in Senior Sentinel protection through her bank, or a Senior Sentinel Visa card | Demo: a Lithic sandbox card whose every swipe calls our rules. Production: an issuer partner using **Visa Transaction Controls**, or a card program on Visa |
 | **Priya**, 44, Atlanta, 200 miles away | App on her phone: set rules *with* Ruth, approve exceptions, the Safety feed, a weekly digest. Alerts only when it matters. | Caregiver PWA, passkey signing |
-| **Stores and billers** | Accept Chaperone's purchases as a **recognized agent**: signed requests they can verify, paid through Visa | Our merchants: TAP-style RFC 9421 signatures; Cybersource sandbox Pay by Link per merchant |
-| **The bank** (the customer who pays) | Offers Chaperone to account holders and caregivers. Gets fewer scam losses, a dispute-ready record and deposit loyalty. | Trust Ledger and the record export; VTC rules |
+| **Stores and billers** | Accept Senior Sentinel's purchases as a **recognized agent**: signed requests they can verify, paid through Visa | Our merchants: TAP-style RFC 9421 signatures; Cybersource sandbox Pay by Link per merchant |
+| **The bank** (the customer who pays) | Offers Senior Sentinel to account holders and caregivers. Gets fewer scam losses, a dispute-ready record and deposit loyalty. | Trust Ledger and the record export; VTC rules |
 
 ### 3.2 A normal month
 
-1. **Setup, 15 minutes.** Priya invites Ruth. They choose the rules together in plain words: "Up to $60 a trip at the grocery and pharmacy. Ask me above $40. Never gift cards, wires or crypto. Pay Peachtree Power up to $200." Priya signs with her passkey, and Ruth confirms by voice. They link Ruth's card, stores and power bill, and Priya adds trusted contacts (grandson Alex). Ruth gets the fridge card with the Chaperone Line number.
-2. **Every week.** Ruth calls or talks to Chaperone for groceries, refills and household items, compared across her stores. It reads everything back before paying. Priya gets a quiet digest, not a buzz per purchase, because notification fatigue is real.
-3. **Bills.** "Pay my power bill": Chaperone reads the real balance and pays the real biller, inside the rules.
+1. **Setup, 15 minutes.** Priya invites Ruth. They choose the rules together in plain words: "Up to $60 a trip at the grocery and pharmacy. Ask me above $40. Never gift cards, wires or crypto. Pay Peachtree Power up to $200." Priya signs with her passkey, and Ruth confirms by voice. They link Ruth's card, stores and power bill, and Priya adds trusted contacts (grandson Alex). Ruth gets the fridge card with the Senior Sentinel Line number.
+2. **Every week.** Ruth calls or talks to Senior Sentinel for groceries, refills and household items, compared across her stores. It reads everything back before paying. Priya gets a quiet digest, not a buzz per purchase, because notification fatigue is real.
+3. **Bills.** "Pay my power bill": Senior Sentinel reads the real balance and pays the real biller, inside the rules.
 4. **After a purchase.** Order status, cancel, returns, and refunds only to the card that paid. All of this is built.
 5. **The scam day.** Section 2.2.
 6. **Changing the rules** needs both of them. Ruth hears every change. This protects Ruth from the helper too: the 72%.
@@ -130,8 +130,8 @@ The details are in Section 5.
 | Feature | Guard | Why it's there |
 |---|---|---|
 | Voice in her language, landline number | Ask, Agent | Adults 65+ are the least likely to own smartphones; about 10M don't speak English "very well". The phone is where scams start, so it's where help should be. |
-| Errands and bills by voice | Agent | Daily usefulness builds the habit and the trust that make "ask Chaperone" natural on the scam day. It's independence, the Social Good core. |
-| Several stores and a biller, compared | Agent | Chaperone works for Ruth, not a store. The biller also answers the most common scam story: "your bill is overdue". |
+| Errands and bills by voice | Agent | Daily usefulness builds the habit and the trust that make "ask Senior Sentinel" natural on the scam day. It's independence, the Social Good core. |
+| Several stores and a biller, compared | Agent | Senior Sentinel works for Ruth, not a store. The biller also answers the most common scam story: "your bill is overdue". |
 | Scam radar with citations | Ask | Scams change weekly, and Grok reads X and the web in real time. Older adults trust concrete facts, not scores (Georgia Tech, CHI 2026). |
 | Account truth checks (bill balance, trusted contacts) | Ask | The best counter to impersonation is the truth: "your bill is paid", "Alex's real number". |
 | Card rules and 24-hour cool-down | Card | That's where the money actually leaves. |
@@ -185,10 +185,10 @@ Still to confirm on live.hexlabs.org (it needs a login): the submission deadline
 
 Four workstreams, one per person. Each teammate uses their assistant to go wide. The shared contracts (Section 5.5) are agreed at the Phase 5 kickoff so the pieces meet.
 
-### 5.1 Manush: Ruth's voice (station, persona, Chaperone Line)
+### 5.1 Manush: Ruth's voice (station, persona, Senior Sentinel Line)
 
 1. **Persona and prompt rewrite**, with Rohan (`station/config/voice.json`):
-   - Chaperone works for Ruth across her stores and bills, and names the store.
+   - Senior Sentinel works for Ruth across her stores and bills, and names the store.
    - Her usual first, then the best price.
    - No preambles; call tools silently.
    - One short sentence at a time; one clear action in any safety moment.
@@ -209,7 +209,7 @@ Four workstreams, one per person. Each teammate uses their assistant to go wide.
    - A full-screen "Protected" card when a scam is stopped: shield, plain reason, what to do, "Priya knows".
    - A cart grouped by store and per-store receipts.
    - Remove debug text from shopper view: "Token received", raw rule ids, `order o_… · decision d_…`, the Spanish placeholder.
-5. **Chaperone Line** (spike 60 min in Phase 5; go/no-go at 7:30):
+5. **Senior Sentinel Line** (spike 60 min in Phase 5; go/no-go at 7:30):
    - **Path A:** xAI Voice Agent Builder, which comes with a free US number, using our tools exposed through a remote MCP server (with Vraj).
    - **Path B:** the SIP webhook plus a server-side agent (the `?call_id=` WebSocket) reusing the station's tools.
    - The line and the station share the same policy, cart and scam checks. On the phone, safety is enforced in the tools (the scam check, and the judge at checkout).
@@ -297,7 +297,7 @@ Four workstreams, one per person. Each teammate uses their assistant to go wide.
    - Probe Intelligent Commerce on Cybersource (`/icc/v1/instructions`, formerly `/acp`). It needs JWT, message-level encryption and pilot IDs, so it's a probe only; our mandate uses its exact `mandates[]` shape.
    - Probe Decision Manager `/risk/v1/decisions` on our own sandbox. Never use the public testrest credentials.
    - Two-way SSL for the **Visa Transaction Controls** sandbox. Timebox 90 minutes, then go/no-go at 7:30.
-3. **Remote MCP server**, for the Chaperone Line with Manush: expose the tools (`search`, `cart`, `read_cart`, `checkout`, `scam_check`, `bill_status`, `pay_bill`, `order_status`, `refund`), with the cart and read-back gate kept server-side per call.
+3. **Remote MCP server**, for the Senior Sentinel Line with Manush: expose the tools (`search`, `cart`, `read_cart`, `checkout`, `scam_check`, `bill_status`, `pay_bill`, `order_status`, `refund`), with the cart and read-back gate kept server-side per call.
 4. **Trust Ledger** (the wall, redesigned):
    - Four guard lanes (Ask, Card, Agent, Family).
    - Plain-English rows, with raw ids on expand.
@@ -320,7 +320,7 @@ Four workstreams, one per person. Each teammate uses their assistant to go wide.
 
 - **Branding and landing page** (the caregiver app's signed-out root):
   - Hero, how it works (four guards), before and after.
-  - "For families / for banks", pricing, the numbers, and the FAQ "What Chaperone can't do".
+  - "For families / for banks", pricing, the numbers, and the FAQ "What Senior Sentinel can't do".
 - **Cursor:** build part of every workstream in Cursor with Grok and keep screenshots for the Devpost.
 - **Demo topology:** one services laptop runs everything, including the caregiver app and a tunnel on an ngrok domain owned by that laptop's account. This also fixes today's "friend can't see the order". If two laptops are needed, use a hotspot, never eduroam.
 
@@ -328,16 +328,16 @@ Four workstreams, one per person. Each teammate uses their assistant to go wide.
 
 ## 6. The new demo (about 2 minutes; the judge plays Ruth)
 
-The table below uses the power-company story. If the team picks the grandparent scam as the opener (the default in Section 7), the 0:15 line becomes: "My grandson Alex just called. He's in jail, needs $2,000 bail, and said not to tell Mom." Chaperone answers: "That's a common scam, and the voice can be copied. Let me call Alex on the number Priya saved." The store and everyday beats stay the same.
+The table below uses the power-company story. If the team picks the grandparent scam as the opener (the default in Section 7), the 0:15 line becomes: "My grandson Alex just called. He's in jail, needs $2,000 bail, and said not to tell Mom." Senior Sentinel answers: "That's a common scam, and the voice can be copied. Let me call Alex on the number Priya saved." The store and everyday beats stay the same.
 
 | Time | Beat | Who |
 |---|---|---|
-| 0:00 | Host: "Last year people over 60 lost $7.7 billion to scams. Most started with a phone call and ended at a store or a crypto ATM. Chaperone guards the call, the card and the agent. You're Ruth." | Host |
-| 0:15 | **The call.** The judge reads the card: "Peachtree Power just called. They'll cut my power tonight unless I pay $480 in gift cards." Chaperone: "Your Peachtree Power bill is paid. People reported this exact call in Atlanta this week. This is a scam. Please hang up. Shall I call Priya?" Priya's phone: the Safety card with sources. | Judge, Priya |
+| 0:00 | Host: "Last year people over 60 lost $7.7 billion to scams. Most started with a phone call and ended at a store or a crypto ATM. Senior Sentinel guards the call, the card and the agent. You're Ruth." | Host |
+| 0:15 | **The call.** The judge reads the card: "Peachtree Power just called. They'll cut my power tonight unless I pay $480 in gift cards." Senior Sentinel: "Your Peachtree Power bill is paid. People reported this exact call in Atlanta this week. This is a scam. Please hang up. Shall I call Priya?" Priya's phone: the Safety card with sources. | Judge, Priya |
 | 0:50 | **The store.** Host: "Scammers keep people on the line and send them to the store." The judge taps Ruth's card on the Five Points Drug terminal: $480 → **DECLINED**. The station: "I stopped a $480 charge at Five Points Drug. Is someone asking you to buy gift cards?" Priya's phone: Keep blocked / Allow once. | Judge, Priya |
 | 1:15 | **Everyday.** "Order my blood pressure medicine and pay my power bill." Two merchants, read back, signed, Visa sandbox, receipt printed. | Judge |
 | 1:45 | **Trust Ledger.** Four guards, "$480 protected", every decision in plain words, signatures, Visa responses. | Host |
-| 2:00 | Close: "Call Chaperone yourself: (404) …". Visa judges also get the return beat; xAI judges get the phone call in their own language. | Host |
+| 2:00 | Close: "Call Senior Sentinel yourself: (404) …". Visa judges also get the return beat; xAI judges get the phone call in their own language. | Host |
 
 We label what's simulated, as the HackMIT Visa winner did:
 - **Real:** Visa sandbox payments, Lithic sandbox authorizations, Grok calls and search, the phone number.
@@ -360,7 +360,7 @@ Phases 0 to 4 built v1. v2 is Phases 5 to 9. Each phase ends with a merge to mai
 
 Defaults below, unless the team answers Section 10 differently:
 - Card guard on Lithic, with Stripe as backup.
-- Chaperone Line gets a 60-minute spike.
+- Senior Sentinel Line gets a 60-minute spike.
 - The four merchants plus the blocked shop.
 - One services laptop.
 - Everyone builds part of their work in Cursor.
@@ -380,7 +380,7 @@ Defaults below, unless the team answers Section 10 differently:
 
 | Person | Spike or foundation, each with one real round trip |
 |---|---|
-| Manush | Remove "One moment", add the earcon and the "Checking…" state, and re-measure release-to-first-audio. First draft of the new persona (with Rohan). **Chaperone Line spike**: a call to the number reaches Grok and one of our tools runs (Path A: Builder plus MCP; Path B: SIP webhook plus server agent). |
+| Manush | Remove "One moment", add the earcon and the "Checking…" state, and re-measure release-to-first-audio. First draft of the new persona (with Rohan). **Senior Sentinel Line spike**: a call to the number reaches Grok and one of our tools runs (Path A: Builder plus MCP; Path B: SIP webhook plus server agent). |
 | Rohan | **Radar spike**: one Grok call with `x_search` and `web_search` that returns a cited, structured verdict for the grandparent and power-company stories, with the time written down. Write down the new rule families and their hard negatives. |
 | Dhruv | **Card spike**: Lithic `simulate/authorize` → our responder → APPROVED or declined, with the time written down. **Design system**: tokens, type scale, logo and shield icon, published as one CSS file every surface imports. The caregiver app shell with bottom tabs. |
 | Vraj | Stand up **Parkside Pharmacy, Main Street Home and Peachtree Power** as merchants, each with its own sandbox account or descriptor, and one real Pay by Link each. Probe Intelligent Commerce (`/icc`) and Decision Manager on our own sandbox. VTC two-way SSL (about 45 min; stop at 7:15). Skeleton of the MCP server for the line. |
@@ -398,7 +398,7 @@ Defaults below, unless the team answers Section 10 differently:
 
 | Person | Builds | Done when |
 |---|---|---|
-| Manush (Ask and Agent, the voice) | Final persona; tools `scam_check`, `bill_status`, `pay_bill` and store-aware search; the station speaks card declines; the station redesign (kiosk shopper view, Protected card, cart by store, receipts per store, no debug text); the Chaperone Line full flow if it's a go | The grandparent story is answered at the station and on the line; card declines are spoken; shopper view has no raw ids |
+| Manush (Ask and Agent, the voice) | Final persona; tools `scam_check`, `bill_status`, `pay_bill` and store-aware search; the station speaks card declines; the station redesign (kiosk shopper view, Protected card, cart by store, receipts per store, no debug text); the Senior Sentinel Line full flow if it's a go | The grandparent story is answered at the station and on the line; card declines are spoken; shopper view has no raw ids |
 | Rohan (Ask, the safety brain) | The radar in production (cache, rules-first, fallback, events with sources); it sets `risk_state` (cool-down); the new rule families plus the eval re-run; lines and clips in en, es and hi; safety made visible in the data (caution events, screen refusals alert Priya with a `decision_id`, judge score on the ledger); **15 validation interviews** at the venue | A scam story sets the cool-down; Priya gets a cited alert; the eval shows no new false refusals |
 | Dhruv (Card and Family) | The card decision service (MCC blocks, category caps, unusual-amount rule, cool-down, ATM cap, "allow once" for 15 minutes, events); the co-signed mandate in Visa's `mandates[]` shape, with store, biller and card rules; caregiver app screens (Home, Safety, Approvals with card holds, Activity, Rules, onboarding, weekly digest) | The drugstore charge is declined in cool-down; Priya's "allow once" makes the retry pass; every screen uses real data |
 | Vraj (Agent and trust layer) | The catalog across stores with a `merchant` field and value ordering; per-merchant verifiers and Pay by Link; biller balance and pay; a Decision Manager score per order and VTC mirroring if they're green; the **card terminal** tablet page; the **Trust Ledger** redesign (four lanes, plain rows, protected-dollars counter, sources, per-merchant checks); MCP tools for the line | "Medicine and power bill" pays two merchants for real; the terminal drives Lithic; the ledger shows all four guards |
@@ -464,9 +464,9 @@ Defaults below, unless the team answers Section 10 differently:
 
 ## 10. Decisions needed before we start
 
-1. **Direction:** adopt v2 (four guards; Chaperone is a safety layer plus errands)?
+1. **Direction:** adopt v2 (four guards; Senior Sentinel is a safety layer plus errands)?
 2. **Card guard:** Lithic sandbox as the real card round trip, with Stripe as backup? Try Visa Transaction Controls as well (90-minute timebox)?
-3. **Chaperone Line:** spend a 60-minute spike on a real phone number (Grok SIP)?
+3. **Senior Sentinel Line:** spend a 60-minute spike on a real phone number (Grok SIP)?
 4. **Merchants:** Corner Market, Parkside Pharmacy, Main Street Home, Peachtree Power, plus the blocked gift-card shop? Fictional names on real product data.
 5. **Demo topology:** one services laptop runs everything, including the caregiver app and tunnel?
 6. **Cursor:** does everyone agree to build part of their workstream in Cursor tonight (a stated xAI requirement)?

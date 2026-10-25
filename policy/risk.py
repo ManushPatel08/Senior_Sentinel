@@ -5,7 +5,7 @@ The Ask guard writes it (/scam-check); the Card guard reads it on every swipe.
     set_cooldown(mandate_id, hours, reason, source_event) -> state
     load_risk(mandate_id) -> {mandate_id, cooldown_until, reason, source_event, active}
     GET  /risk?mandate_id=          for the UIs
-    POST /risk/clear {mandate_id}   caregiver only (x-chaperone-marker for action "risk")
+    POST /risk/clear {mandate_id}   caregiver only (x-senior-sentinel-marker for action "risk")
 
 Stored in sessions/risk.json (RISK_PATH) and cleared on reset. Posts `risk_changed`.
 """
@@ -115,6 +115,6 @@ def get_risk(mandate_id: str = ""):
 def post_clear(request: Request, body: dict | None = None):
     from policy.approvals import marker_matches
 
-    if not marker_matches("mandate", request.headers.get("x-chaperone-marker", ""), "risk"):
+    if not marker_matches("mandate", request.headers.get("x-senior-sentinel-marker", ""), "risk"):
         raise HTTPException(401, "sign in required")
     return clear((body or {}).get("mandate_id"))

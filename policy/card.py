@@ -288,7 +288,7 @@ def handle_authorization(payload: dict, mandate: dict | None = None) -> dict:
             "card_last4": answer["card_last4"],
             "hold_id": answer["hold_id"],
             "at": datetime.now(timezone.utc).isoformat(),
-            "decided_ms": elapsed_ms(started),  # Chaperone's own decision, without Lithic's network time
+            "decided_ms": elapsed_ms(started),  # Senior Sentinel's own decision, without Lithic's network time
         }
         state["decisions"].append(record)
         state["decisions"] = state["decisions"][-50:]

@@ -9,7 +9,7 @@ export async function GET(_request, { params }) {
   const { id } = await params;
   const response = await fetch(`${policy()}/scam-check/${encodeURIComponent(id)}`, {
     cache: "no-store",
-    headers: { "X-Chaperone-Marker": actionMarker(id, "view") },
+    headers: { "X-Senior-Sentinel-Marker": actionMarker(id, "view") },
   }).catch(() => null);
   if (!response) return Response.json({ error: "policy unavailable" }, { status: 502 });
   if (!response.ok) return Response.json({ error: "unknown check" }, { status: response.status });

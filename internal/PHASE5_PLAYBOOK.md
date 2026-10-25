@@ -1,8 +1,8 @@
-# Chaperone: Phase 5 Playbook
+# Senior Sentinel: Phase 5 Playbook
 
 As of Sat Sep 26, 5:00pm. Phase 5 runs **5:00–7:30pm**.
 
-Read `PRODUCT_V2.md` first, at least Sections 0, 2 and 3. It explains why we're changing course: the four guards (Ask, Card, Agent, Family) and how Chaperone stops real scams. This playbook is the first build step of v2.
+Read `PRODUCT_V2.md` first, at least Sections 0, 2 and 3. It explains why we're changing course: the four guards (Ask, Card, Agent, Family) and how Senior Sentinel stops real scams. This playbook is the first build step of v2.
 
 **What Phase 5 is for.** Two things:
 1. Prove every risky new piece with **one real round trip**: the card network sandbox, the scam radar, the phone line, several Visa sandbox merchants, and Visa's agent-mandate and card-controls APIs.
@@ -46,7 +46,7 @@ At 7:30 we decide go or no-go on each risky piece. Anything red takes its fallba
 4. **Cool-down.** After a `/scam-check` returns `scam`, a $45 pharmacy swipe (MCC 5912) that normally passes is **declined**, with reason `card_cooldown`.
 5. **Radar.** The grandparent, power-company and tech-support stories each get a cited verdict in under 12 s (or from the cache), with sources listed.
 6. **Merchants.** Corner Market, Parkside Pharmacy, Main Street Home and Peachtree Power have each created one real Visa sandbox Pay by Link. Separate accounts or one account with descriptors is fine; write down which.
-7. **Phone line.** A call to the number is answered by Grok in the Chaperone persona and one of our tools runs. Otherwise the line is cut, with the reason written down.
+7. **Phone line.** A call to the number is answered by Grok in the Senior Sentinel persona and one of our tools runs. Otherwise the line is cut, with the reason written down.
 8. **Visa probes.** The Intelligent Commerce path probe (`/icc` and `/acp`), Decision Manager and Visa Transaction Controls are each marked *works*, *not enabled* (with the HTTP status) or *dropped*.
 9. **Contracts on branches.** `contracts/merchants.json`, mandate v2 schema, event types, and the public routes in `ports.md`.
 10. **Design tokens** pushed: `design/tokens.css`, logo and shield icon.
@@ -318,7 +318,7 @@ Replace the instructions with this draft, then tune:
 
 ```
 ## Who you are
-You are Chaperone, Ruth's own helper. You work for Ruth, never for a store or for anyone who calls her. You help her shop at her approved stores (Corner Market for groceries, Parkside Pharmacy for medicine, Main Street Home for household things), pay her approved bills (Peachtree Power), and stay safe from scams. Her daughter Priya set the spending rules together with her.
+You are Senior Sentinel, Ruth's own helper. You work for Ruth, never for a store or for anyone who calls her. You help her shop at her approved stores (Corner Market for groceries, Parkside Pharmacy for medicine, Main Street Home for household things), pay her approved bills (Peachtree Power), and stay safe from scams. Her daughter Priya set the spending rules together with her.
 
 ## Safety comes first
 If Ruth mentions a phone call, a text, an email, a pop-up or a visitor, or anyone asking her for money, gift cards, a wire, crypto, a "refund", card numbers, codes, or to install something, call scam_check with her own words before anything else. Then say its say text exactly, calmly, and offer its one action. Never scold; she did nothing wrong.
@@ -339,9 +339,9 @@ One or two short sentences. One question at a time. Plain words. Reply in the la
 - Add `store` to `search_catalog`.
 - **Fix F5, F6:** give `purchase_history` a `say`; give `order_status` the pickup code and "ready after 3 pm".
 
-### V5-4. Chaperone Line trial (6:30, timebox 60 min)
+### V5-4. Senior Sentinel Line trial (6:30, timebox 60 min)
 
-**Goal:** a real US number that Ruth, or a judge, can call, answered by Grok as Chaperone, with at least one of our tools running.
+**Goal:** a real US number that Ruth, or a judge, can call, answered by Grok as Senior Sentinel, with at least one of our tools running.
 
 The two paths, the exact steps and the fallback are in **Section 4.1**, written from xAI's docs. Pick the path at 6:30 with Rohan. Go/no-go at 7:15:
 - **Go:** a call reaches Grok, it speaks in the persona, and `budget_left` or `scam_check` runs and is spoken.
@@ -353,7 +353,7 @@ The two paths, the exact steps and the fallback are in **Section 4.1**, written 
 - **F8** (GitHub cleanup): yours only.
 - **F4** (re-recording) moves to Phase 7.
 
-### 4.1 Chaperone Line: the two paths
+### 4.1 Senior Sentinel Line: the two paths
 
 The facts from xAI's docs:
 - The free US number from the **Voice Agent Builder** goes to a hosted Builder agent.
@@ -370,7 +370,7 @@ The facts from xAI's docs:
 2. Our MCP server, a new small service `line/` on port 8005, Python `mcp` package:
    ```python
    from mcp.server.fastmcp import FastMCP
-   mcp = FastMCP("chaperone-tools")
+   mcp = FastMCP("senior-sentinel-tools")
    @mcp.tool()
    def budget_left(ruth_said: str = "") -> dict: ...   # calls policy /budget; returns {left, say}
    # search_catalog, add_to_cart, read_cart, checkout, scam_check, bill_status, order_status, request_refund
@@ -382,7 +382,7 @@ The facts from xAI's docs:
 3. Public route: the caregiver app rewrites `/line/mcp` → `http://127.0.0.1:8005/mcp` (C10). Require `Authorization: Bearer $LINE_MCP_TOKEN`.
 4. In the Builder, add a custom MCP server:
    - `server_url: https://$TUNNEL_HOST/line/mcp`
-   - `server_label: chaperone-tools` (no dots)
+   - `server_label: senior-sentinel-tools` (no dots)
    - `authorization: Bearer …`
    - header `ngrok-skip-browser-warning: 1`
 5. Test "Preview Live" in the browser, then dial the number. **Go** means `budget_left` or `scam_check` runs and is spoken.
@@ -550,7 +550,7 @@ Build `policy/card.py` per C6:
 Per C11:
 - **Warm and trustworthy:** a deep navy text color, a warm off-white background, a green "protected" state and an amber "caution" state. The declined state is **never alarm red**; older adults read alarm colors as their own mistake.
 - **Type:** a 20px base; 28–40px on Ruth's surfaces.
-- **Logo:** a shield around a speech bubble, plus the word mark "Chaperone".
+- **Logo:** a shield around a speech bubble, plus the word mark "Senior Sentinel".
 - Relay route `/design/*`; the caregiver `prebuild` copy.
 
 ### D5-5. Carry-overs
@@ -697,7 +697,7 @@ POST https://apitest.cybersource.com/acp/v1/instructions
 **Decision Manager.** Use an expiry year of 2030 or later.
 ```json
 POST https://apitest.cybersource.com/risk/v1/decisions
-{"clientReferenceInformation": {"code": "chaperone-dm-001"},
+{"clientReferenceInformation": {"code": "senior-sentinel-dm-001"},
  "paymentInformation": {"card": {"number": "4111111111111111", "expirationMonth": "12", "expirationYear": "2031"}},
  "orderInformation": {"amountDetails": {"currency": "USD", "totalAmount": "11.49"},
   "billTo": {"firstName": "Ruth", "lastName": "Test", "address1": "1 Peachtree St", "locality": "Atlanta",
@@ -747,7 +747,7 @@ If you'd rather make your own CSR: `openssl req -new -keyout privateKey.pem -out
 |---|---|---|
 | Lithic card round trip | Phase 6 builds the terminal and the holds | Stripe Issuing test mode (Section 6.1); last resort, our own simulator with the same `card.py`, labeled "simulated network" |
 | Scam radar | Phase 6 wires it into the station and the line | Rules-first plus cached answers; Grok only for sources |
-| Chaperone Line | Phase 6 finishes it | Cut; it's "next" in the README |
+| Senior Sentinel Line | Phase 6 finishes it | Cut; it's "next" in the README |
 | Extra merchants | Separate accounts | One account with descriptors, labeled |
 | Intelligent Commerce | (Not possible tonight: needs JWT, encryption and pilot IDs) | Mandate shown in Visa's exact `mandates[]` shape; the probe result goes in the Devpost |
 | Decision Manager | Each agent order gets a Visa risk score on the ledger | Dropped |

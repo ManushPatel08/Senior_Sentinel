@@ -13,7 +13,7 @@ export async function GET(_request, { params }) {
       "Content-Type": "application/json",
       "Cache-Control": "no-store",
       "X-Robots-Tag": "noindex",
-      "Content-Disposition": `attachment; filename="chaperone-${id}.json"`,
+      "Content-Disposition": `attachment; filename="senior-sentinel-${id}.json"`,
     },
   });
 }

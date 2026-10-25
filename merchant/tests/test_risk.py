@@ -30,7 +30,7 @@ def test_request_carries_the_order(monkeypatch):
     assert body["clientReferenceInformation"]["code"] == "ord_1"
     assert body["orderInformation"]["amountDetails"]["totalAmount"] == "8.00"
     assert body["orderInformation"]["lineItems"][0]["productSKU"] == "RX-001"
-    assert risk.DM_BODY["clientReferenceInformation"]["code"] == "chaperone-dm-001"  # the template is untouched
+    assert risk.DM_BODY["clientReferenceInformation"]["code"] == "senior-sentinel-dm-001"  # the template is untouched
 
 
 def test_score_uses_the_stores_own_account(monkeypatch):

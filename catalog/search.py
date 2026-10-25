@@ -313,7 +313,7 @@ class Catalog:
 
 
 catalog = Catalog.load()
-app = FastAPI(title="Chaperone catalog")
+app = FastAPI(title="Senior Sentinel catalog")
 
 
 @app.on_event("startup")

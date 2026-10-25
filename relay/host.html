@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Host controls · Chaperone</title>
+<title>Host controls · Senior Sentinel</title>
 <link rel="icon" href="/design/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/design/tokens.css">
 <style>
@@ -117,7 +117,7 @@
 <body>
 <div class="page">
   <header class="top">
-    <img src="/design/mark.svg" alt="Chaperone">
+    <img src="/design/mark.svg" alt="Senior Sentinel">
     <h1>Host controls</h1>
     <span class="where">Laptop only · never on the wall</span>
     <ul class="services" aria-label="Services">
@@ -242,7 +242,7 @@ function log(text, ok = true, ms = null) {
 }
 
 async function call(method, path) {
-  const headers = method === "POST" ? { "X-Chaperone-Host": "1" } : {};
+  const headers = method === "POST" ? { "X-Senior-Sentinel-Host": "1" } : {};
   let r;
   try {
     r = await fetch(path, { method, headers, cache: "no-store" });

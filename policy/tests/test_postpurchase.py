@@ -97,7 +97,7 @@ def test_pause_blocks_checkout_words_and_explain_is_cached(tmp_path, monkeypatch
     save_mandate(dict(DEFAULT_MANDATE))
     refused = api.post("/mandate/pause")
     assert refused.status_code == 401
-    paused = api.post("/mandate/pause", headers={"X-Chaperone-Marker": action_marker("mandate", "pause")})
+    paused = api.post("/mandate/pause", headers={"X-Senior-Sentinel-Marker": action_marker("mandate", "pause")})
     assert paused.status_code == 200, paused.text
     signed_before = json.dumps(load_mandate(), sort_keys=True)
     result = evaluate({"merchant": "corner_market", "items": [item(3)]}, active_mandate()[0], 14210, judge=proceed(), today=datetime.now(timezone.utc).date())
@@ -109,9 +109,9 @@ def test_pause_blocks_checkout_words_and_explain_is_cached(tmp_path, monkeypatch
     listed = api.get("/history", params={"mandate_id": "m_ruth_2026_09", "days": 30}).json()
     assert listed["orders"][0]["order_id"] == "ord_hist"
     save_decision({"decision_id": "d_why", "mandate_id": "m_ruth_2026_09", "session_id": "s", "decision": "deny", "say_key": "blocked_category", "rules": [{"id": "R1_blocked_category", "passed": False, "detail": "gift cards are blocked on this account"}]})
-    explained = api.get("/decisions/d_why/explain", headers={"X-Chaperone-Marker": action_marker("d_why", "explain")}).json()
+    explained = api.get("/decisions/d_why/explain", headers={"X-Senior-Sentinel-Marker": action_marker("d_why", "explain")}).json()
     assert explained == FAKE and not problems(explained)
-    assert api.get("/decisions/d_why/explain", headers={"X-Chaperone-Marker": action_marker("d_why", "explain")}).json() == explained
+    assert api.get("/decisions/d_why/explain", headers={"X-Senior-Sentinel-Marker": action_marker("d_why", "explain")}).json() == explained
     assert api.get("/decisions/d_why/explain", headers={"x-forwarded-for": "8.8.8.8"}).status_code == 403
     assert api.get("/history", headers={"x-forwarded-for": "8.8.8.8"}).status_code == 403
     assert api.post("/refunds", headers={"x-forwarded-for": "8.8.8.8"}, json={"order_id": "ord_hist"}).status_code == 403
@@ -151,7 +151,7 @@ def test_resume_needs_the_marker_and_a_live_single_use_challenge(tmp_path, monke
     api = client(tmp_path, monkeypatch)
     save_mandate(dict(DEFAULT_MANDATE))
     save_caregiver_credential({"credential_id": "c", "public_key": "AQ", "sign_count": 0})
-    marker = {"X-Chaperone-Marker": action_marker("mandate", "pause")}
+    marker = {"X-Senior-Sentinel-Marker": action_marker("mandate", "pause")}
     api.post("/mandate/pause", headers=marker)
     challenge = api.post("/mandate/resume/challenge", headers=marker).json()
     assert api.post("/mandate/resume", json={"nonce": challenge["nonce"], "response": {}}).status_code == 401

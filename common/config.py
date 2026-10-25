@@ -23,7 +23,7 @@ def env(name: str, default: str | None = None) -> str | None:
     return os.environ.get(name, default)
 
 
-KEY_ID = "chaperone-agent-1"
+KEY_ID = "senior-sentinel-agent-1"
 KEYS_DIR = ROOT / "keys"
 PRIVATE_KEY_PATH = KEYS_DIR / "agent_ed25519.pem"
 JWKS_PATH = ROOT / "relay" / "jwks.json"

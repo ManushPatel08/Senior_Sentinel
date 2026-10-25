@@ -10,9 +10,9 @@ import { LINES_LOADED } from "./lines.ts";
 import { requestReset } from "./services.ts";
 import { createUI } from "./ui.ts";
 
-const KEY_STORAGE = "chaperone.pttKey";
-const SPEAKER_STORAGE = "chaperone.speaker";
-const MIC_STORAGE = "chaperone.mic";
+const KEY_STORAGE = "senior-sentinel.pttKey";
+const SPEAKER_STORAGE = "senior-sentinel.speaker";
+const MIC_STORAGE = "senior-sentinel.mic";
 const DEFAULT_KEY = "Space";
 
 function $<T extends HTMLElement = HTMLElement>(id: string): T {

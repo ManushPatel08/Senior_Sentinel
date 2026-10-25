@@ -36,11 +36,11 @@ posts `risk_scored`. Live check, one order per store on its own sandbox account:
 e-commerce, gambling blocked) and asks `/vctc/validation/v1/decisions` about the same swipe, then posts
 `vtc_decision {token, store, mcc, amount, should_decline, rule, ms, error}`. Live:
 
-| Swipe | Visa VTC | Chaperone |
+| Swipe | Visa VTC | Senior Sentinel |
 |---|---|---|
 | $480 Five Points Drug (5912) | **decline**, `PCT_GLOBAL`, 180 ms | decline (cool-down / unusual) |
 | $45 Five Points Drug (5912) | approve, 252 ms | approve (declines only during a cool-down) |
 | $50 GiftCard Kiosk (6540) | approve, 268 ms: **VTC has no gift-card category** | decline (`card_blocked_category`) |
 
-The last row is the pitch: a bank's card controls can't see "gift card"; Chaperone's rules can.
+The last row is the pitch: a bank's card controls can't see "gift card"; Senior Sentinel's rules can.
 Off without `keys/visa/` or with `VTC_MIRROR=0`; tests set `VTC_MIRROR=0` (root `conftest.py`).

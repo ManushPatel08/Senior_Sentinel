@@ -8,7 +8,7 @@ export async function GET() {
   if (denied) return denied;
   const response = await fetch(`${policy()}/mandate/resume/challenge`, {
     method: "POST",
-    headers: { "X-Chaperone-Marker": actionMarker("mandate", "pause") },
+    headers: { "X-Senior-Sentinel-Marker": actionMarker("mandate", "pause") },
   }).catch(() => null);
   if (!response) return Response.json({ error: "policy unavailable" }, { status: 502 });
   return new Response(await response.text(), { status: response.status, headers: { "Content-Type": "application/json" } });
@@ -20,7 +20,7 @@ export async function POST(request) {
   const body = await request.json().catch(() => ({}));
   const response = await fetch(`${policy()}/mandate/resume`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "X-Chaperone-Marker": actionMarker("mandate", "pause") },
+    headers: { "Content-Type": "application/json", "X-Senior-Sentinel-Marker": actionMarker("mandate", "pause") },
     body: JSON.stringify(body),
   }).catch(() => null);
   if (!response) return Response.json({ error: "policy unavailable" }, { status: 502 });

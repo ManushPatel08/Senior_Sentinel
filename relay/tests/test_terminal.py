@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 
 from relay import host, ledger
 
-HOST = {"X-Chaperone-Host": "1"}
+HOST = {"X-Senior-Sentinel-Host": "1"}
 
 
 @pytest.fixture
@@ -20,7 +20,7 @@ def policy(monkeypatch, tmp_path):
                                                 "store": "Five Points Drug", "card_last4": "4242"}}
 
     def handler(request: httpx.Request):
-        seen.append({"path": request.url.path, "host": request.headers.get("x-chaperone-host"),
+        seen.append({"path": request.url.path, "host": request.headers.get("x-senior-sentinel-host"),
                      "body": json.loads(request.content)})
         return httpx.Response(answer["status"], json=answer["body"])
 
@@ -35,7 +35,7 @@ def test_terminal_page_lists_the_registry_stores():
     assert page.status_code == 200
     for name in ("Five Points Drug", "Corner Market", "GiftCard Kiosk", "Coin ATM"):
         assert name in page.text
-    assert "__STORES__" not in page.text and '"X-Chaperone-Host": "1"' in page.text
+    assert "__STORES__" not in page.text and '"X-Senior-Sentinel-Host": "1"' in page.text
 
 
 def test_terminal_is_lan_only():

@@ -329,11 +329,11 @@ def _scam_check_fallback(document: dict) -> dict:
     asked = f" asking for ${float(amount):,.2f}" if amount else " asking for money"
     scam = check.get("verdict") == "scam"
     return {
-        "headline": "Chaperone flagged a scam call Ruth described" if scam else "Chaperone checked a call Ruth described",
-        "what_happened": f"Ruth described a call{asked}, and Chaperone checked it against her accounts and recent reports.",
+        "headline": "Senior Sentinel flagged a scam call Ruth described" if scam else "Senior Sentinel checked a call Ruth described",
+        "what_happened": f"Ruth described a call{asked}, and Senior Sentinel checked it against her accounts and recent reports.",
         "rule_in_plain_words": ("It matches a scam people are reporting now, so her card takes extra care for a day."
-                                if scam else "Chaperone could not be sure it was safe, so it asked Ruth to be careful."),
-        "what_ruth_heard": "Chaperone told Ruth calmly not to pay and to hang up.",
+                                if scam else "Senior Sentinel could not be sure it was safe, so it asked Ruth to be careful."),
+        "what_ruth_heard": "Senior Sentinel told Ruth calmly not to pay and to hang up.",
         "what_you_can_do": "Call Ruth, and if a family member was named, check on them at the number you know.",
     }
 

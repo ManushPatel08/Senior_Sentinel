@@ -32,10 +32,10 @@ PROMPTS = Path(__file__).resolve().parent / "prompts"
 FIELDS = ("headline", "what_happened", "rule_in_plain_words", "what_ruth_heard", "what_you_can_do")
 MODEL = claude.MODEL
 FAKE = {
-    "headline": "Chaperone stopped a purchase",
+    "headline": "Senior Sentinel stopped a purchase",
     "what_happened": "Ruth asked for something the spending rules do not allow, so nothing was bought.",
     "rule_in_plain_words": "The safety rules you signed block this kind of purchase.",
-    "what_ruth_heard": "Chaperone told Ruth kindly that it could not buy it and that you would call.",
+    "what_ruth_heard": "Senior Sentinel told Ruth kindly that it could not buy it and that you would call.",
     "what_you_can_do": "Give Ruth a call to check in.",
 }
 # Things Priyank should never see: rule ids, field names, scores.

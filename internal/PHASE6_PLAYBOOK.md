@@ -1,4 +1,4 @@
-# Chaperone: Phase 6 Playbook
+# Senior Sentinel: Phase 6 Playbook
 
 As of Sat Sep 26, 9:00pm. Phase 6 runs **9:00pm–12:30am**, with a merge at **10:45pm**.
 
@@ -22,7 +22,7 @@ Read `PRODUCT_V2.md` Sections 0 and 2 if you haven't. This playbook assumes the 
 ### 1.1 Pass conditions at 12:30am (binary; on the services laptop)
 
 1. **Ask.** A judge reads the grandparent line at the station, in English or Spanish:
-   - Within 12 s, a **full-screen Protected card** appears and Chaperone speaks the verdict with one action.
+   - Within 12 s, a **full-screen Protected card** appears and Senior Sentinel speaks the verdict with one action.
    - Priya's **Safety** tab shows the check with its sources and a working **Why?**.
    - The wall shows the cool-down.
 2. **Card.** On the terminal tablet, $480 at Five Points Drug is **DECLINED** with a plain reason.
@@ -288,7 +288,7 @@ A full-screen card, not the inline notice (`agent.ts:824`, `1399`), for three mo
 - The four guards.
 - For families ($14.99/mo) and for banks (Visa Transaction Controls).
 - The numbers with sources.
-- "What Chaperone can't do".
+- "What Senior Sentinel can't do".
 
 Dhruv builds the page in Phase 7.
 
@@ -388,7 +388,7 @@ The relay serves `GET /terminal` (LAN only). It's a tablet page that looks like 
 
 ### X6-4. Trust Ledger (the wall; 11:25, 60 min) (**Fix Phase 5 F20**)
 
-- **Header:** "Chaperone · Trust Ledger · Visa sandbox". No "Corner Market", and no fake `$142.10` fallback (`wall.html:72`, `245`).
+- **Header:** "Senior Sentinel · Trust Ledger · Visa sandbox". No "Corner Market", and no fake `$142.10` fallback (`wall.html:72`, `245`).
 - **Protected-dollars counter** (C17), big.
 - **Four lanes:**
   - **Ask:** scam checks with verdict and sources.

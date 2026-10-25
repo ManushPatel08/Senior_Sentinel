@@ -1,8 +1,8 @@
-# Chaperone: Product Requirements
+# Senior Sentinel: Product Requirements
 
 As of 2026-09-25 · Owner: Manush Patel
 
-Chaperone is a voice-first shopping agent for older adults, low-vision and non-English shoppers that can only spend inside a caregiver-signed mandate, signs every merchant request, refuses scams out loud, and escalates large purchases to a passkey approval on the caregiver's phone. This document fixes the product, the demo and the build for HackGT 13 (hacking Fri Sep 25 8pm to Sun Sep 27 8am, expo Sun 9:00-11:15am); every decision is listed so it can be reversed on purpose.
+Senior Sentinel is a voice-first shopping agent for older adults, low-vision and non-English shoppers that can only spend inside a caregiver-signed mandate, signs every merchant request, refuses scams out loud, and escalates large purchases to a passkey approval on the caregiver's phone. This document fixes the product, the demo and the build for HackGT 13 (hacking Fri Sep 25 8pm to Sun Sep 27 8am, expo Sun 9:00-11:15am); every decision is listed so it can be reversed on purpose.
 
 Companion files in this folder: `BUILD_PLAN.md`, `DEMO_RUNBOOK.md`, `DEVPOST.md`, `JUDGE_QA.md`, `PHASE0_PLAYBOOK.md`.
 
@@ -10,7 +10,7 @@ Companion files in this folder: `BUILD_PLAN.md`, `DEMO_RUNBOOK.md`, `DEVPOST.md`
 
 ## 1. Product summary and decisions
 
-Chaperone is a shopping agent you talk to, built for the people app checkout leaves out and scammers target: older adults, people with low vision, and people who do not shop in English. A caregiver signs a spending mandate once with a passkey: how much per purchase, how much per month, which merchants and categories, what needs approval, what is blocked outright (gift cards, wire, prepaid cards). The shopper presses a button and speaks in any language; the agent finds the items, reads back the cart and the total, and calls a checkout tool. The tool, not the model, evaluates the mandate, signs the request to the merchant, and settles through Visa's Acceptance sandbox; anything above the threshold goes to the caregiver's phone for a passkey approval; anything that matches a scam pattern is refused out loud, gently, and the caregiver is told. Every decision is on a ledger with the rule that fired.
+Senior Sentinel is a shopping agent you talk to, built for the people app checkout leaves out and scammers target: older adults, people with low vision, and people who do not shop in English. A caregiver signs a spending mandate once with a passkey: how much per purchase, how much per month, which merchants and categories, what needs approval, what is blocked outright (gift cards, wire, prepaid cards). The shopper presses a button and speaks in any language; the agent finds the items, reads back the cart and the total, and calls a checkout tool. The tool, not the model, evaluates the mandate, signs the request to the merchant, and settles through Visa's Acceptance sandbox; anything above the threshold goes to the caregiver's phone for a passkey approval; anything that matches a scam pattern is refused out loud, gently, and the caregiver is told. Every decision is on a ledger with the rule that fired.
 
 **Decisions.** Each is reversible on purpose; the reasoning is here so a reversal is deliberate.
 
@@ -36,7 +36,7 @@ Chaperone is a shopping agent you talk to, built for the people app checkout lea
 - The story is evidence-led: elder fraud losses, gift-card scams, and the digital exclusion of the same people, all with numbers in Section 2.
 - It is a safe build (no headset, no hardware beyond a button and a printer) with the largest cash prize attached.
 
-**Honest odds.** The earlier model put Chaperone at about 21% for a Social Good top-two, 8% for Visa and 3% for xAI, about 30% for any prize, mostly because the track is crowded and single-winner sponsor prizes are long shots. The physical station, the refusal-first demo and real sandbox calls are what move those numbers.
+**Honest odds.** The earlier model put Senior Sentinel at about 21% for a Social Good top-two, 8% for Visa and 3% for xAI, about 30% for any prize, mostly because the track is crowded and single-winner sponsor prizes are long shots. The physical station, the refusal-first demo and real sandbox calls are what move those numbers.
 
 ---
 
@@ -59,13 +59,13 @@ The same people are on both lists: the ones scammers target and the ones app che
 | Visa Trusted Agent Protocol and Mastercard Agent Pay ([comparison](https://eco.com/support/en/articles/15192003-mastercard-agent-pay-vs-visa-trusted-agent-2026-compared)) | Signed agent intents; provisioning-time mandates with spend ceilings and merchant categories | Mandates are set by the cardholder; no delegated caregiver signer, no refusal, no voice |
 | Walmart's gift-card "Redemption" program ([Fox Business](https://www.foxbusiness.com/lifestyle/how-walmart-is-fighting-back-against-gift-card-scams)) | Freezes suspect gift-card funds at the register; $4 million returned | Only at Walmart's registers, only gift cards, after the coercion has already worked |
 
-Chaperone is the combination none of them offer: a caregiver-signed mandate, a voice in the shopper's language, a refusal spoken at the moment of coercion, a passkey approval loop, and a signed request the merchant can verify, sitting on top of the signed-intent model Visa and Mastercard are standardizing.
+Senior Sentinel is the combination none of them offer: a caregiver-signed mandate, a voice in the shopper's language, a refusal spoken at the moment of coercion, a passkey approval loop, and a signed request the merchant can verify, sitting on top of the signed-intent model Visa and Mastercard are standardizing.
 
 **Why now.** Visa announced in June 2026 that agents will transact under "user-defined permission controls such as spending limits, merchant category restrictions, and approval requirements" ([Visa and OpenAI](https://corporate.visa.com/en/sites/visa-perspectives/innovation/visa-openai-partnership.html)), and its April 2025 Intelligent Commerce launch already named "dollar limits, merchant categories or real-time approval prompts" ([Visa](https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21361.html)). Those controls are written for the cardholder who sets them for themselves. The people losing $7.75 billion a year need someone else to set them, and a voice that says no.
 
 **Aramco's language for the track.** Its LA Hacks 2026 award went to a tool that lets elderly and non-English speakers ask for help in their own language, judged on "innovation, impact, and real-world potential" under a track defined as expanding access and inclusion; the winning team's line was "help ensure people are not left behind" ([Aramco Americas](https://americas.aramco.com/en/news-media/news/2026/la-hacks)).
 
-**The one-sentence version for the table.** "People over 60 lost $7.75 billion to scams last year, most of it starting with a phone call and ending with a gift card, and the same people are the ones app checkout leaves out; Chaperone is the agent that shops for them in their language and cannot be talked into the gift card."
+**The one-sentence version for the table.** "People over 60 lost $7.75 billion to scams last year, most of it starting with a phone call and ending with a gift card, and the same people are the ones app checkout leaves out; Senior Sentinel is the agent that shops for them in their language and cannot be talked into the gift card."
 
 ---
 
@@ -78,7 +78,7 @@ Three parties touch every purchase: the shopper who speaks, the caregiver who se
 | Shopper | An older adult, a person with low vision, or someone who does not shop in English; often all three; targeted by phone scams that end in a gift-card purchase | To buy groceries and medicine by talking, in their own language, without an app, and to be protected from a bad decision made under pressure without being treated like a child | The speaker station: a button, a microphone, a speaker, a large-type screen, a printed receipt |
 | Caregiver | An adult child or spouse, often in another city, who already manages the money informally | To set limits once, approve the unusual purchase from wherever they are, and see what happened and why, without policing every transaction | Their phone: passkey approvals and alerts; a web dashboard for the mandate and the ledger |
 | Merchant | A grocery and pharmacy storefront (mocked at the expo, with a verifier that checks the agent's signature) | To know the request came from an authorized agent acting inside a mandate, and to get paid | The merchant service and the Visa Acceptance sandbox |
-| Program (implied) | A bank, insurer or retailer offering Chaperone to customers | Fewer scam losses, fewer chargebacks, more shoppers who can transact at all | The ledger and the mandate policy |
+| Program (implied) | A bank, insurer or retailer offering Senior Sentinel to customers | Fewer scam losses, fewer chargebacks, more shoppers who can transact at all | The ledger and the mandate policy |
 
 **Personas used in the demo script.**
 
@@ -348,7 +348,7 @@ POST /orders HTTP/1.1
 Host: merchant.local
 Content-Type: application/json
 Content-Digest: sha-256=:...:
-Signature-Input: sig1=("@method" "@authority" "@path" "content-digest" "content-type");created=1727280000;expires=1727280480;keyid="chaperone-agent-1";alg="ed25519";nonce="7f3a...";tag="agent-payer-auth"
+Signature-Input: sig1=("@method" "@authority" "@path" "content-digest" "content-type");created=1727280000;expires=1727280480;keyid="senior-sentinel-agent-1";alg="ed25519";nonce="7f3a...";tag="agent-payer-auth"
 Signature: sig1=:...:
 
 {"mandate_id":"m_ruth_2026_09","decision_id":"d_...","cart":{...},"approval_id":null}
@@ -435,13 +435,13 @@ The three risks that can sink the demo are the sandbox not completing a payment,
 
 | Date | Decision | Replaced | Reason |
 |---|---|---|---|
-| Sep 23 | Chaperone as a voice shopping agent with a caregiver mandate; judge rank 1 of 24 ideas | (first draft) | Only idea that legitimately stacks Visa and xAI with sandbox calls and Grok Voice as the whole interface |
+| Sep 23 | Senior Sentinel as a voice shopping agent with a caregiver mandate; judge rank 1 of 24 ideas | (first draft) | Only idea that legitimately stacks Visa and xAI with sandbox calls and Grok Voice as the whole interface |
 | Sep 24 | Judge improvements adopted: open with the refusal, physical station and printed receipt, passkey-signed mandate, rule layer plus LLM judge instead of a classifier, cached sessions | The original card | Fixes the audio-only demo and the unverifiable classifier |
 | Sep 24 | No Meta claim | Considered | The AI talks to one person; HackMIT's Meta winners were two-human products with AI as mediator |
 | Sep 24 | Social Good track kept despite about 90 entrants | ML/AI considered | The user matches Aramco's LA Hacks 2026 award; the station and receipt give the grand-prize shape |
 | Sep 24 | Payment through the Visa Acceptance Agent Toolkit in the Cybersource sandbox; no dependence on Visa Intelligent Commerce | VIC | VIC docs are restricted; the toolkit is public and self-serve |
 | Sep 24 | One Grok Voice session with auto language, no interpreter layer | A two-session interpreter design | The shopper talks to the agent, not through it |
-| Sep 25 | Chaperone is the project; the mixed-reality alternative is dropped | Headset-based alternative | The team has no VR headset |
+| Sep 25 | Senior Sentinel is the project; the mixed-reality alternative is dropped | Headset-based alternative | The team has no VR headset |
 | Sep 25 | grok-4.7 for the judge with low reasoning effort; grok-4.20 non-reasoning for cart structuring | grok-4.7 everywhere | grok-4.7 cannot turn reasoning off; latency matters for the cart |
 | Sep 25 | Merchant marks orders paid on a callback (mock, Business Center check or webhook) | Link status flips to paid | Pay by Link status is only ACTIVE or INACTIVE |
 

@@ -22,7 +22,7 @@ Our Cybersource sandbox account (merchant `hack…6462`) can create real Visa Pa
 
 This is a known Cybersource sandbox provisioning bug. The account was created without the outlet/terminal IDs the test processor (`fdiglobal`) needs. It is not our code, the request, or the test card, and it cannot be fixed from the Business Center. Only Cybersource staff can fix it.
 
-Demo impact: none. Real links and the real Visa checkout page work. Until the account is fixed, the Host marks orders paid with Confirm payment on the Host page (or `POST /orders/{id}/paid` with `X-Chaperone-Host: 1`).
+Demo impact: none. Real links and the real Visa checkout page work. Until the account is fixed, the Host marks orders paid with Confirm payment on the Host page (or `POST /orders/{id}/paid` with `X-Senior-Sentinel-Host: 1`).
 
 ## What works and what doesn't
 

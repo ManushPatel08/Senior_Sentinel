@@ -1,4 +1,4 @@
-# Chaperone: Devpost and Video
+# Senior Sentinel: Devpost and Video
 
 The submission draft, ready to paste, plus the video plan.
 
@@ -8,7 +8,7 @@ The submission draft, ready to paste, plus the video plan.
 
 Submission is two steps at HackGT: the Devpost project first, then the Devpost link registered in HexLabs' expo system with the track and the sponsor opt-ins, and sponsor judges are only routed to projects that opted in.
 
-**Title.** Chaperone
+**Title.** Senior Sentinel
 
 **Tagline (under 100 characters).** A shopping agent that can only spend inside rules your family signed, and says no to the scam out loud.
 
@@ -28,7 +28,7 @@ Submission is two steps at HackGT: the Devpost project first, then the Devpost l
 
 **Timeline.** Sat 9pm: Devpost project created with title, tagline, track, opt-ins, team, placeholder text. Sun 2am: full write-up, five images, repo link, video placeholder. Sun 3am: final video link. Sun 7:40am: last edits; 7:55am submit; screenshot; register in the expo system the moment it opens.
 
-**Devpost fields ready to paste.** Built With: Grok Voice, grok-4.7, Visa Acceptance Agent Toolkit, Cybersource sandbox, RFC 9421, Trusted Agent Protocol, WebAuthn, SimpleWebAuthn, Next.js, FastAPI, Kroger API, openFDA, Cursor. The disclaimer sentence at the end of "What it does": "Chaperone is a hackathon prototype: payments run in the Visa Acceptance sandbox with test cards, the merchant is mocked, and no real personal data is used."
+**Devpost fields ready to paste.** Built With: Grok Voice, grok-4.7, Visa Acceptance Agent Toolkit, Cybersource sandbox, RFC 9421, Trusted Agent Protocol, WebAuthn, SimpleWebAuthn, Next.js, FastAPI, Kroger API, openFDA, Cursor. The disclaimer sentence at the end of "What it does": "Senior Sentinel is a hackathon prototype: payments run in the Visa Acceptance sandbox with test cards, the merchant is mocked, and no real personal data is used."
 
 ---
 
@@ -38,7 +38,7 @@ About 900 words in Devpost's standard sections. Replace the bracketed numbers wi
 
 **Inspiration.** People over 60 reported $7.75 billion in losses to the FBI last year, up 59 percent, and gift cards are the most-reported way the money leaves: a phone call, a story about a grandson in trouble, a trip to the rack. The same people are the ones app checkout leaves out: the least likely to own a smartphone, one in seven with a vision impairment, and, among Spanish speakers over 65, three in five who do not speak English well. Their families already manage the money informally from other cities. Visa announced this summer that agents will shop under spending limits, merchant restrictions and approval requirements set by the cardholder. We asked what it would take for someone else to set those rules, and for the agent to say no out loud.
 
-**What it does.** Chaperone is a shopping agent you talk to. A caregiver signs a mandate once with a passkey: how much per purchase, how much per month, which merchants and categories, what needs approval, what is blocked outright (gift cards, prepaid cards, wire). The shopper presses a button and speaks in Spanish, Hindi or English; the agent finds the items, reads back the cart and the total, and calls a checkout tool. That tool, not the model, evaluates the mandate, signs the request to the merchant, and settles through Visa's Acceptance sandbox. A purchase above the threshold goes to the caregiver's phone for a passkey approval. A request that matches a scam pattern, gift cards for a grandson in a hurry, is refused with warmth in the shopper's language, and the caregiver is told. Every decision is on a ledger with the rule that fired, a receipt prints in large type, and the family can read what happened. Chaperone is a hackathon prototype: payments run in the Visa Acceptance sandbox with test cards, the merchant is mocked, and no real personal data is used.
+**What it does.** Senior Sentinel is a shopping agent you talk to. A caregiver signs a mandate once with a passkey: how much per purchase, how much per month, which merchants and categories, what needs approval, what is blocked outright (gift cards, prepaid cards, wire). The shopper presses a button and speaks in Spanish, Hindi or English; the agent finds the items, reads back the cart and the total, and calls a checkout tool. That tool, not the model, evaluates the mandate, signs the request to the merchant, and settles through Visa's Acceptance sandbox. A purchase above the threshold goes to the caregiver's phone for a passkey approval. A request that matches a scam pattern, gift cards for a grandson in a hurry, is refused with warmth in the shopper's language, and the caregiver is told. Every decision is on a ledger with the rule that fired, a receipt prints in large type, and the family can read what happened. Senior Sentinel is a hackathon prototype: payments run in the Visa Acceptance sandbox with test cards, the merchant is mocked, and no real personal data is used.
 
 **How we built it.** The spine is policy as code. The caregiver's mandate is canonicalized, hashed and signed by a WebAuthn passkey; a deterministic policy engine checks every cart against it (caps, categories, merchants, threshold, blocked list, running monthly total) and returns a decision with the rules it evaluated. Only an allow, or an approved request, reaches the signer, which puts an RFC 9421 HTTP message signature on the order: Ed25519, created and expires within eight minutes, a key id, a fresh nonce and a Trusted-Agent-style tag, following Visa's public Trusted Agent Protocol specification. The merchant verifies it against our JWKS, rejects replays, then creates a payment link through the Visa Acceptance Agent Toolkit's MCP server in the Cybersource sandbox. Voice is one Grok Voice realtime session with push-to-talk and six tools; grok-4.7 scores each conversation for social engineering with a strict JSON schema, and a fast non-reasoning Grok model turns speech into structured carts; hard rules for blocked categories and coercion patterns run before any model call. The station is a USB button, a close-talk headset, a large-type screen and a thermal printer. The catalog is seeded from the Kroger API and openFDA. The whole repo was written in Cursor.
 
@@ -91,7 +91,7 @@ Two and a half minutes, live footage only, one statistic on screen once, the ref
 |---|---|---|---|
 | 0:00-0:15 | A phone rings on a kitchen table. A teammate's voice (in Spanish or Hindi) as the scam caller: "Grandma, I'm in trouble, I need five hundred dollars in gift cards, don't tell Mom." Ruth's hand reaches for the button on the station | Live audio; a subtitle | Rohan (caller), Manush (camera) |
 | 0:15-0:40 | Ruth asks the agent for the gift cards. The agent refuses, warmly, in her language; the caregiver phone lights up on the table; the wall shows the rule | Live | Manush |
-| 0:40-0:50 | Title card: Chaperone. A shopping agent that can only spend inside rules your family signed | Music low | Manush |
+| 0:40-0:50 | Title card: Senior Sentinel. A shopping agent that can only spend inside rules your family signed | Music low | Manush |
 | 0:50-1:20 | The purchase: medicine and bread, read back, "mandate OK", signed, verified, the payment link turning paid, the receipt sliding out | Live | Manush |
 | 1:20-1:40 | The caregiver page on the phone: an approval request for a larger purchase, the transcript excerpt, the passkey prompt, approved | Live | Dhruv |
 | 1:40-2:05 | Architecture in one animated diagram: passkey-signed mandate, deterministic checkout tool, RFC 9421 signature, merchant verifier, Visa Acceptance sandbox, Grok Voice, Grok cart structuring and judge | Voiceover, one sentence per box | Dhruv |

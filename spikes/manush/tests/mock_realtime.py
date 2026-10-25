@@ -220,7 +220,7 @@ async def cancel_approval(approval_id: str, request: Request) -> dict:
     a = APPROVALS.get(approval_id)
     if a is None:
         raise HTTPException(404, "unknown approval")
-    record("http", path=f"/approvals/{approval_id}/cancel", host_header=request.headers.get("x-chaperone-host"))
+    record("http", path=f"/approvals/{approval_id}/cancel", host_header=request.headers.get("x-senior-sentinel-host"))
     if a["state"] != "pending":
         raise HTTPException(400, "approval is closed")  # policy's answer for an approval that already closed
     a["state"] = "cancelled"

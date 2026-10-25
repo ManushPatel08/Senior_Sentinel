@@ -84,9 +84,9 @@ export async function POST(request, { params }) {
     const checked = await verifyPayment(body.response, await approval.json()).catch((error) => ({ error: String(error) }));
     if (checked.error) return Response.json({ error: checked.error }, { status: 400 });
     body.sign_count = checked.signCount;
-    headers["X-Chaperone-Marker"] = actionMarker(rawId, "approve");
+    headers["X-Senior-Sentinel-Marker"] = actionMarker(rawId, "approve");
   } else if (body.approved === false) {
-    headers["X-Chaperone-Marker"] = actionMarker(rawId, "reject");
+    headers["X-Senior-Sentinel-Marker"] = actionMarker(rawId, "reject");
   }
   const response = await fetch(`${policy()}/approvals/${id}/decide`, {
     method: "POST",

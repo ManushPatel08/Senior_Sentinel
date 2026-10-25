@@ -74,7 +74,7 @@ BODY_PX = 60  # items, total and pickup: about 24 pt
 LABEL_PX = 36  # the line above the QR code
 SMALL_PX = 28  # order id, decision id, time, sandbox note
 QR_MAX_BOX = 8  # dots per QR module, reduced for long URLs so the code always fits
-LOGO_PATH = ROOT / "design" / "receipt-logo.png"  # the one-colour Chaperone logo, already 1-bit and receipt-sized
+LOGO_PATH = ROOT / "design" / "receipt-logo.png"  # the one-colour Senior Sentinel logo, already 1-bit and receipt-sized
 
 
 def log(msg: str) -> None:
@@ -729,7 +729,7 @@ def create_app(settings: Settings | None = None, backend: Backend | None = None)
             log(f"could not list printers: {exc!r}")
             return []
 
-    app = FastAPI(title="Chaperone receipt printer", lifespan=lifespan)
+    app = FastAPI(title="Senior Sentinel receipt printer", lifespan=lifespan)
 
     @app.get("/health")
     def health() -> dict:
@@ -777,7 +777,7 @@ def create_app(settings: Settings | None = None, backend: Backend | None = None)
             return as_pdf(f"could not list printers: {type(exc).__name__}: {exc}")
         if settings.printer_name not in queues:
             return as_pdf(f"no printer queue named {settings.printer_name!r} (installed: {', '.join(queues) or 'none'})")
-        out = send_receipt(be, settings.printer_name, img, f"Chaperone receipt {png_path.stem}",
+        out = send_receipt(be, settings.printer_name, img, f"Senior Sentinel receipt {png_path.stem}",
                            settings.job_timeout_s, settings.poll_s)
         log(f"job {out.get('job_id')}: {'printed' if out['ok'] else out['reason']}")
         return out

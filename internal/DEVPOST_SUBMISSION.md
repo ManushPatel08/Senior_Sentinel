@@ -2,7 +2,7 @@
 
 ## Project name (60 max)
 
-Chaperone: The Scam-Proof Shopping Agent for Grandparents
+Senior Sentinel: Scam-Proof Shopping for Grandparents
 
 ## Elevator pitch (200 max)
 
@@ -18,16 +18,16 @@ Last year, Americans over 60 reported **$7.7 billion** in losses to fraud ([FBI 
 
 Agentic commerce is arriving with spending limits, merchant restrictions and approvals, but those controls assume the cardholder sets them for themselves. We asked: what if a family could set them together, and the agent could say **no to the scam, out loud, in Grandpa's own language**?
 
-We built Chaperone for one community: **older adults targeted by scams, and the family members who look after them.**
+We built Senior Sentinel for one community: **older adults targeted by scams, and the family members who look after them.**
 
 ## What it does
 
-Chaperone is a shopping agent for an older adult (in our demo, Grandpa Ruthvik, "Ruth") and his caregiver (his son Priyank). It covers the whole journey, **discover, decide, transact, continue**, behind four guards:
+Senior Sentinel is a shopping agent for an older adult (in our demo, Grandpa Ruthvik, "Ruth") and his caregiver (his son Priyank). It covers the whole journey, **discover, decide, transact, continue**, behind four guards:
 
-- **Ask: a scam check on the call.** Grandpa describes a call ("my grandson is in jail and needs bail, don't tell Mom") to the kiosk or on the phone. Chaperone recognizes the scam in English, Spanish or Hindi, checks it against his own accounts ("your Peachtree Power bill is paid, so this call is a scam"; "call Alex at the number you have saved") and recent scam reports, speaks a calm two-sentence answer, and puts his card on a 24-hour cool-down. Priyank gets the alert with the sources and a plain-English **Why?**.
-- **Card: every swipe checked.** Grandpa's card is authorized in real time by our rules. The card never pays gift-card kiosks, crypto machines or money transfers. During a cool-down, a $480 charge at a drugstore is declined, and Chaperone tells Grandpa why. Priyank can **Allow once** or **Keep blocked**. The rules are mirrored to Visa Transaction Controls.
-- **Agent: errands inside signed rules.** "My blood pressure medicine, denture adhesive, and pay my power bill." Chaperone finds products (his usual items first, anything else live from Kroger), reads the cart back **store by store**, and on a clear "yes" places one signed order per store. Each store verifies the signature before taking the order. Payment runs through Visa Acceptance, and every order gets a Visa Decision Manager risk score. Anything over the approval line waits for Priyank's passkey.
-- **Family: rules signed together.** Priyank signs the rules (stores, categories, limits, card rules) with a passkey. Chaperone reads them to Grandpa, and his spoken "yes" is recorded beside them.
+- **Ask: a scam check on the call.** Grandpa describes a call ("my grandson is in jail and needs bail, don't tell Mom") to the kiosk or on the phone. Senior Sentinel recognizes the scam in English, Spanish or Hindi, checks it against his own accounts ("your Peachtree Power bill is paid, so this call is a scam"; "call Alex at the number you have saved") and recent scam reports, speaks a calm two-sentence answer, and puts his card on a 24-hour cool-down. Priyank gets the alert with the sources and a plain-English **Why?**.
+- **Card: every swipe checked.** Grandpa's card is authorized in real time by our rules. The card never pays gift-card kiosks, crypto machines or money transfers. During a cool-down, a $480 charge at a drugstore is declined, and Senior Sentinel tells Grandpa why. Priyank can **Allow once** or **Keep blocked**. The rules are mirrored to Visa Transaction Controls.
+- **Agent: errands inside signed rules.** "My blood pressure medicine, denture adhesive, and pay my power bill." Senior Sentinel finds products (his usual items first, anything else live from Kroger), reads the cart back **store by store**, and on a clear "yes" places one signed order per store. Each store verifies the signature before taking the order. Payment runs through Visa Acceptance, and every order gets a Visa Decision Manager risk score. Anything over the approval line waits for Priyank's passkey.
+- **Family: rules signed together.** Priyank signs the rules (stores, categories, limits, card rules) with a passkey. Senior Sentinel reads them to Grandpa, and his spoken "yes" is recorded beside them.
 
 After checkout: pickup codes, order status, cancellations, returns and refunds only to the card that paid, bills, rewards points, and a receipt with a QR code to a public page of the session's story. **The Trust Ledger** wall shows every decision live, in four lanes, with a **dollars protected** counter.
 
@@ -73,7 +73,7 @@ We built it in 36 hours with AI coding assistants (Claude Code and Cursor).
 - Deterministic guardrails around a language model are what make it safe to hand it a wallet.
 - Evaluate honestly: our numbers are strong but in-sample, and we say so.
 
-## What's next for Chaperone
+## What's next for Senior Sentinel
 
 - Run on a real issuer's card controls (Visa Transaction Controls in production) and join the Visa Intelligent Commerce pilot, so the mandate travels with the payment.
 - Pilot with a senior center and families, test with older adults, and add more languages.
@@ -107,7 +107,7 @@ python, fastapi, typescript, vite, next.js, react, node.js, claude, xai-grok-voi
 Yes. We use two, always inside deterministic guardrails: xAI's Grok for voice, and Anthropic's Claude for everything that reasons over text.
 
 - **Grok Voice (real-time)** is the kiosk's voice, so an older adult can shop by speaking in English, Spanish or Hindi.
-- **xAI's Voice Agent Builder** answers a real phone number and calls our MCP server's tools, so people without smartphones can use Chaperone.
+- **xAI's Voice Agent Builder** answers a real phone number and calls our MCP server's tools, so people without smartphones can use Senior Sentinel.
 - **Claude with web search** is our scam radar: it checks a caller's story against recent reports on consumer-protection sites and returns a short answer with its sources for the caregiver.
 - **A Claude judge** weighs ambiguous requests that our multilingual rules can't settle.
 - **Claude explanations** turn every decision into a plain-English "Why?" for the caregiver.

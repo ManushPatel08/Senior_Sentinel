@@ -1,4 +1,4 @@
-"""Chaperone Line: the station's tools for a phone call, as a remote MCP server.
+"""Senior Sentinel Line: the station's tools for a phone call, as a remote MCP server.
 
 Grok's Voice Agent Builder answers the phone number and calls these tools over MCP (Streamable HTTP) at
 https://<TUNNEL_HOST>/line/mcp; the caregiver app rewrites /line/* to this service. Every route except /health
@@ -819,9 +819,9 @@ async def t_history(call: Call, days: int | None) -> dict:
 # ---------------------------------------------------------------- MCP
 
 mcp = MCPServer(
-    "chaperone-tools",
+    "senior-sentinel-tools",
     instructions=(
-        "Ruth's Chaperone tools. Every result has a call_id: pass it as call_id on every later tool call in this phone call. "
+        "Ruth's Senior Sentinel tools. Every result has a call_id: pass it as call_id on every later tool call in this phone call. "
         "Pass Ruth's latest words as ruth_said. Say each result's say text."
     ),
 )
@@ -898,7 +898,7 @@ async def scam_check(story: str, ctx: Context, caller_org: str = "", caller_phon
 # Read-only for the Builder: it changes nothing outside this call, and the Builder leaves write tools off by default.
 @mcp.tool(annotations=READ)
 async def verify_pin(pin: str, ctx: Context, ruth_said: str = "", call_id: str = "") -> dict:
-    """Check Ruth's four-digit Chaperone PIN. Ask for it before any purchase, bill payment, cancel or return. She can say it or type it on her phone's keypad and press #: typed digits reach you as a message of digits; pass them as pin, even a part of them. Never repeat the PIN back. Returns verified and say."""
+    """Check Ruth's four-digit Senior Sentinel PIN. Ask for it before any purchase, bill payment, cancel or return. She can say it or type it on her phone's keypad and press #: typed digits reach you as a message of digits; pass them as pin, even a part of them. Never repeat the PIN back. Returns verified and say."""
     call = _call(ctx, "", call_id)  # the PIN is never kept as her words
     return _done(call, t_verify_pin(call, pin), "verify_pin")
 

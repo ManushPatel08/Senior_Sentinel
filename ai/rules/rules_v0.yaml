@@ -1,4 +1,4 @@
-# Chaperone scam rule layer v0. Runs before any model call.
+# Senior Sentinel scam rule layer v0. Runs before any model call.
 # Terms are matched on NFKD-normalized, accent-stripped, casefolded text with
 # whole-word boundaries. Prefix a term with "re:" to use a regex instead.
 # hi covers Devanagari; hi_latn covers Latin-transliterated Hindi (Hinglish).

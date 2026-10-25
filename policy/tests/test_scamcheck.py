@@ -151,7 +151,7 @@ def test_call_trusted_names_the_contact(monkeypatch):
 # ---------------------------------------------------------------- routes, risk, reset
 
 def view(check_id):
-    return {"x-chaperone-marker": action_marker(check_id, "view")}
+    return {"x-senior-sentinel-marker": action_marker(check_id, "view")}
 
 
 def test_get_check_needs_priyas_marker():
@@ -172,7 +172,7 @@ def test_risk_routes_and_caregiver_only_clear():
     assert client().get("/risk?mandate_id=m_ruth_2026_09").json()["active"]
     assert client().post("/risk/clear", json={"mandate_id": "m_ruth_2026_09"}).status_code == 401
     marker = action_marker("mandate", "risk")
-    cleared = client().post("/risk/clear", json={"mandate_id": "m_ruth_2026_09"}, headers={"x-chaperone-marker": marker})
+    cleared = client().post("/risk/clear", json={"mandate_id": "m_ruth_2026_09"}, headers={"x-senior-sentinel-marker": marker})
     assert cleared.status_code == 200 and not cleared.json()["active"]
 
 
@@ -335,7 +335,7 @@ def test_priyas_safety_list_needs_her_marker_and_is_newest_first():
     second = scamcheck.check(POWER, "en")
     assert client().get("/scam-checks").status_code == 401
     rows = client().get("/scam-checks?mandate_id=m_ruth_2026_09",
-                        headers={"x-chaperone-marker": action_marker("scam_checks", "list")}).json()
+                        headers={"x-senior-sentinel-marker": action_marker("scam_checks", "list")}).json()
     assert [r["check_id"] for r in rows][:2] == [second["check_id"], first["check_id"]]
     assert set(rows[0]) == {"check_id", "decision_id", "verdict", "pattern", "story_excerpt", "say", "sources",
                             "amount", "at", "channel"}

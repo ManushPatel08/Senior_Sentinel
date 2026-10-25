@@ -34,7 +34,7 @@ The product says "Ruth" and "Priyank" on screen and out loud. With an all-male c
 | **Scammer** | "Kevin" | A headset, sunglasses indoors, a paper sign "TOTALLY LEGIT CALL CENTER"; later a paper hard hat with a "PEACHTREE POWER" vest | Big, overconfident, bumbling. **No fake accents.** The joke is that nothing works. |
 | **Narrator** | Off screen, then on screen at the end | A blazer at the end | A calm nature-documentary voice ("Here we observe the scammer in his natural habitat…") |
 
-Chaperone speaks for itself: **never script or re-record its lines.** The lines below are what the product actually says, so you can time the takes.
+Senior Sentinel speaks for itself: **never script or re-record its lines.** The lines below are what the product actually says, so you can time the takes.
 
 Hindi lines address Ruth as "रूथ जी" (neutral). Keep the co-sign scene in English: its Hindi note uses a feminine form.
 
@@ -66,9 +66,9 @@ Hindi lines address Ruth as "रूथ जी" (neutral). Keep the co-sign scene
 
 **ON SCREEN (the only statistic):** "$7.7 billion lost by people 60+ in 2025 (FBI IC3)"
 
-> **NARRATOR (VO):** But this is Grandpa Ruthvik, "Ruth" to his friends. And Ruth has Chaperone.
+> **NARRATOR (VO):** But this is Grandpa Ruthvik, "Ruth" to his friends. And Ruth has Senior Sentinel.
 
-**TITLE CARD (2 s):** **Chaperone.** It shops for you, in your language, inside rules your family signed, and it says no to the scam out loud.
+**TITLE CARD (2 s):** **Senior Sentinel.** It shops for you, in your language, inside rules your family signed, and it says no to the scam out loud.
 
 ### Scene 1: Ask (0:18–0:45)
 
@@ -78,7 +78,7 @@ Hindi lines address Ruth as "रूथ जी" (neutral). Keep the co-sign scene
 >
 > *(subtitle: "My grandson Alex called. He's in jail, needs $2,000 bail, and said not to tell Mom.")*
 
-**LIVE (station):** the full-screen green **Protected** card, and Chaperone answers in Hindi (subtitle it): *"Ruth, this sounds like a scam that fools many smart people. Please hang up and don't send any money; I've told Priyank."*
+**LIVE (station):** the full-screen green **Protected** card, and Senior Sentinel answers in Hindi (subtitle it): *"Ruth, this sounds like a scam that fools many smart people. Please hang up and don't send any money; I've told Priyank."*
 
 **CUT:** Priyank on the couch with chips. His phone buzzes. **Screen recording:** the Safety tab shows "This was a scam. Someone claiming a family emergency.", the source links, and a tap on **Why?** with its plain-English answer.
 
@@ -92,7 +92,7 @@ Hindi lines address Ruth as "रूथ जी" (neutral). Keep the co-sign scene
 
 The payoff calls back to "don't tell Mom" from the cold open.
 
-> **NARRATOR (VO):** Chaperone knew this scam in under a second, answered in Grandpa's own language, put his card on a 24-hour cool-down, and told Priyank, with recent scam reports as proof.
+> **NARRATOR (VO):** Senior Sentinel knew this scam in under a second, answered in Grandpa's own language, put his card on a 24-hour cool-down, and told Priyank, with recent scam reports as proof.
 
 **LOWER THIRD:** ASK · a scam radar in English, Spanish and Hindi
 
@@ -116,7 +116,7 @@ This is how the real second call goes: a "lawyer" or court officer, a fee due wi
 
 **SHOT:** Grandpa at the Bitcoin machine in "Five Points Drug" (the terminal tablet set to **Coin ATM**, with a printed "BITCOIN ATM" sign), still on the call. He taps his card for **$480**.
 
-**LIVE (terminal):** **DECLINED**, "Chaperone decided in under 1 ms".
+**LIVE (terminal):** **DECLINED**, "Senior Sentinel decided in under 1 ms".
 
 **LIVE (station, from the next room):** *"I stopped a $480 charge at Coin ATM. Your card never pays that kind of store. If someone asked you to buy gift cards or send money, that's a scam."*
 
@@ -168,7 +168,7 @@ This is how the real second call goes: a "lawyer" or court officer, a fee due wi
 
 > **PRIYANK:** Approved. He's allowed one indulgence a week.
 >
-> **NARRATOR (VO):** Priyank signed Grandpa's rules with a passkey, and Chaperone can only buy inside them. Each store gets a signed request it verifies before taking the order. Payment runs through Visa Acceptance, and Visa's Decision Manager scores every order. Anything bigger waits for Priyank's passkey.
+> **NARRATOR (VO):** Priyank signed Grandpa's rules with a passkey, and Senior Sentinel can only buy inside them. Each store gets a signed request it verifies before taking the order. Payment runs through Visa Acceptance, and Visa's Decision Manager scores every order. Anything bigger waits for Priyank's passkey.
 
 **LOWER THIRD:** AGENT · signed mandate · Visa Acceptance · Decision Manager
 
@@ -190,8 +190,8 @@ This is how the real second call goes: a "lawyer" or court officer, a fee due wi
 
 ### Scene 5: After the purchase, and the family (2:05–2:25), a montage
 
-1. **Returns:** *"The Ensure shakes came damaged, I want my money back."* Chaperone: *"$52.00 back to your card ending 1111. Shall I?"* "Yes." *"Done… I've told Priyank."* Caption: **Refunds only go back to the card that paid.**
-2. **The phone line:** Grandpa on a flip phone calls the Chaperone Line and orders bread. Close-up of the keypad: beep, beep, beep, beep, #. *"Thank you, that's right."* Caption: **No smartphone? Call. Say or type your PIN.**
+1. **Returns:** *"The Ensure shakes came damaged, I want my money back."* Senior Sentinel: *"$52.00 back to your card ending 1111. Shall I?"* "Yes." *"Done… I've told Priyank."* Caption: **Refunds only go back to the card that paid.**
+2. **The phone line:** Grandpa on a flip phone calls the Senior Sentinel Line and orders bread. Close-up of the keypad: beep, beep, beep, beep, #. *"Thank you, that's right."* Caption: **No smartphone? Call. Say or type your PIN.**
 3. **The rules:** Priyank changes a limit and signs with his passkey. The station: *"Priyank set your rules: … Do you agree?"* Grandpa: "Yes, I agree." Priyank's phone: **Ruth agreed by voice.**
 4. **Home tab:** this week's errands, bills paid and attempts stopped, and dollars protected.
 
@@ -205,13 +205,13 @@ This is how the real second call goes: a "lawyer" or court officer, a fee due wi
 
 **SHOT:** The Scammer sits down next to Grandpa, defeated.
 
-> **SCAMMER:** Can Chaperone do my shopping too?
+> **SCAMMER:** Can Senior Sentinel do my shopping too?
 >
 > **GRANDPA:** Only if your family signs your rules.
 >
 > **SCAMMER:** …My family blocked my number.
 
-**END CARD:** Chaperone. Built in 36 hours at HackGT 13. The Visa Acceptance sandbox, Grok Voice, Kroger's live catalog. Sandbox payments, no real money moved. The team's names.
+**END CARD:** Senior Sentinel. Built in 36 hours at HackGT 13. The Visa Acceptance sandbox, Grok Voice, Kroger's live catalog. Sandbox payments, no real money moved. The team's names.
 
 ---
 
@@ -222,15 +222,15 @@ This is how the real second call goes: a "lawyer" or court officer, a fee due wi
 | Run | Scenes | Before you roll | Notes |
 |---|---|---|---|
 | **1** | Cold open, 1, 2 (and the wall and the Home tab afterwards) | Reset. Priyank is signed in on his phone; tap the app once so alerts can beep. The terminal is on Coin ATM at $480 (then Five Points Drug at $480). The station is started with its mic allowed. | The scam scene starts the 24-hour cool-down that Scene 2 needs. Film the wall and the Home counter at the end of this run: it shows the scam plus the kiosk. |
-| **2** | 3, 4, 5 | Reset (the power bill is due again, $86.40, and the cool-down is cleared). Search "denture adhesive" once before rolling so Kroger's answer is instant on camera. The printer has paper, or use the on-screen receipt. | Order matters: pay the bill in Scene 3 **before** Scene 4, or Chaperone won't say "your bill is paid". Confirm payment for the Ensure after approving it, so the Scene 5 refund works. |
+| **2** | 3, 4, 5 | Reset (the power bill is due again, $86.40, and the cool-down is cleared). Search "denture adhesive" once before rolling so Kroger's answer is instant on camera. The printer has paper, or use the on-screen receipt. | Order matters: pay the bill in Scene 3 **before** Scene 4, or Senior Sentinel won't say "your bill is paid". Confirm payment for the Ensure after approving it, so the Scene 5 refund works. |
 
 The phone line and the co-sign can be filmed any time in Run 2.
 
 **What to record:**
 - **Camera A** (a phone on a tripod, landscape, 1080p or 4K): the actors and the station.
 - **Camera B** (a second phone): close-ups of the keypad, the receipts and the terminal tap.
-- **Screen recordings:** the station laptop (OBS with desktop audio, for Chaperone's clean voice), Priyank's phone (its built-in screen recorder), the terminal, the wall.
-- **Audio:** Chaperone from the OBS desktop audio; the actors from the camera or a lapel mic. The scam "calls" can be staged with split screen; no real call is needed.
+- **Screen recordings:** the station laptop (OBS with desktop audio, for Senior Sentinel's clean voice), Priyank's phone (its built-in screen recorder), the terminal, the wall.
+- **Audio:** Senior Sentinel from the OBS desktop audio; the actors from the camera or a lapel mic. The scam "calls" can be staged with split screen; no real call is needed.
 
 **Never on camera:** the Builder console, `.env`, the phone line's URL (it contains the token), personal notifications on Priyank's phone.
 
@@ -251,6 +251,6 @@ The phone line and the co-sign can be filmed any time in Run 2.
 |---|---|
 | The Hindi reply comes out generic or in English | Retake once; otherwise use the English grandparent line: *"…a voice can be copied. Please hang up and call Alex at the number you have saved."* (even better on camera) |
 | The station says the catalog is down | Search "denture adhesive" again (Kroger's answer is now kept), or drop the adhesive and keep medicine plus bill |
-| No Visa VTC answer on the wall | Skip that shot; the terminal's DECLINED and Chaperone's voice carry Scene 2 |
+| No Visa VTC answer on the wall | Skip that shot; the terminal's DECLINED and Senior Sentinel's voice carry Scene 2 |
 | The printer jams | The on-screen receipt; Grandpa: "Paperless. Like my pension." |
 | Anything else is stuck | Host, then **Reset demo**, then retake the scene from its start |

@@ -157,7 +157,7 @@ class FakeWin32Print:
             status = self.JOB_STATUS_PRINTING
         else:
             return ()
-        return ({"JobId": JOB_ID, "Status": status, "pStatus": None, "pDocument": "Chaperone receipt"},)
+        return ({"JobId": JOB_ID, "Status": status, "pStatus": None, "pDocument": "Senior Sentinel receipt"},)
 
     def SetJob(self, handle, job_id, level, info, command):
         assert (level, info, command) == (0, None, self.JOB_CONTROL_DELETE)
@@ -237,7 +237,7 @@ def test_job_stuck_past_the_timeout_fails_and_is_deleted():
 
 @pytest.fixture
 def make_client(tmp_path):
-    def make(printer_name="Chaperone test queue that does not exist", backend=None, **settings):
+    def make(printer_name="Senior Sentinel test queue that does not exist", backend=None, **settings):
         s = P.Settings(printer_name=printer_name, receipts_dir=tmp_path / "receipts",
                        cached_dir=tmp_path / "cached", **settings)
         return TestClient(P.create_app(s, backend))
@@ -250,7 +250,7 @@ def test_health_answers(make_client):
     assert r.status_code == 200
     body = r.json()
     assert body["ok"] is True
-    assert body["printer"] == "Chaperone test queue that does not exist"
+    assert body["printer"] == "Senior Sentinel test queue that does not exist"
     assert body["found"] is False
     assert isinstance(body["raqm"], bool)
     assert body["font"]
@@ -348,7 +348,7 @@ def test_print_sends_the_image_and_reports_the_job(make_client):
     assert body["job_id"] == JOB_ID
     assert body["ms"] < 5000
     sent = FakeWin32Raw.last
-    assert sent.closed and sent.job_name == "Chaperone receipt o_demo01"
+    assert sent.closed and sent.job_name == "Senior Sentinel receipt o_demo01"
     assert sent.output.startswith(b"\x1b@")  # ESC @
     assert b"\x1dv0" in sent.output  # GS v 0 raster image
     assert sent.output.endswith(b"\n\n\n\n")

@@ -36,7 +36,7 @@ async def direct():
     links = VisaMcpPaymentLinks(*(os.environ[v] for v in CRED_VARS))
     try:
         link = await links.create(new_purchase_number(), "1.00", "USD",
-                                  [LineItem(productName="Chaperone sandbox test", quantity=1, unitPrice="1.00")])
+                                  [LineItem(productName="Senior Sentinel sandbox test", quantity=1, unitPrice="1.00")])
     finally:
         await links.close()
     print(json.dumps(link.raw, indent=2)[:1500])
@@ -53,7 +53,7 @@ async def per_store():
             backend = links.links(merchant)
             try:
                 link = await backend.create(links.purchase_number(merchant), "1.00", "USD",
-                                            [LineItem(productName="Chaperone sandbox test", quantity=1, unitPrice="1.00")],
+                                            [LineItem(productName="Senior Sentinel sandbox test", quantity=1, unitPrice="1.00")],
                                             store=store["name"])
                 rows.append((store["name"], link.backend, store["account"], "own account" if store["separate"]
                              else f"main account, tagged {store['prefix']}", link.id, link.url))

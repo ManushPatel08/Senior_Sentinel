@@ -36,10 +36,10 @@ export default function Welcome({ setupCode, onSetupCode, onRegister, onSignIn, 
     <div className="cg-welcome">
       <main className="cg-welcome__inner">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="cg-welcome__logo" src="/design/logo.svg" alt="Chaperone" height={34} />
+        <img className="cg-welcome__logo" src="/design/logo.svg" alt="Senior Sentinel" height={34} />
         <Message message={message} onDismiss={onDismiss} />
         <div>
-          <h1 className="cg-welcome__title">Set up Chaperone for Ruth</h1>
+          <h1 className="cg-welcome__title">Set up Senior Sentinel for Ruth</h1>
           <p className="cg-welcome__lead">You&apos;ll sign Ruth&apos;s rules with a passkey on this phone. There is no password to remember.</p>
         </div>
         <ol className="cg-steps">
@@ -48,7 +48,7 @@ export default function Welcome({ setupCode, onSetupCode, onRegister, onSignIn, 
             <div className="cg-step__body">
               <label className="cg-step__title" htmlFor="setup-code">Enter the setup code</label>
               <SetupCode value={setupCode} onChange={onSetupCode} />
-              <p id="setup-code-help" className="cg-field__help">Six digits, shown when Chaperone starts. Good for 10 minutes.</p>
+              <p id="setup-code-help" className="cg-field__help">Six digits, shown when Senior Sentinel starts. Good for 10 minutes.</p>
             </div>
           </li>
           <li className="cg-step">

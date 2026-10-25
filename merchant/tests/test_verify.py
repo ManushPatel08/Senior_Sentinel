@@ -57,7 +57,7 @@ def enforce(monkeypatch):
 def test_valid_signature_passes_every_check():
     result = check(sign_request(URL, ORDER, private_key=KEY), verify.NonceStore())
     assert result.ok
-    assert result.keyid == "chaperone-agent-1"
+    assert result.keyid == "senior-sentinel-agent-1"
     assert [c["id"] for c in result.checks] == list(verify.STEPS)
     assert all(c["passed"] for c in result.checks)
 

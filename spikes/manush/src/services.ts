@@ -360,7 +360,7 @@ export async function cancelApproval(approvalId: string): Promise<boolean> {
   try {
     const res = await call(`${URLS.policy}/approvals/${encodeURIComponent(approvalId)}/cancel`, {
       method: "POST",
-      headers: { "X-Chaperone-Host": "1" },
+      headers: { "X-Senior-Sentinel-Host": "1" },
       signal: AbortSignal.timeout(2500),
     });
     console.info(`[approval] cancel ${approvalId}: HTTP ${res.status}`);
@@ -593,7 +593,7 @@ export async function printReceipt(receipt: Receipt): Promise<PrintResult> {
 
 function idb<T>(mode: IDBTransactionMode, run: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {
   return new Promise((resolve, reject) => {
-    const open = indexedDB.open("chaperone-station", 1);
+    const open = indexedDB.open("senior-sentinel-station", 1);
     open.onupgradeneeded = () => open.result.createObjectStore("cached");
     open.onerror = () => reject(open.error);
     open.onsuccess = () => {
@@ -654,7 +654,7 @@ export async function loadCachedSession(lang: Lang): Promise<unknown | null> {
 export async function requestReset(): Promise<boolean> {
   try {
     // The header marks a deliberate Host action; a cross-site form or no-CORS fetch cannot set it.
-    const res = await call(`${URLS.relay}/reset`, { method: "POST", headers: { "X-Chaperone-Host": "1" }, signal: AbortSignal.timeout(15000) });
+    const res = await call(`${URLS.relay}/reset`, { method: "POST", headers: { "X-Senior-Sentinel-Host": "1" }, signal: AbortSignal.timeout(15000) });
     if (!res.ok) return false;
     // The relay answers 200 with {ok: false, failed: [...]} when policy or the merchant did not reset.
     const body = (await res.json().catch(() => ({}))) as { ok?: boolean };

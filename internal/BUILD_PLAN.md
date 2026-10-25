@@ -1,4 +1,4 @@
-# Chaperone: Build Plan
+# Senior Sentinel: Build Plan
 
 The 36-hour plan for four people ending Sunday 8am with a working two-outcome demo, a video and a Devpost page. Tonight's detailed steps are in `PHASE0_PLAYBOOK.md`.
 
@@ -81,7 +81,7 @@ Four hard milestones: voice to cart to policy to ledger with fakes by Saturday 9
 One monorepo, four services and three web apps, all on two laptops; the caregiver app is reached through the ngrok domain, everything else on the LAN.
 
 ```text
-chaperone/
+senior-sentinel/
   README.md                 what it is, run it, measured numbers, built with Cursor and Grok
   .cursor/rules             conventions: policy is pure, no secrets in browsers, read-back before checkout
   .env.example              XAI_API_KEY, MERCHANT_ID, API_KEY_ID, SECRET_KEY, KROGER_CLIENT_ID/SECRET, TUNNEL_HOST, ROOM_CODE

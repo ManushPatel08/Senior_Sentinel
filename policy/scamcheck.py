@@ -679,7 +679,7 @@ router = APIRouter()
 def _require_marker(request: Request, marker_id: str, action: str) -> None:
     from policy.approvals import marker_matches
 
-    if not marker_matches(marker_id, request.headers.get("x-chaperone-marker", ""), action):
+    if not marker_matches(marker_id, request.headers.get("x-senior-sentinel-marker", ""), action):
         raise HTTPException(401, "sign in required")
 
 

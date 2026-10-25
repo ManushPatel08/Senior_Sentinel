@@ -37,7 +37,7 @@ export async function setOutputDevice(ctx: AudioContext, deviceId: string): Prom
 // ---------- capture ----------
 
 const WORKLET_SOURCE = `
-class ChaperoneCapture extends AudioWorkletProcessor {
+class SeniorSentinelCapture extends AudioWorkletProcessor {
   constructor(options) {
     super();
     this.block = new Int16Array(options.processorOptions.blockFrames);
@@ -66,7 +66,7 @@ class ChaperoneCapture extends AudioWorkletProcessor {
     return true;
   }
 }
-registerProcessor("chaperone-capture", ChaperoneCapture);
+registerProcessor("senior-sentinel-capture", SeniorSentinelCapture);
 `;
 
 export interface CaptureBlock {
@@ -103,7 +103,7 @@ export class Capture {
       URL.revokeObjectURL(url);
     }
     const blockFrames = Math.max(128, Math.round((this.ctx.sampleRate * blockMs) / 1000));
-    this.node = new AudioWorkletNode(this.ctx, "chaperone-capture", {
+    this.node = new AudioWorkletNode(this.ctx, "senior-sentinel-capture", {
       numberOfInputs: 1,
       numberOfOutputs: 1,
       channelCount: 1,

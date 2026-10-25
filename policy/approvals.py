@@ -20,7 +20,7 @@ def code_key() -> bytes:
     configured = os.environ.get("POLICY_CODE_KEY")
     if configured:
         return configured.encode()
-    return b"chaperone-dev-code-key"
+    return b"senior-sentinel-dev-code-key"
 
 
 def code_mac(code: str, approval_id: str) -> str:

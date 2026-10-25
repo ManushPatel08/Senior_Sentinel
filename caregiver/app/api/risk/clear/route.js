@@ -11,7 +11,7 @@ export async function POST(request) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-Chaperone-Marker": actionMarker("mandate", "risk"),
+      "X-Senior-Sentinel-Marker": actionMarker("mandate", "risk"),
     },
     body: JSON.stringify({ mandate_id: body.mandate_id || "m_ruth_2026_09" }),
   }).catch(() => null);

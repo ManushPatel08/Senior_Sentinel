@@ -42,7 +42,7 @@ function headline(check) {
   if (words) return words;
   if (check.verdict === "scam") return "A scam call";
   if (check.verdict === "unsure") return "A call that looked risky";
-  return "A call Chaperone checked";
+  return "A call Senior Sentinel checked";
 }
 
 function cooldownWords(mandate) {
@@ -51,7 +51,7 @@ function cooldownWords(mandate) {
   return hours === 24 ? "a day" : `${hours} hours`;
 }
 
-// Everything Chaperone stopped or checked, newest first: scam checks, refusals (the stored ones plus any that
+// Everything Senior Sentinel stopped or checked, newest first: scam checks, refusals (the stored ones plus any that
 // arrived live and are not stored yet) and card declines. A scam check's own decision is not a second refusal.
 export function safetyItems({ checks, refusals, alerts, declines }) {
   const checkIds = new Set(checks.map((check) => check.decision_id).filter(Boolean));
@@ -95,7 +95,7 @@ function ScamCard({ check, ruthPhone, mandate, onWhy }) {
       ) : null}
       {check.say ? (
         <div className="cg-sheet__section">
-          <h4 className="cg-label-small">Chaperone told Ruth</h4>
+          <h4 className="cg-label-small">Senior Sentinel told Ruth</h4>
           <p style={{ fontSize: 15, lineHeight: 1.5 }}>{check.say}</p>
         </div>
       ) : null}
@@ -144,7 +144,7 @@ function RefusalCard({ refusal, onWhy }) {
         <h3 className="cg-card__store">{refusalTitle(refusal.say_key)}</h3>
         {total > 0 ? <span className="cg-card__amount">{money(total)}</span> : null}
       </div>
-      <p className="cg-card__body">Nothing was bought. Chaperone told Ruth kindly why.</p>
+      <p className="cg-card__body">Nothing was bought. Senior Sentinel told Ruth kindly why.</p>
       {refusal.decision_id ? <button type="button" className="cg-link-btn" onClick={() => onWhy(refusal.decision_id)}>Why?</button> : null}
     </article>
   );

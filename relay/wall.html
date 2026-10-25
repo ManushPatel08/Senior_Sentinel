@@ -188,12 +188,12 @@
 <div id="stage">
   <header class="top">
     <div class="brand-block">
-      <div class="brand"><img class="logo" src="/design/logo-white.svg" alt="Chaperone"><span class="divider" aria-hidden="true"></span><h1>Trust Ledger</h1></div>
+      <div class="brand"><img class="logo" src="/design/logo-white.svg" alt="Senior Sentinel"><span class="divider" aria-hidden="true"></span><h1>Trust Ledger</h1></div>
       <div class="pills">
         <span class="pill conn" id="conn"><span class="dot" aria-hidden="true"></span><span id="connText">Connecting</span></span>
         <span class="pill sandbox">Visa sandbox · no real money</span>
         <span class="pill replay" id="replayBanner">Replaying a saved session</span>
-        <span class="tagline">Every decision Chaperone makes for Ruth, as it happens</span>
+        <span class="tagline">Every decision Senior Sentinel makes for Ruth, as it happens</span>
       </div>
     </div>
     <div class="protected" aria-live="polite">
@@ -348,7 +348,7 @@ const lastSaid = new Map();   // session id -> {text, at}: Ruth's latest words, 
 const QUOTE_MS = 3 * 60 * 1000;  // only words heard in the few minutes before the check
 
 // Every event type in contracts/events.schema.json -> {lane, status, badge, what, detail, chips}. null = not a row.
-// status: prot (Chaperone protected Ruth), ok (went as planned), wait (a person decides), info, err (something broke).
+// status: prot (Senior Sentinel protected Ruth), ok (went as planned), wait (a person decides), info, err (something broke).
 function describe(e) {
   const chip = (text, kind) => text ? { text, kind } : null;
   switch (e.type) {
@@ -374,9 +374,9 @@ function describe(e) {
         chips: [e.scam_score !== undefined ? chip(`Grok judge · risk ${e.scam_score} of 1`) : chip("Grok judge")] };
     }
     case "refusal": return { lane: "ask", status: "prot", badge: "Refused", lang: e.lang,
-      what: "Chaperone said no, kindly and out loud", detail: `Because it's ${[].concat(e.rule_ids && e.rule_ids.length ? e.rule_ids : [e.rule_id]).filter(Boolean).map(ruleText).join(" and ") || "outside Ruth's rules"}.` };
+      what: "Senior Sentinel said no, kindly and out loud", detail: `Because it's ${[].concat(e.rule_ids && e.rule_ids.length ? e.rule_ids : [e.rule_id]).filter(Boolean).map(ruleText).join(" and ") || "outside Ruth's rules"}.` };
     case "line_call": return { lane: "ask", status: "info", badge: e.phase === "ended" ? "Call ended" : "Call",
-      what: e.phase === "ended" ? "Phone call ended" : "Ruth called the Chaperone Line",
+      what: e.phase === "ended" ? "Phone call ended" : "Ruth called the Senior Sentinel Line",
       detail: [e.from_last4 ? `From the number ending ${e.from_last4}` : "", e.seconds ? seconds(e.seconds) : ""].filter(Boolean).join(" · ") };
     case "risk_changed": return e.cooldown_until
       ? { lane: "card", status: "wait", badge: "Extra care", what: "Extra care on Ruth's card", detail: `Until ${dayClock(epochMs(e.cooldown_until))}${e.reason ? ", " + reasonText(e.reason) : ""}.` }
@@ -406,12 +406,12 @@ function describe(e) {
       if (e.decision === "allow") return { lane: "agent", status: "ok", badge: "Inside the rules", what: `${money(e.total)} is inside Ruth's rules`, detail: "Every rule passes." };
       if (e.decision === "approve") return { lane: "agent", status: "wait", badge: "Asking Priyank", what: `Asking Priyank about ${money(e.total)}`,
         detail: failed.length ? `Because it's ${failed.map(ruleText).join(" and ")}.` : "" };
-      // over a limit is information (Handoff table); any other refusal is Chaperone protecting Ruth
+      // over a limit is information (Handoff table); any other refusal is Senior Sentinel protecting Ruth
       const limitsOnly = failed.length > 0 && failed.every((r) => /^R[45](_|$)/.test(String(r)));
       return { lane: "agent", status: limitsOnly ? "info" : "prot", badge: limitsOnly ? "Over a limit" : "Blocked", what: `${money(e.total)} not bought`,
         detail: failed.length ? `Because it's ${failed.map(ruleText).join(" and ")}.` : "" };
     }
-    case "request_signed": return { lane: "agent", status: "ok", badge: "Signed", what: "Chaperone signed the order", detail: "Ed25519 · valid for 8 minutes" };
+    case "request_signed": return { lane: "agent", status: "ok", badge: "Signed", what: "Senior Sentinel signed the order", detail: "Ed25519 · valid for 8 minutes" };
     case "signature_verified": { const n = (e.checks || []).filter((c) => c.passed).length;
       return { lane: "agent", status: "ok", badge: "Verified", what: `${e.store || store(e.merchant, "The store")} checked the signature`,
         detail: `${n} of ${(e.checks || []).length} checks passed` }; }
@@ -575,7 +575,7 @@ function drawOrder(card, e) {
     dec.policy && dec.policy.decision === "approve" ? item("done", "Priyank approved it · above the ask-Priyank amount")
       : item(dec.policy && dec.policy.decision === "allow" || o.approved ? "done" : "wait",
         policyRules ? `Inside Ruth's rules · ${policyRules.filter((r) => r.passed).length} of ${policyRules.length}` : "Inside Ruth's rules"),
-    item(dec.signed ? "done" : "wait", "Signed by Chaperone · Ed25519"),
+    item(dec.signed ? "done" : "wait", "Signed by Senior Sentinel · Ed25519"),
     !verified ? item("wait", "Store checks the signature")
       : checks.some((c) => c.passed === null) ? item("wait", "Store skipped the signature check")
       : item(failed ? "fail" : "done", checks.length ? `Store checked the signature · ${passed} of ${checks.length}` : "Store checked the signature"),
@@ -675,7 +675,7 @@ function onEvent(e) {
   if (e.type === "heard" && e.text) {
     const agent = e.role === "agent" || e.role === "assistant";
     if (!agent) lastSaid.set(e.session_id, { text: e.text, at: e.rt || e.t || 0 });
-    $("sayingWho").replaceChildren(icon("speaker", "#1434CB", 2.2), agent ? "Chaperone is saying" : "Ruth is saying");
+    $("sayingWho").replaceChildren(icon("speaker", "#1434CB", 2.2), agent ? "Senior Sentinel is saying" : "Ruth is saying");
     $("nowAsk").textContent = `“${e.text}”`;
     $("saying").classList.add("on");
   }
@@ -695,7 +695,7 @@ let momentTimer = null, momentActive = false, pendingProtected = null;
 async function showMoment(e) {
   $("mKicker").textContent = `Scam stopped · ${clock(e.rt || e.t || Date.now())} · ${channel(e.channel)}`;
   $("mHead").textContent = `${patternText(e.pattern)}${e.amount ? `, asking for ${wholeMoney(e.amount)}` : ""}.`;
-  $("mText").textContent = "Chaperone warned Ruth before any money moved, and Priyank's phone got the alert, with sources.";
+  $("mText").textContent = "Senior Sentinel warned Ruth before any money moved, and Priyank's phone got the alert, with sources.";
   $("mChips").replaceChildren(...[e.pattern && e.pattern !== "none" ? capital(words(e.pattern)) : null,
     (e.sources || []).length ? plural(e.sources.length, "source") : null, e.ms ? `answered in ${(e.ms / 1000).toFixed(1)} s` : null]
     .filter(Boolean).map((t) => el("span", {}, t)));

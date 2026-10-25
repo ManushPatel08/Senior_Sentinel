@@ -279,7 +279,7 @@ export function createUI(
     return el("span", "dev", text);
   }
 
-  /** The latest exchange is large: her last line, and Chaperone's lines after it (at most two). */
+  /** The latest exchange is large: her last line, and Senior Sentinel's lines after it (at most two). */
   function markLatest(): void {
     const talk = [...log.querySelectorAll<HTMLLIElement>("li.shopper, li.agent")];
     let lastShopper = -1;
@@ -555,9 +555,9 @@ export function createUI(
         lines.set(`${role}:${key}`, li);
       }
       const who = li.querySelector(".who")!;
-      who.replaceChildren(document.createTextNode(role === "shopper" ? PAGE_WORDS[lang].you : "Chaperone"));
+      who.replaceChildren(document.createTextNode(role === "shopper" ? PAGE_WORDS[lang].you : "Senior Sentinel"));
       if (role === "shopper" && spokenLang) who.append(devSpan(` (${spokenLang})`));
-      // Chaperone's own lines say money in words in Spanish and Hindi; the screen shows digits
+      // Senior Sentinel's own lines say money in words in Spanish and Hindi; the screen shows digits
       const shown = role === "agent" ? moneyAsDigits(text) : text;
       li.querySelector(".text")!.textContent = mark ? `${shown} ${PAGE_WORDS[lang][mark]}`.trim() : shown;
       li.classList.toggle("live", !final);

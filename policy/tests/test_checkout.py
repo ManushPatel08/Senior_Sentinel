@@ -208,13 +208,13 @@ def test_host_page_code_approves_and_then_disappears(tmp_path, monkeypatch):
     assert proxied.status_code == 403
     missing = api.get(f"/approvals/{approval_id}/host_code")
     assert missing.status_code == 403
-    code = api.get(f"/approvals/{approval_id}/host_code", headers={"X-Chaperone-Host": "1"}).json()["code"]
+    code = api.get(f"/approvals/{approval_id}/host_code", headers={"X-Senior-Sentinel-Host": "1"}).json()["code"]
     assert len(code) == 6 and code.isdigit()
     assert code not in json.dumps(api.get(f"/decisions/{api.get(f'/approvals/{approval_id}').json()['decision_id']}").json())
-    approved = api.post(f"/approvals/{approval_id}/code", json={"code": code}, headers={"X-Chaperone-Host": "1"})
+    approved = api.post(f"/approvals/{approval_id}/code", json={"code": code}, headers={"X-Senior-Sentinel-Host": "1"})
     assert approved.status_code == 200, approved.text
     assert approved.json()["order"]["order_id"] == "ord_code"
-    assert api.get(f"/approvals/{approval_id}/host_code", headers={"X-Chaperone-Host": "1"}).status_code == 404
+    assert api.get(f"/approvals/{approval_id}/host_code", headers={"X-Senior-Sentinel-Host": "1"}).status_code == 404
 
 
 def test_rejection_closes_the_approval(tmp_path, monkeypatch):
@@ -230,7 +230,7 @@ def test_rejection_closes_the_approval(tmp_path, monkeypatch):
     rejected = api.post(
         f"/approvals/{approval_id}/decide",
         json={"approved": False, "message": "not this brand"},
-        headers={"X-Chaperone-Marker": reject_marker(approval_id)},
+        headers={"X-Senior-Sentinel-Marker": reject_marker(approval_id)},
     )
     assert rejected.status_code == 200, rejected.text
     assert rejected.json()["state"] == "rejected"
@@ -387,8 +387,8 @@ def test_five_wrong_codes_lock_the_approval(tmp_path, monkeypatch):
     payload["cart"]["items"] = [{"sku": "BAK-001", "name": "bread", "category": "grocery", "qty": 15, "price": 3.49}]
     approval_id = api.post("/checkout", json=payload).json()["approval"]["approval_id"]
     for _ in range(5):
-        assert api.post(f"/approvals/{approval_id}/code", json={"code": "000000"}, headers={"X-Chaperone-Host": "1"}).status_code == 400
-    locked = api.post(f"/approvals/{approval_id}/code", json={"code": "000000"}, headers={"X-Chaperone-Host": "1"})
+        assert api.post(f"/approvals/{approval_id}/code", json={"code": "000000"}, headers={"X-Senior-Sentinel-Host": "1"}).status_code == 400
+    locked = api.post(f"/approvals/{approval_id}/code", json={"code": "000000"}, headers={"X-Senior-Sentinel-Host": "1"})
     assert locked.status_code == 400
     assert api.get(f"/approvals/{approval_id}").json()["state"] == "rejected"
 
@@ -409,7 +409,7 @@ def test_payment_marker_places_the_order_without_a_webauthn_get(tmp_path, monkey
     approved = api.post(
         f"/approvals/{approval_id}/decide",
         json={"approved": True, "response": {"id": "priya", "type": "public-key"}, "sign_count": 1},
-        headers={"X-Chaperone-Marker": approve_marker(approval_id)},
+        headers={"X-Senior-Sentinel-Marker": approve_marker(approval_id)},
     )
     assert approved.status_code == 200, approved.text
     assert approved.json()["order"]["order_id"] == "ord_spc"
@@ -423,7 +423,7 @@ def test_forged_marker_cannot_reject(tmp_path, monkeypatch):
     forged = api.post(
         f"/approvals/{approval_id}/decide",
         json={"approved": False},
-        headers={"X-Chaperone-Marker": "0" * 64},
+        headers={"X-Senior-Sentinel-Marker": "0" * 64},
     )
     assert forged.status_code == 400
     assert api.get(f"/approvals/{approval_id}").json()["state"] == "pending"
@@ -440,7 +440,7 @@ def test_script_in_a_decline_stays_json_text(tmp_path, monkeypatch):
     rejected = api.post(
         f"/approvals/{approval_id}/decide",
         json={"approved": False, "message": script + ("x" * 200)},
-        headers={"X-Chaperone-Marker": reject_marker(approval_id)},
+        headers={"X-Senior-Sentinel-Marker": reject_marker(approval_id)},
     )
     assert rejected.status_code == 200, rejected.text
     message = rejected.json()["message"]
@@ -464,7 +464,7 @@ def test_budget_starts_at_the_baseline(tmp_path, monkeypatch):
 def test_reset_needs_the_host_header(tmp_path, monkeypatch):
     test_client = client(tmp_path, monkeypatch)  # temp store paths, so the real sessions/ files stay untouched
     assert test_client.post("/reset").status_code == 403
-    assert test_client.post("/reset", headers={"X-Chaperone-Host": "1"}).status_code == 200
+    assert test_client.post("/reset", headers={"X-Senior-Sentinel-Host": "1"}).status_code == 200
 
 
 def test_an_approved_mixed_cart_is_placed_one_order_per_store(tmp_path, monkeypatch):
@@ -480,8 +480,8 @@ def test_an_approved_mixed_cart_is_placed_one_order_per_store(tmp_path, monkeypa
     payload["cart"]["items"] = [{"sku": "RX-001", "name": "Lisinopril", "category": "pharmacy", "qty": 1, "price": 8.0},
                                 {"sku": "BAK-001", "name": "bread", "category": "grocery", "qty": 10, "price": 3.49}]
     approval_id = api.post("/checkout", json=payload).json()["approval"]["approval_id"]
-    code = api.get(f"/approvals/{approval_id}/host_code", headers={"X-Chaperone-Host": "1"}).json()["code"]
-    approved = api.post(f"/approvals/{approval_id}/code", json={"code": code}, headers={"X-Chaperone-Host": "1"}).json()
+    code = api.get(f"/approvals/{approval_id}/host_code", headers={"X-Senior-Sentinel-Host": "1"}).json()["code"]
+    approved = api.post(f"/approvals/{approval_id}/code", json={"code": code}, headers={"X-Senior-Sentinel-Host": "1"}).json()
     assert {store for store, _, _ in seen} == {"parkside_pharmacy", "corner_market"}
     assert dict((store, skus) for store, skus, _ in seen) == {"parkside_pharmacy": ["RX-001"], "corner_market": ["BAK-001"]}
     assert len(approved["orders"]) == 2 and approved["order"]["order_id"] == approved["orders"][0]["order_id"]

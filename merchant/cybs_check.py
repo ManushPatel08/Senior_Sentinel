@@ -41,7 +41,7 @@ def explain(request_id: str, wait: float = 0) -> None:
 
 def auth_test() -> None:
     body = json.dumps({
-        "clientReferenceInformation": {"code": "chaperone-auth-test"},
+        "clientReferenceInformation": {"code": "senior-sentinel-auth-test"},
         "processingInformation": {"capture": False},
         "paymentInformation": {"card": {"number": "4111111111111111", "expirationMonth": "12",
                                         "expirationYear": "2030", "securityCode": "123"}},

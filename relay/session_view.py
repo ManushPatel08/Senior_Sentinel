@@ -36,13 +36,13 @@ TITLES = {
     "risk_scored": "Visa risk check",
     "cosigned": "Ruth agreed to the rules",
     "mandate_signed": "Priyank signed the rules",
-    "refusal": "Chaperone said no",
+    "refusal": "Senior Sentinel said no",
     "caregiver_alerted": "Priyank was told",
     "policy_decision": "Checked against Ruth's rules",
     "judge_scored": "Checked for scam signs",
     "approval_requested": "Asked Priyank",
     "approval_result": "Priyank answered",
-    "request_signed": "Chaperone signed the order",
+    "request_signed": "Senior Sentinel signed the order",
     "signature_verified": "The store checked the signature",
     "signature_rejected": "The store rejected a request",
     "payment_link_created": "Order placed",
@@ -52,8 +52,8 @@ TITLES = {
     "order_cancelled": "Order cancelled, nothing charged",
     "refund_requested": "Return asked",
     "refund_result": "Refund",
-    "mandate_paused": "Priyank paused Chaperone",
-    "mandate_resumed": "Priyank turned Chaperone back on",
+    "mandate_paused": "Priyank paused Senior Sentinel",
+    "mandate_resumed": "Priyank turned Senior Sentinel back on",
 }
 STEP_NAMES = {"awaiting_payment": "ordered", "paid": "paid", "preparing": "preparing",
               "ready_for_pickup": "ready for pickup", "picked_up": "picked up", "cancelled": "cancelled",
@@ -106,7 +106,7 @@ RISK_WORDS = {"ACCEPT": "accept", "ACCEPTED": "accept", "REJECT": "reject", "REJ
               "REVIEW": "review", "PENDING_REVIEW": "review", "AUTHORIZED_PENDING_REVIEW": "review"}
 REFUND_WORDS = {"TRANSMITTED": "sent to the card", "PENDING": "on its way"}
 CHECK_NAMES = {"content_digest": "Body unchanged", "signature": "Signature valid", "window": "Fresh",
-               "nonce": "Never used before", "decision": "Matches Chaperone's decision",
+               "nonce": "Never used before", "decision": "Matches Senior Sentinel's decision",
                "storefront": "A store Ruth may buy from", "cybersource_webhook": "Payment notice signed"}
 CARD_REASONS = {"card_cooldown": "Ruth's card is on a cool-down after a scam check.",
                 "card_blocked_category": "A kind of store that is always blocked.",
@@ -337,7 +337,7 @@ def _describe(e: dict, stores: dict[str, str]) -> tuple[str, str, str, str, str]
         if phase == "ended":
             return "info", "Ended", "Phone call ended", lasted, ""
         if phase in ("started", "start", "answered", "ringing"):
-            return "info", "Call", "Ruth called the Chaperone Line", lasted, ""
+            return "info", "Call", "Ruth called the Senior Sentinel Line", lasted, ""
         return "info", "Call", _join("Phone call", _words(phase)), lasted, ""
     if kind == "bill_checked":
         due = _at_iso(e.get("due_date"))
@@ -363,7 +363,7 @@ def _describe(e: dict, stores: dict[str, str]) -> tuple[str, str, str, str, str]
         lang = LANG_NAMES.get(str(e.get("lang") or ""))
         return "prot", "Protected", title, _join(_cap(_rules(ids)), f"said in {lang}" if lang else ""), ""
     if kind == "caregiver_alerted":
-        about = {"screen_refusal": "About a request Chaperone refused",
+        about = {"screen_refusal": "About a request Senior Sentinel refused",
                  "scam_check": f"About a scam call{' asking for ' + _money(e.get('amount')) if _money(e.get('amount')) else ''}",
                  "refund": "About a return"}.get(str(e.get("kind") or ""), "")
         return "info", "Told", title, about, ""
@@ -379,7 +379,7 @@ def _describe(e: dict, stores: dict[str, str]) -> tuple[str, str, str, str, str]
         if decision == "approve":
             return "wait", "Needs Priyank", "Asked Priyank first", _join(total, _rules(failed)), mono
         if decision == "deny":
-            # a limit is information (Handoff table); a blocked kind of purchase or a scam is Chaperone protecting
+            # a limit is information (Handoff table); a blocked kind of purchase or a scam is Senior Sentinel protecting
             limits_only = bool(failed) and all(re.match(r"R[45](_|$)", str(r)) for r in failed)
             tone, badge = ("info", "Over a limit") if limits_only else ("prot", "Protected")
             return tone, badge, "Outside Ruth's rules", _join(total, _rules(failed)), mono
@@ -498,7 +498,7 @@ def _happened(events: list[dict]) -> str:
 def _said(events: list[dict]) -> str:
     lines = "".join(
         f'<li class="{"agent" if e.get("role") in ("agent", "assistant") else "shopper"}">'
-        f'<span class="who">{"Chaperone" if e.get("role") in ("agent", "assistant") else "Ruth"}</span>'
+        f'<span class="who">{"Senior Sentinel" if e.get("role") in ("agent", "assistant") else "Ruth"}</span>'
         f'<span class="said">{escape(text)}</span></li>'
         for e, text in _spoken(events))
     body = f'<ul class="turns">{lines}</ul>' if lines else '<p class="empty">No words recorded.</p>'
@@ -510,7 +510,7 @@ def _circle(tone: str) -> str:
 
 
 def _status(events: list[dict]) -> str:
-    """The top of the page: what Chaperone stopped (blue, never red), then each order's outcome."""
+    """The top of the page: what Senior Sentinel stopped (blue, never red), then each order's outcome."""
     told = any(e.get("type") == "caregiver_alerted" for e in events)
     stopped = []
     for e in events:
@@ -525,7 +525,7 @@ def _status(events: list[dict]) -> str:
             reasons = _rules(e.get("rule_ids") or [e.get("rule_id") or e.get("rule") or ""])
             note = " ".join(p for p in (_cap(reasons) + "." if reasons else "", "Priyank was told." if told else "") if p)
             stopped.append(
-                f'<div class="st">{_circle("prot")}<div class="st-main"><div class="st-what">Chaperone said no</div>'
+                f'<div class="st">{_circle("prot")}<div class="st-main"><div class="st-what">Senior Sentinel said no</div>'
                 f'{_el("div", "st-note", note)}</div></div>')
     protected = (f'<section class="card prot" aria-labelledby="h-prot"><h2 id="h-prot" class="prot-h">'
                  f'{_icon("shield", 18, 2.4)}Protected</h2>{"".join(stopped)}</section>') if stopped else ""
@@ -628,7 +628,7 @@ def _proof(events: list[dict]) -> str:
     badge = _badge("ok", f"{passed} of {len(checks)} passed") if all_ok else _badge("prot", "Store refused it")
     ids = _join(f"key {keyid}" if keyid else "", f"decision {verified['decision_id']}" if verified.get("decision_id") else "")
     return (f'<section class="card" aria-labelledby="h-proof"><div class="sec-h"><h2 id="h-proof">Proof the order came '
-            f'from Chaperone</h2>{badge}</div>{_wrap("ul", "proof", "".join(rows))}{_el("div", "mono-s", ids)}</section>')
+            f'from Senior Sentinel</h2>{badge}</div>{_wrap("ul", "proof", "".join(rows))}{_el("div", "mono-s", ids)}</section>')
 
 
 def _vtc_for(card_events: list[dict] | None, swipe: dict) -> dict | None:
@@ -678,7 +678,7 @@ def dispute_record(session_id: str, events: list[dict], orders_: list[dict], man
         return {"at_ms": e.get("rt") or e.get("t"), **{k: e.get(k) for k in keys if e.get(k) is not None}}
 
     return {
-        "kind": "chaperone.dispute_record.v1",
+        "kind": "senior-sentinel.dispute_record.v1",
         "session_id": session_id,
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "merchant": f"{', '.join(stores) or 'no store'} (Visa sandbox, no real money)",
@@ -760,7 +760,7 @@ def _record_section(record: dict, session_id: str) -> str:
     ]
     body = "".join(f'<dt>{k}</dt><dd>{v}</dd>' for k, v in rows)
     return (f'<section class="card" aria-labelledby="h-record"><h2 id="h-record">Dispute-ready record</h2>'
-            f'<p class="sub">What a bank needs to settle a dispute quickly, from Chaperone\'s ledger.</p>'
+            f'<p class="sub">What a bank needs to settle a dispute quickly, from Senior Sentinel\'s ledger.</p>'
             f'<dl class="kv">{body}</dl>'
             f'<a class="ch-btn ch-btn--primary dl" href="{_attr(session_id)}/record.json" download>'
             f'{_icon("download", 18, 2.2)}Download the record (JSON)</a></section>')
@@ -898,8 +898,8 @@ def render(session_id: str, events: list[dict], receipts: list[dict] | dict | No
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="/design/tokens.css">
 <link rel="icon" href="/design/favicon.svg" type="image/svg+xml">
-<title>Ruth's session · Chaperone</title><style>{STYLE}</style></head><body>
-<header class="top"><div class="top-in"><img src="/design/logo.svg" alt="Chaperone" width="134" height="26">
+<title>Ruth's session · Senior Sentinel</title><style>{STYLE}</style></head><body>
+<header class="top"><div class="top-in"><img src="/design/logo.svg" alt="Senior Sentinel" width="158" height="26">
 <span class="sandbox">Visa sandbox · no real money</span></div></header>
 <main>
 {_intro(session_id, events)}
@@ -907,6 +907,6 @@ def render(session_id: str, events: list[dict], receipts: list[dict] | dict | No
 {_said(events)}
 {_happened(events)}
 {orders_html}{_proof(events)}{_swipes(card_events)}{receipt_html}{record_html}
-<p class="foot">Read-only record from Chaperone's ledger. Refreshes every {REFRESH_S} seconds. Payments run in the Visa
+<p class="foot">Read-only record from Senior Sentinel's ledger. Refreshes every {REFRESH_S} seconds. Payments run in the Visa
 sandbox with test cards; no real money moves. Pickup codes are never shown here.</p>
 </main></body></html>"""

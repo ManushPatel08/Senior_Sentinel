@@ -27,7 +27,7 @@ from merchant.cybs_rest import Creds, signed_request  # noqa: E402
 
 ICC_PATHS = ("/icc/v1/instructions", "/acp/v1/instructions")
 DM_BODY = {
-    "clientReferenceInformation": {"code": "chaperone-dm-001"},
+    "clientReferenceInformation": {"code": "senior-sentinel-dm-001"},
     "paymentInformation": {"card": {"number": "4111111111111111", "expirationMonth": "12", "expirationYear": "2031"}},
     "orderInformation": {
         "amountDetails": {"currency": "USD", "totalAmount": "11.49"},

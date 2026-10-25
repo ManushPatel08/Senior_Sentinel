@@ -1,4 +1,4 @@
-# Chaperone scam rule layer v1. Runs before any model call (policy/rules.py).
+# Senior Sentinel scam rule layer v1. Runs before any model call (policy/rules.py).
 #
 # Matching: text and terms are both normalized (NFKD, Latin accents and the Devanagari
 # nukta stripped, punctuation and danda to spaces, zero-width characters and apostrophes

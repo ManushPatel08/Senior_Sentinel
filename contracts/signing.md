@@ -11,7 +11,7 @@ RFC 9421 over the order request, Ed25519, header signatures only. The Python lib
 | Parameter | Value |
 |---|---|
 | label | `sig1` |
-| keyid | `chaperone-agent-1` |
+| keyid | `senior-sentinel-agent-1` |
 | alg | `ed25519` (lower case, the value the library accepts) |
 | created | Unix seconds, UTC |
 | expires | `created` + 8 minutes |
@@ -23,7 +23,7 @@ RFC 9421 over the order request, Ed25519, header signatures only. The Python lib
 ```http
 Content-Type: application/json
 Content-Digest: sha-256=:<base64>:
-Signature-Input: sig1=("@method" "@authority" "@path" "content-digest" "content-type");created=...;expires=...;keyid="chaperone-agent-1";alg="ed25519";nonce="...";tag="agent-payer-auth"
+Signature-Input: sig1=("@method" "@authority" "@path" "content-digest" "content-type");created=...;expires=...;keyid="senior-sentinel-agent-1";alg="ed25519";nonce="...";tag="agent-payer-auth"
 Signature: sig1=:<base64>:
 ```
 
@@ -32,7 +32,7 @@ Signature: sig1=:<base64>:
 ## Keys
 
 - Private key: `keys/agent_ed25519.pem` (gitignored). Copy it into the vault. Do not commit it.
-- Public JWK: `relay/jwks.json` as `{"keys":[{"kty":"OKP","crv":"Ed25519","x":"...","kid":"chaperone-agent-1"}]}`.
+- Public JWK: `relay/jwks.json` as `{"keys":[{"kty":"OKP","crv":"Ed25519","x":"...","kid":"senior-sentinel-agent-1"}]}`.
 - Also served at `GET /jwks.json` and `GET /.well-known/jwks.json` on the relay (port 8000).
 
 ## Mandate hash
@@ -47,7 +47,7 @@ The approval challenge is `SHA-256(JCS({approval_id, amount, merchant, nonce, ex
 2. `HTTPMessageVerifier.verify(..., max_age=8 minutes, expect_tag="agent-payer-auth")`.
 3. `expires - created <= 8 minutes`.
 4. Nonce unseen in the last 8 minutes.
-5. `keyid` is `chaperone-agent-1`.
+5. `keyid` is `senior-sentinel-agent-1`.
 6. `decision_id` in the body is on the ledger with `allow`, or `approve` after the caregiver approved it.
 
 A second POST with the same nonce returns `rejected: replay`. An `expires` in the past is rejected by the library.

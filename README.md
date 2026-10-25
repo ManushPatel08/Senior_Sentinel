@@ -1,6 +1,6 @@
-# Chaperone
+# Senior Sentinel
 
-A voice helper for Ruth that can only spend inside rules her son Priyank signed with a passkey. She talks at a station, or calls the Chaperone Line. Policy, not the model, decides allow, approve, or deny. An allow is signed and checked by the merchant before a Visa sandbox payment link is created, one link per store. Her card is checked on every swipe. A scam story is refused out loud, Priyank's phone is told, and the card can go on a cool-down.
+A voice helper for Ruth that can only spend inside rules her son Priyank signed with a passkey. She talks at a station, or calls the Senior Sentinel Line. Policy, not the model, decides allow, approve, or deny. An allow is signed and checked by the merchant before a Visa sandbox payment link is created, one link per store. Her card is checked on every swipe. A scam story is refused out loud, Priyank's phone is told, and the card can go on a cool-down.
 
 Copy `.env.example` to `.env` and fill it from the shared vault. Never commit `.env`, `keys/`, or `sessions/*.json`.
 
@@ -12,7 +12,7 @@ cp .env.example .env
 
 The agent signing key is `keys/agent_ed25519.pem`. The matching public key is `relay/jwks.json`. On a new laptop, `python -c "from signer.keys import public_jwk, load_jwks; print(public_jwk()['x'] == load_jwks()['keys'][0]['x'])"` must print `True`.
 
-Two model keys. `XAI_API_KEY` is for Grok Voice only: the station's voice, the Chaperone Line, and the rendered spoken clips. `ANTHROPIC_API_KEY` is for Claude (`claude-opus-5-5`, in `common/claude.py`), which runs the scam judge, the "Why did it refuse?" explanation, and the scam radar's web search. Without it, set `JUDGE_FAKE=1`, `EXPLAIN_FAKE=1`, and `RADAR_FAKE=1`.
+Two model keys. `XAI_API_KEY` is for Grok Voice only: the station's voice, the Senior Sentinel Line, and the rendered spoken clips. `ANTHROPIC_API_KEY` is for Claude (`claude-opus-5-5`, in `common/claude.py`), which runs the scam judge, the "Why did it refuse?" explanation, and the scam radar's web search. Without it, set `JUDGE_FAKE=1`, `EXPLAIN_FAKE=1`, and `RADAR_FAKE=1`.
 
 `POLICY_CODE_KEY` must be set or policy will not start. `POLICY_DEV_KEY_OK=1` allows the public default, for tests only. For a laptop smoke test set `JUDGE_FAKE=1`, `MOCK_VISA=1`, and `MERCHANT_VERIFY=enforce`. `MANDATE_UNSIGNED_OK=1` lets checkout run before a passkey mandate is stored. On the team router, point `MERCHANT_PUBLIC_URL` at `http://192.168.8.10:8002`.
 
@@ -64,13 +64,13 @@ Stores in `contracts/merchants.json`: Corner Market, Parkside Pharmacy, Main Str
 
 Ruth's card is a Lithic sandbox card. Every swipe hits `POST /card/asa` on the tunnel. `python -m policy.card_setup` creates the card if needed and enrolls `https://$TUNNEL_HOST/card/asa`. Run that only on the machine that should receive swipes. The card number is written to `sessions/card.json` and is not printed.
 
-The Chaperone Line is a phone number answered by Grok. Purchases, cancels, refunds, and paying a bill need `verify_pin` (`LINE_PIN` in `.env`). The PIN never goes on the ledger. Details are in `line/README.md`.
+The Senior Sentinel Line is a phone number answered by Grok. Purchases, cancels, refunds, and paying a bill need `verify_pin` (`LINE_PIN` in `.env`). The PIN never goes on the ledger. Details are in `line/README.md`.
 
 ## What a checkout does
 
 The station searches `GET /search` and `GET /resolve` on the catalog, then calls policy. Policy re-prices the cart, screens the words, runs the mandate, and on allow signs `POST /orders` for each store. The merchant checks the signature and the decision id, then returns a payment link. A purchase over the approval threshold waits for Priyank. Events go to `POST /events` on the relay. `curl -N http://localhost:8000/events/stream` shows them live.
 
-`POST /orders/{id}/paid` (with `X-Chaperone-Host: 1`; the Host page's Confirm payment sends it) and `python -m merchant.simulate_payment <order_id>` mark an order paid when the sandbox card cannot authorize. `python -m merchant.spike_link` creates a demo link. `curl -X POST -H "X-Chaperone-Host: 1" http://localhost:8000/reset` (from the LAN) clears the ledger, the monthly spend, card holds, the cool-down, and merchant orders.
+`POST /orders/{id}/paid` (with `X-Senior-Sentinel-Host: 1`; the Host page's Confirm payment sends it) and `python -m merchant.simulate_payment <order_id>` mark an order paid when the sandbox card cannot authorize. `python -m merchant.spike_link` creates a demo link. `curl -X POST -H "X-Senior-Sentinel-Host: 1" http://localhost:8000/reset` (from the LAN) clears the ledger, the monthly spend, card holds, the cool-down, and merchant orders.
 
 ## Tests
 

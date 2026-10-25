@@ -1,7 +1,7 @@
 """The Claude API client shared by the scam judge, the "Why?" explainer and the scam radar.
 
 Every text model call goes to Claude. Grok Voice stays on xAI (relay/tokens.py mints the station's voice tokens, the
-Chaperone Line runs in xAI's Voice Agent Builder, ai/render_clips.py renders the spoken clips with xAI TTS).
+Senior Sentinel Line runs in xAI's Voice Agent Builder, ai/render_clips.py renders the spoken clips with xAI TTS).
 
 Env: ANTHROPIC_API_KEY.
 """

@@ -1,6 +1,6 @@
-# Chaperone Line
+# Senior Sentinel Line
 
-A phone number Ruth can call from any phone, answered by Grok in the Chaperone persona, using the station's tools.
+A phone number Ruth can call from any phone, answered by Grok in the Senior Sentinel persona, using the station's tools.
 The number and the voice agent live in xAI's **Voice Agent Builder**; this service gives that agent our tools as a
 remote **MCP server** (Streamable HTTP).
 
@@ -70,7 +70,7 @@ Tests use a real MCP client against the station's mock services:
    - Add to the prompt: "Before any purchase, bill payment, cancel or return, ask Ruth for her four-digit PIN. Tell her
      she can say it or type it on her phone's keypad and press the pound key. Typed digits reach you as a message of
      digits: call verify_pin with them, even if they are only part of the PIN. Never repeat the PIN or the digits back."
-   - **Welcome message:** "Hi, this is Chaperone. How can I help you today? Hola, soy Chaperone, ¿en qué le puedo
+   - **Welcome message:** "Hi, this is Senior Sentinel. How can I help you today? Hola, soy Senior Sentinel, ¿en qué le puedo
      ayudar?"
    - **Speech:** the voice Ara.
    - Leave the built-in web search and X search **off**. The scam check does its own search, with the rules and
@@ -84,7 +84,7 @@ Tests use a real MCP client against the station's mock services:
    "https://<TUNNEL_HOST>/line/k/" + (Select-String -Path .env -Pattern '^LINE_MCP_TOKEN=(.*)').Matches[0].Groups[1].Value.Trim() + "/mcp" | Set-Clipboard
    ```
 
-   Paste it as the URL, leave the authorization fields empty, and use the name `chaperone-tools`. Add the header
+   Paste it as the URL, leave the authorization fields empty, and use the name `senior-sentinel-tools`. Add the header
    `ngrok-skip-browser-warning: 1` if the form has a field for it. It should list 13 tools. Treat this URL like a
    password.
 3. Open the connector and make sure all 13 tools are enabled. The Builder turns off the ones that change things

@@ -7,7 +7,7 @@ const KNOWN = [
   ["setup code required", "That setup code didn't work."],
   ["registration is closed", "A passkey is already set up. Sign in instead."],
   ["register a passkey first", "Create your passkey first."],
-  ["policy unavailable", "Chaperone can't be reached right now. Please try again."],
+  ["policy unavailable", "Senior Sentinel can't be reached right now. Please try again."],
   ["code rejected", "That code didn't work."],
   ["too many attempts", "Too many tries. That request is closed."],
   ["approval is closed", "That request has already closed."],
@@ -80,7 +80,7 @@ const REFUSALS = {
 };
 
 export function refusalTitle(sayKey) {
-  return REFUSALS[sayKey] || "Chaperone stopped a request";
+  return REFUSALS[sayKey] || "Senior Sentinel stopped a request";
 }
 
 // An order's status as a badge: tone "ok" once the money has gone as planned, "neutral" otherwise.

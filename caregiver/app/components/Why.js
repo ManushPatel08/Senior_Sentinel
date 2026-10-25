@@ -11,14 +11,14 @@ function Part({ label, children }) {
   );
 }
 
-// Why Chaperone stepped in, from the decision's explanation, as a bottom sheet.
+// Why Senior Sentinel stepped in, from the decision's explanation, as a bottom sheet.
 export default function Why({ explanation, ruthPhone, onClose }) {
   if (!explanation) return null;
   const heard = String(explanation.what_ruth_heard || "").trim();
   const quoted = heard && !/^["“]/.test(heard) ? `“${heard}”` : heard;
   return (
     <Sheet
-      title={explanation.headline || "Why Chaperone stepped in"}
+      title={explanation.headline || "Why Senior Sentinel stepped in"}
       onClose={onClose}
       actions={[
         ruthPhone ? (

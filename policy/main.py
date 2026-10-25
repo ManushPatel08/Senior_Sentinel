@@ -22,7 +22,7 @@ from policy.pricing import UnknownSku
 from policy.store import add_spent_cents, hold_decisions, load_caregiver_credential, load_mandate, load_paused, load_spent_cents, reset as reset_store, save_caregiver_credential, save_decision, save_mandate, save_paused
 from policy.verify_mandate import relying_party, verify_mandate_assertion
 
-app = FastAPI(title="Chaperone policy")
+app = FastAPI(title="Senior Sentinel policy")
 
 try:
     from policy.screen import router as screen_router
@@ -233,7 +233,7 @@ def _finish_approval(document: dict, method: str) -> dict:
 def list_approvals(request: Request):
     from policy.store import load_decisions
 
-    show_excerpt = marker_matches("list", request.headers.get("x-chaperone-marker", ""), "list")
+    show_excerpt = marker_matches("list", request.headers.get("x-senior-sentinel-marker", ""), "list")
     pending = []
     for document in load_decisions().values():
         if not document.get("approval"):
@@ -313,7 +313,7 @@ def _decide(approval_id: str, payload: dict, request: Request):
         raise HTTPException(400, "approval is closed")
     if payload.get("approved") is False:
         message = str(payload.get("message") or "")
-        if marker_matches(approval_id, request.headers.get("x-chaperone-marker", "")):
+        if marker_matches(approval_id, request.headers.get("x-senior-sentinel-marker", "")):
             return _close_rejected(document, approval_id, message)
         if not payload.get("response"):
             return JSONResponse({"error": "passkey assertion required"}, status_code=400)
@@ -327,7 +327,7 @@ def _decide(approval_id: str, payload: dict, request: Request):
             pinned = {"credential_id": passkey["credential_id"], "public_key": passkey["public_key"], "sign_count": 0}
             save_caregiver_credential(pinned)
     if (
-        marker_matches(approval_id, request.headers.get("x-chaperone-marker", ""), "approve")
+        marker_matches(approval_id, request.headers.get("x-senior-sentinel-marker", ""), "approve")
         and payload.get("response")
     ):
         if pinned and payload.get("sign_count") is not None:
@@ -450,7 +450,7 @@ def submit_code(approval_id: str, payload: dict, request: Request):
 
 
 def _lan_or_marker(request: Request, marker_id: str, action: str) -> None:
-    if marker_matches(marker_id, request.headers.get("x-chaperone-marker", ""), action):
+    if marker_matches(marker_id, request.headers.get("x-senior-sentinel-marker", ""), action):
         return
     _lan_only(request)
 
@@ -500,7 +500,7 @@ def purchase_history(request: Request, mandate_id: str = "", days: int = 30):
 def mandate_pause(request: Request):
     from policy.postpurchase import pause_mandate
 
-    if not marker_matches("mandate", request.headers.get("x-chaperone-marker", ""), "pause"):
+    if not marker_matches("mandate", request.headers.get("x-senior-sentinel-marker", ""), "pause"):
         raise HTTPException(401, "sign in required")
     return pause_mandate()
 
@@ -513,7 +513,7 @@ def mandate_resume_challenge(request: Request):
     from policy.postpurchase import resume_challenge
     from webauthn.helpers import bytes_to_base64url
 
-    if not marker_matches("mandate", request.headers.get("x-chaperone-marker", ""), "pause"):
+    if not marker_matches("mandate", request.headers.get("x-senior-sentinel-marker", ""), "pause"):
         raise HTTPException(401, "sign in required")
     stored = load_mandate()
     if not stored or not load_caregiver_credential():
@@ -537,7 +537,7 @@ def mandate_resume(payload: dict, request: Request):
     from webauthn import verify_authentication_response
     from webauthn.helpers import base64url_to_bytes
 
-    if not marker_matches("mandate", request.headers.get("x-chaperone-marker", ""), "pause"):
+    if not marker_matches("mandate", request.headers.get("x-senior-sentinel-marker", ""), "pause"):
         raise HTTPException(401, "sign in required")
     stored = load_mandate()
     # one challenge, one try: it is consumed before the passkey is checked, and it expires
@@ -572,7 +572,7 @@ def mandate_resume(payload: dict, request: Request):
 def explain(decision_id: str, request: Request):
     from policy.postpurchase import explain_decision
 
-    if not marker_matches(decision_id, request.headers.get("x-chaperone-marker", ""), "explain"):
+    if not marker_matches(decision_id, request.headers.get("x-senior-sentinel-marker", ""), "explain"):
         raise HTTPException(403, "sign in required")
     try:
         return explain_decision(decision_id)
@@ -656,7 +656,7 @@ async def card_asa(request: Request):
     started = time.perf_counter()
     answer = handle_authorization(payload, load_mandate() or DEFAULT_MANDATE)
     ms = int((time.perf_counter() - started) * 1000)
-    return JSONResponse({"result": answer["result"], "token": answer["token"]}, headers={"X-Chaperone-Ms": str(ms)})
+    return JSONResponse({"result": answer["result"], "token": answer["token"]}, headers={"X-Senior-Sentinel-Ms": str(ms)})
 
 
 @app.post("/card/simulate")
@@ -677,7 +677,7 @@ def card_simulate(payload: dict, request: Request):
 def card_allow(hold_id: str, request: Request):
     from policy.card import allow_hold
 
-    if not marker_matches(hold_id, request.headers.get("x-chaperone-marker", ""), "card"):
+    if not marker_matches(hold_id, request.headers.get("x-senior-sentinel-marker", ""), "card"):
         raise HTTPException(401, "sign in required")
     try:
         return allow_hold(hold_id)
@@ -691,7 +691,7 @@ def card_allow(hold_id: str, request: Request):
 def card_keep(hold_id: str, request: Request):
     from policy.card import keep_hold
 
-    if not marker_matches(hold_id, request.headers.get("x-chaperone-marker", ""), "card"):
+    if not marker_matches(hold_id, request.headers.get("x-senior-sentinel-marker", ""), "card"):
         raise HTTPException(401, "sign in required")
     try:
         return keep_hold(hold_id)

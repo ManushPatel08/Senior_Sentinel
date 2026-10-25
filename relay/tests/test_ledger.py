@@ -18,7 +18,7 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setattr(ledger, "LEDGER", ledger.Ledger(tmp_path / "live.jsonl"))
     monkeypatch.setenv("POLICY_URL", "http://127.0.0.1:9")  # nothing listens: services "offline"
     monkeypatch.setenv("MERCHANT_URL", "http://127.0.0.1:9")
-    return TestClient(ledger.app, headers={"X-Chaperone-Host": "1"})  # the Host page's header
+    return TestClient(ledger.app, headers={"X-Senior-Sentinel-Host": "1"})  # the Host page's header
 
 
 def stream_events(client, **params):
@@ -95,7 +95,7 @@ def test_session_ids_cannot_escape_the_sessions_dir(client, tmp_path):
 
 def test_jwks_on_both_paths(client):
     a, b = client.get("/jwks.json").json(), client.get("/.well-known/jwks.json").json()
-    assert a == b and a["keys"][0]["kid"] == "chaperone-agent-1"
+    assert a == b and a["keys"][0]["kid"] == "senior-sentinel-agent-1"
 
 
 def test_audio_serves_clips_only(client):
@@ -108,7 +108,7 @@ def test_audio_serves_clips_only(client):
 
 
 def test_wall_page_and_offline_fallbacks(client):
-    assert "Chaperone" in client.get("/wall").text
+    assert "Senior Sentinel" in client.get("/wall").text
     mandate = client.get("/wall/data/mandate").json()
     assert mandate["fallback"] and mandate["mandate"]["mandate_id"] == "m_ruth_2026_09"
     assert client.get("/wall/data/panel").status_code == 503
@@ -200,7 +200,7 @@ def test_session_page_shows_one_line_per_turn_rules_checks_and_payment(client):
     client.post("/events", json={**event("policy_decision", decision="allow", decision_id="d_1",
                                          rules_failed=[], total=11.49), "source": "policy"})
     checks = [{"id": c, "passed": True, "detail": "ok"} for c in ("content_digest", "signature", "window", "nonce", "decision")]
-    client.post("/events", json={**event("signature_verified", keyid="chaperone-agent-1", nonce="n-123",
+    client.post("/events", json={**event("signature_verified", keyid="senior-sentinel-agent-1", nonce="n-123",
                                          checks=checks, decision_id="d_1"), "source": "merchant"})
     client.post("/events", json={**event("signature_rejected", decision_id="d_1", checks=[
         {"id": "decision", "passed": False, "detail": "decision d_1 already has order ord_1"}]), "source": "merchant"})

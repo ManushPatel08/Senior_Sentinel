@@ -68,7 +68,7 @@ export default function Home({ budget, paused, risk, protectedTotals, history, d
           <div>
             <h1 id="hero-title" className="cg-hero__title">{paused ? "Shopping is paused" : "Ruth is protected"}</h1>
             <p className="cg-hero__sub">
-              {paused ? "Chaperone won't place orders or pay bills until you turn shopping back on." : "Shopping and bills are on, inside your rules."}
+              {paused ? "Senior Sentinel won't place orders or pay bills until you turn shopping back on." : "Shopping and bills are on, inside your rules."}
             </p>
           </div>
         </div>

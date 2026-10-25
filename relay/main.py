@@ -38,7 +38,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="Chaperone relay", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="Senior Sentinel relay", version="0.1.0", lifespan=lifespan)
 STATION_ORIGINS = [
     o.strip() for o in os.getenv("STATION_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",") if o.strip()
 ]
@@ -46,7 +46,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=STATION_ORIGINS,
     allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type", "X-Chaperone-Host"],  # the station's reset sends the Host header
+    allow_headers=["Content-Type", "X-Senior-Sentinel-Host"],  # the station's reset sends the Host header
 )
 
 # Ledger routes ship in their own module; the token endpoint keeps working if it is missing or broken.

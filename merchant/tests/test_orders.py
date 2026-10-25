@@ -121,7 +121,7 @@ def test_a_failed_payment_link_frees_the_decision(monkeypatch):
 
 
 def test_receipt_has_the_d3_shape(monkeypatch):
-    monkeypatch.setenv("TUNNEL_HOST", "chaperone-demo.ngrok.app")
+    monkeypatch.setenv("TUNNEL_HOST", "senior-sentinel-demo.ngrok.app")
     with TestClient(app, headers=HOST) as client:
         order = client.post("/orders", json=demo(cart={"items": [{"sku": "BAK-001", "qty": 2}, {"sku": "RX-001", "qty": 1}]},
                                                  lang="hi")).json()
@@ -134,7 +134,7 @@ def test_receipt_has_the_d3_shape(monkeypatch):
         assert r["items"][0] == {"name": r["items"][0]["name"], "qty": 2, "price": "6.98", "unit_price": "3.49",
                                  "sku": "BAK-001"}
         assert r["total"] == "14.98" and r["paid_at"].endswith("+00:00")
-        assert r["session_url"] == "https://chaperone-demo.ngrok.app/s/s1"
+        assert r["session_url"] == "https://senior-sentinel-demo.ngrok.app/s/s1"
         assert client.get(f"/orders/{order['order_id']}/receipt?lang=es").json()["lang"] == "es"
         assert client.get("/orders/ord_nope/receipt").status_code == 404
 
@@ -144,9 +144,9 @@ def test_receipt_has_no_lan_url_without_a_tunnel(monkeypatch):
     with TestClient(app, headers=HOST) as client:
         order = client.post("/orders", json=demo()).json()
         assert client.get(f"/orders/{order['order_id']}/receipt").json()["session_url"] is None
-    monkeypatch.setenv("TUNNEL_HOST", "http://chaperone-demo.ngrok.app/")
+    monkeypatch.setenv("TUNNEL_HOST", "http://senior-sentinel-demo.ngrok.app/")
     from merchant.orders import session_url
-    assert session_url("s1") == "https://chaperone-demo.ngrok.app/s/s1"
+    assert session_url("s1") == "https://senior-sentinel-demo.ngrok.app/s/s1"
 
 
 def test_reset_and_paid_need_the_host_header():

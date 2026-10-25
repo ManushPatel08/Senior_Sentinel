@@ -1,4 +1,4 @@
-# Chaperone: Demo Runbook
+# Senior Sentinel: Demo Runbook
 
 Everything the four of us do at the table on Sunday, so the demo runs the same way for every judge.
 
@@ -88,7 +88,7 @@ The judge is Ruth and reads two lines from a card in the language they choose; a
 | 0:22 | Judge | Line 2 (medicine and bread) | `search_catalog`; profile resolves the prescription pickup; three breads, the usual flagged |
 | 0:28 | Agent | "Two things: your prescription pickup, eight dollars copay, and the whole wheat bread you had last week, three forty-nine. Total eleven forty-nine. Shall I order it?" | Cart and total on the companion screen and the wall |
 | 0:34 | Judge | "Yes" (or line 3 first) | If line 3: total $63.49 exceeds the $40 threshold and the $60 cap; the agent says "That is over your limit for one purchase; I will ask Priyank" and the caregiver approves on the passkey (or rejects, and the agent drops the Ensure) |
-| 0:36 | Agent | "Ordering now." | Policy: allow (or approved); request signed; merchant panel: "signature verified, key chaperone-agent-1, nonce fresh, expires in 8 min"; payment link created; paid |
+| 0:36 | Agent | "Ordering now." | Policy: allow (or approved); request signed; merchant panel: "signature verified, key senior-sentinel-agent-1, nonce fresh, expires in 8 min"; payment link created; paid |
 | 0:44 | Agent | "Done. Eleven forty-nine at Corner Market, pickup after three. I printed your receipt." | Receipt prints in 24-point type; `paid` and `receipt_printed` on the ledger |
 | 0:48 | Host | Receipt into the judge's hand. "Two decisions in under a minute: one refused with the rule on the wall and her son told, one signed, verified and settled through Visa's sandbox. People over 60 lost seven point seven five billion dollars to scams last year, most of it starting with a phone call and ending with a gift card. Ruth is the shopper app checkout leaves out, and this is the agent that cannot be talked into the gift card." | After-session page on the wall |
 

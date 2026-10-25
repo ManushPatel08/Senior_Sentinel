@@ -51,7 +51,7 @@ def client(tmp_path, monkeypatch, merchant):
         kwargs.pop("transport", None)
         return real(transport=Routes(), **kwargs)
     monkeypatch.setattr(host.httpx, "AsyncClient", routed)
-    return TestClient(ledger.app, headers={"X-Chaperone-Host": "1"})  # the Host page's header
+    return TestClient(ledger.app, headers={"X-Senior-Sentinel-Host": "1"})  # the Host page's header
 
 
 def place(merchant):
@@ -165,7 +165,7 @@ def test_actions_need_the_host_header(client, path):
     """A page open in another LAN browser can POST a form, but cannot add a custom header."""
     bare = TestClient(ledger.app)
     assert bare.post(path).status_code == 403
-    assert bare.post(path, headers={"X-Chaperone-Host": "0"}).status_code == 403
+    assert bare.post(path, headers={"X-Senior-Sentinel-Host": "0"}).status_code == 403
     assert client.post(path).status_code in (200, 409)  # 409: no order waiting to be paid
 
 
@@ -184,7 +184,7 @@ def test_partial_reset_is_reported_and_the_ledger_is_still_cleared(client):
 
 def test_host_page_sends_the_header_and_reports_failures_in_red():
     page = (host.HOST_HTML).read_text()
-    assert '"X-Chaperone-Host": "1"' in page and "NOT CLEAN" in page
+    assert '"X-Senior-Sentinel-Host": "1"' in page and "NOT CLEAN" in page
 
 
 def test_session_page_and_dispute_record_show_the_order_after_payment(client, merchant, monkeypatch):
@@ -210,7 +210,7 @@ def test_session_page_and_dispute_record_show_the_order_after_payment(client, me
     r = client.get("/sessions/s1/record.json")
     assert r.status_code == 200 and "attachment" in r.headers["content-disposition"]
     record = r.json()
-    assert record["kind"] == "chaperone.dispute_record.v1"
+    assert record["kind"] == "senior-sentinel.dispute_record.v1"
     assert record["shopper_words"][0]["text"] == "medicine and bread"
     assert record["decisions"][0]["decision_id"] == order["decision_id"]
     [stored] = record["orders"]

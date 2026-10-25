@@ -1,4 +1,4 @@
-# Chaperone: Phase 2 Playbook
+# Senior Sentinel: Phase 2 Playbook
 
 As of 2026-09-26, 1:30am
 

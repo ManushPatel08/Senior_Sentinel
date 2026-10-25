@@ -1,4 +1,4 @@
-"""X-Chaperone-Host: 1 on every request that changes demo state from the Host's side (reset, mark paid).
+"""X-Senior-Sentinel-Host: 1 on every request that changes demo state from the Host's side (reset, mark paid).
 
 A cross-site form or fetch without CORS cannot set a custom header, so a page open in some LAN browser cannot
 make these calls. The relay's Host page and reset fan-out send it; see relay/host.py.
@@ -6,7 +6,7 @@ make these calls. The relay's Host page and reset fan-out send it; see relay/hos
 
 from fastapi import HTTPException, Request
 
-NAME = "X-Chaperone-Host"
+NAME = "X-Senior-Sentinel-Host"
 HEADERS = {NAME: "1"}
 
 

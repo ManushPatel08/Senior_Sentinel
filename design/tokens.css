@@ -1,9 +1,9 @@
-/* Chaperone design tokens, shared by every surface (served by the relay at /design/tokens.css and copied into the
+/* Senior Sentinel design tokens, shared by every surface (served by the relay at /design/tokens.css and copied into the
    caregiver app). Colours, radii, shadows and type sizes follow the Visa Product Design System (Nova) guidance for a
-   non-Visa product: Chaperone's own mark, Noto Sans instead of Visa Dialect, Visa named in plain text only.
+   non-Visa product: Senior Sentinel's own mark, Noto Sans instead of Visa Dialect, Visa named in plain text only.
 
    One meaning per colour, everywhere:
-     blue        protected: Chaperone stopped it (scam, refusal, protective card decline); also actions and links
+     blue        protected: Senior Sentinel stopped it (scam, refusal, protective card decline); also actions and links
      green       went as planned: approved, paid, verified, agreed
      yellow      a person decides: waiting for Priyank, card hold, extra care, paused
      light blue  for information: checked and fine, Priyank told, over a limit

@@ -100,5 +100,5 @@ if __name__ == "__main__":
     from dotenv import load_dotenv
 
     load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-    print(json.dumps(authorize("1.00", "chaperone-card-auth-check", "4111111111111111", "12", "2030", "123").to_dict(),
+    print(json.dumps(authorize("1.00", "senior-sentinel-card-auth-check", "4111111111111111", "12", "2030", "123").to_dict(),
                      indent=2))

@@ -1,4 +1,4 @@
-# Chaperone: Phase 3 Playbook
+# Senior Sentinel: Phase 3 Playbook
 
 As of 2026-09-26, 9:30am
 
@@ -85,7 +85,7 @@ The team is ahead of the schedule, so start Phase 3 fixes as soon as your Phase 
 | E2 | **Cancelling an approval.** The station calls `POST {policy}/approvals/{id}/cancel` (LAN-only, same guard as `host_code`) when the shopper changes the cart or starts a new request during the wait. Policy closes it (`state: "cancelled"`, event `approval_result {approved: false, method: "cancelled"}`). A second checkout of an **unchanged** cart while one is pending returns the pending approval, not a new one | Dhruv (policy), Manush (station) |
 | E3 | **Decline message.** `POST decide {approved: false, message?}` stores `message` (max 140 characters), and `GET /approvals/{id}` returns it. The station speaks it in place of `caregiver_declined` when present | Dhruv, Manush |
 | E4 | **Visa line items.** Every payment link has exactly one line: `quantity: "1"`, `unitPrice` = the cart total, `productName` "Corner Market order (N items)" and the itemised list in `productDescription`. That already worked for multi-item carts; it now applies to single-item carts too. Section 6, F1 | Vraj |
-| E5 | **Host requests carry a header.** Every `/host/api/*` POST and relay `POST /reset` requires `X-Chaperone-Host: 1`. A cross-site form or `fetch` without CORS cannot set it, so a page open on any LAN browser can no longer press the Host's buttons. `host.html` and the station's reset call send it | Vraj, Manush |
+| E5 | **Host requests carry a header.** Every `/host/api/*` POST and relay `POST /reset` requires `X-Senior-Sentinel-Host: 1`. A cross-site form or `fetch` without CORS cannot set it, so a page open on any LAN browser can no longer press the Host's buttons. `host.html` and the station's reset call send it | Vraj, Manush |
 
 Push first: `0803581 Pass the request through when the Host page resets the relay` fixes the Host's Reset button (a 500 introduced by the Phase 2 merge). It has a test, and every suite passes with it.
 
@@ -176,7 +176,7 @@ Push first: `0803581 Pass the request through when the Host page resets the rela
   - **Keep the existing total check** (it caught this). After creation, also compare `get_payment_link`'s `amountDetails.totalAmount` with the cart total.
   - A truly itemised checkout page needs the Invoicing API (`/invoicing/v2/invoices`) called directly, because the toolkit's `create_invoice` takes no line items. That is not for the demo.
 - **F2 Host header (E5).** `lan_only` stops internet callers but not a page open in a LAN browser. The wall display or the Host laptop could be made to POST reset or confirm payment.
-  - Require `X-Chaperone-Host: 1` on every `/host/api/*` POST and on `/reset`, and send it from `host.html` and the station.
+  - Require `X-Senior-Sentinel-Host: 1` on every `/host/api/*` POST and on `/reset`, and send it from `host.html` and the station.
   - Tests: without the header gives 403; with it, 200.
 - **F3 Reset reporting.** A partial failure is logged in the green "ok" style. Show it red with the failing service, and truncate the live ledger only after the fan-out answers.
 - **F4 Session page.** The header shows only the last payment. List every order in the session with its status, as the $11.49 and $49.95 run shows. Also fix `ports.md`: session files are now under `sessions/by-id/`.

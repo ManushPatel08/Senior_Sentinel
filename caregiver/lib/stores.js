@@ -21,7 +21,7 @@ export function payeeName(approval) {
     ? approval.stores
     : (approval && approval.merchant ? [approval.merchant] : []);
   const names = ids.map(storeName).filter(Boolean);
-  return names.join(" and ") || "Chaperone";
+  return names.join(" and ") || "Senior Sentinel";
 }
 
 export const storeNames = Object.fromEntries(merchants.map((entry) => [entry.id, entry.name]));

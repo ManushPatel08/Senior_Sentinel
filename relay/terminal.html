@@ -288,7 +288,7 @@
   <section class="r-proof" aria-labelledby="rProofTitle">
     <h2 class="r-overline" id="rProofTitle">What happened on this swipe</h2>
     <dl class="tiles">
-      <div class="tile"><dt>Chaperone decided in</dt><dd id="rDecided"></dd></div>
+      <div class="tile"><dt>Senior Sentinel decided in</dt><dd id="rDecided"></dd></div>
       <div class="tile"><dt>Whole swipe</dt><dd id="rMs"></dd></div>
       <div class="tile"><dt>Visa Transaction Controls</dt><dd id="rVtc"></dd></div>
       <div class="tile"><dt>Card</dt><dd id="rCardNo"></dd></div>
@@ -315,7 +315,7 @@ let cents = 0;
 const MAX_CENTS = 1000000;  // relay/host.py MAX_SWIPE_CENTS: the reader takes up to $10,000.00
 const VTC_WAIT_MS = 20000;  // after this, a Visa VTC answer that has not come reads "Not available" (it still fills in if it arrives)
 const vtcByToken = {};      // Visa VTC's answer per swipe token (vtc_decision)
-const decisionByToken = {}; // Chaperone's own record per swipe token (card_decision)
+const decisionByToken = {}; // Senior Sentinel's own record per swipe token (card_decision)
 let current = null;         // the swipe on the answer screen
 let vtcWaited = false, vtcTimer = null, returnFocus = null;
 
@@ -413,7 +413,7 @@ async function swipe() {
     try {
       r = await fetch("/host/api/swipe", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "X-Chaperone-Host": "1" },
+        headers: { "Content-Type": "application/json", "X-Senior-Sentinel-Host": "1" },
         body: JSON.stringify({ acceptor_id: store.acceptor_id, amount_cents: amount }),
       });
     } catch {
@@ -481,10 +481,10 @@ function renderResult() {
     [icon, iconClass, title, text] = ["key", "round ok", "Priyank allowed this once",
       "His one-time pass is now used. The next swipe here follows Ruth's rules again."];
   } else if (outcome === "approved") {
-    [icon, iconClass, title, text] = ["check", "round ok", "Chaperone approved this swipe",
+    [icon, iconClass, title, text] = ["check", "round ok", "Senior Sentinel approved this swipe",
       "It checked Ruth's card rules before the store got an answer."];
   } else if (outcome === "declined" && reasonKey) {
-    [icon, iconClass, title, text] = ["shield", "", "Chaperone protected Ruth's card", reason || "This swipe is outside Ruth's card rules."];
+    [icon, iconClass, title, text] = ["shield", "", "Senior Sentinel protected Ruth's card", reason || "This swipe is outside Ruth's card rules."];
     next = reasonKey === "card_blocked_category" ? "It stays blocked. Only a change to the rules Ruth and Priyank signed can open it." : "If this is real, Priyank can allow it once from his phone.";
   } else if (outcome === "declined") {
     [title, text] = ["The card was declined", reason || "The card network declined this swipe. Nothing was charged."];
@@ -514,11 +514,11 @@ function renderResult() {
   else if (v.should_decline) {
     vtc = { declined: "Decline, too", approved: "Would decline", pending: "Decline" }[outcome];
     if (outcome === "approved") note = "Visa Transaction Controls would have declined this: its rule is a simpler per-swipe limit. "
-      + (pass ? "Chaperone approved it because Priyank allowed it once." : "Chaperone checked Ruth's full rules and approved it.");
+      + (pass ? "Senior Sentinel approved it because Priyank allowed it once." : "Senior Sentinel checked Ruth's full rules and approved it.");
   } else {
     vtc = { declined: "Would approve", approved: "Approve, too", pending: "Approve" }[outcome];
     if (outcome === "declined") note = "Visa Transaction Controls would have let this through: its rule is a simpler per-swipe limit. "
-      + "Chaperone checked Ruth's full rules and declined it.";
+      + "Senior Sentinel checked Ruth's full rules and declined it.";
   }
   tile("rVtc", vtc, quiet ? "quiet" : "");
   $("rVtcNoteText").textContent = note;

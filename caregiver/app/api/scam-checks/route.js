@@ -8,7 +8,7 @@ export async function GET() {
   if (denied) return denied;
   const response = await fetch(`${policy()}/scam-checks?mandate_id=m_ruth_2026_09&limit=20`, {
     cache: "no-store",
-    headers: { "X-Chaperone-Marker": actionMarker("scam_checks", "list") },
+    headers: { "X-Senior-Sentinel-Marker": actionMarker("scam_checks", "list") },
   }).catch(() => null);
   if (!response || !response.ok) return Response.json([]);
   return new Response(await response.text(), { status: 200, headers: { "Content-Type": "application/json" } });

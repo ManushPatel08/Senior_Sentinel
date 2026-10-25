@@ -85,7 +85,7 @@ function bytesToB64url(bytes) {
 
 const HEADERS = { "ngrok-skip-browser-warning": "1" };
 const TAB_IDS = TABS.map((item) => item.id);
-const SEEN_KEY = "chaperone.safety.seen";
+const SEEN_KEY = "senior-sentinel.safety.seen";
 
 // Set by the page: a 401 "sign in required" from any call sends Priyank back to sign in.
 let sessionEnded = () => {};
@@ -487,7 +487,7 @@ export default function Page() {
   async function pauseAgent() {
     const result = await post("/api/pause");
     setPaused(Boolean(result.paused));
-    if (result.paused) note("Shopping is paused. Chaperone won't buy anything until you resume.", "info");
+    if (result.paused) note("Shopping is paused. Senior Sentinel won't buy anything until you resume.", "info");
     else note(RETRY, "err");
   }
 
@@ -619,7 +619,7 @@ export default function Page() {
               const at = new Date().toISOString();
               setAlerts((prev) => {
                 const fresh = stops
-                  .map((event, index) => ({ id: event.seq ? String(event.seq) : `${Date.now()}-${index}`, text: "Chaperone stopped a request.", decision_id: event.decision_id, at }))
+                  .map((event, index) => ({ id: event.seq ? String(event.seq) : `${Date.now()}-${index}`, text: "Senior Sentinel stopped a request.", decision_id: event.decision_id, at }))
                   .filter((item) => !prev.some((old) => old.id === item.id));
                 return [...fresh, ...prev].slice(0, 12);
               });
@@ -713,7 +713,7 @@ export default function Page() {
       kind: "destroy",
       title: `Decline ${money(approval.amount)} at ${payeeName(approval)}?`,
       body: "Nothing is bought. Ruth hears that you said no.",
-      note: { label: "Note for Ruth (optional)", help: "Chaperone passes it on with your answer." },
+      note: { label: "Note for Ruth (optional)", help: "Senior Sentinel passes it on with your answer." },
       confirmLabel: "Decline",
       safeLabel: "Back",
       run: (text) => reject(approval, text).catch(fail),
@@ -748,7 +748,7 @@ export default function Page() {
     setAsk({
       kind: "loosen",
       title: `Unblock ${name}?`,
-      body: `Chaperone could then buy ${name} for Ruth. Scammers often ask for these. Nothing changes until you sign and Ruth agrees by voice.`,
+      body: `Senior Sentinel could then buy ${name} for Ruth. Scammers often ask for these. Nothing changes until you sign and Ruth agrees by voice.`,
       confirmLabel: "Unblock",
       safeLabel: "Keep blocked",
       run: () => toggleBlocked(id),
@@ -771,7 +771,7 @@ export default function Page() {
     return (
       <div className="cg-loading" aria-busy="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/design/logo.svg" alt="Chaperone" height={34} />
+        <img src="/design/logo.svg" alt="Senior Sentinel" height={34} />
         <p role="status">Opening…</p>
       </div>
     );

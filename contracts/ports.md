@@ -10,7 +10,7 @@ Frozen for the weekend. A change needs all four people at the table.
 | catalog | 8003 | `0.0.0.0` |
 | station | 5173 | `0.0.0.0` |
 | printer helper (`station/printer.py`) | 8004 | `127.0.0.1` on the station laptop, via the Vite proxy `/svc/printer` |
-| line (`line/server.py`, the Chaperone Line's tools) | 8005 | `127.0.0.1` on the services laptop, public only as `/line/*` through the caregiver app |
+| line (`line/server.py`, the Senior Sentinel Line's tools) | 8005 | `127.0.0.1` on the services laptop, public only as `/line/*` through the caregiver app |
 | caregiver | 5175 | tunnel (`ngrok http 5175 --url https://<tunnel-host>`) |
 | wall | retired | served by the relay at `GET /wall` (same origin as the event stream) |
 
@@ -38,8 +38,8 @@ Relay routes (8000). `relay/main.py` owns the token routes; `relay/ledger.py` ow
 | `GET /jwks.json`, `GET /.well-known/jwks.json` | `relay/jwks.json` |
 | `GET /audio/*` | refusal clips from `ai/warnings/` |
 | `GET /wall` | the wall page |
-| `POST /reset` | call policy and merchant `/reset` in parallel, clear the live ledger, post `reset`; answers `{ok, policy, merchant, failed, ms}`. Needs `X-Chaperone-Host: 1` |
-| `GET /host`, `/host/api/*` | the Host's controls, LAN only (403 through a proxy); every POST needs `X-Chaperone-Host: 1`: confirm payment, reset, arm replay, fallback code |
+| `POST /reset` | call policy and merchant `/reset` in parallel, clear the live ledger, post `reset`; answers `{ok, policy, merchant, failed, ms}`. Needs `X-Senior-Sentinel-Host: 1` |
+| `GET /host`, `/host/api/*` | the Host's controls, LAN only (403 through a proxy); every POST needs `X-Senior-Sentinel-Host: 1`: confirm payment, reset, arm replay, fallback code |
 
 Merchant routes (8002): `POST /orders` (409 when the decision already has an order), `POST /orders/{id}/cancel` and `POST /orders/{id}/refunds` (both RFC 9421 signed, five checks), `POST /orders/{id}/picked-up` (Host header), `GET /orders[/{id}][?session_id=]`, `GET /orders/{id}/receipt[?lang=]`, `POST /orders/{id}/paid` and `POST /reset` (both Host header), `GET /pay/{link_id}` (mock page), `GET /panel`, `POST /webhooks/cybersource`, `GET|POST /webhooks/cybersource/health`.
 

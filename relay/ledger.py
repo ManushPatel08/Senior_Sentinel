@@ -19,7 +19,7 @@ GET  /audio/{name}                 refusal clips from ai/warnings/
 GET  /wall                         the wall page; /wall/data/{panel,mandate,budget} proxy merchant and policy
 POST /reset                        policy and merchant /reset in parallel, then truncate live.jsonl and post a
                                    `reset` event (the station answers with a new session); answers
-                                   {ok, policy, merchant, failed, ms}. Needs X-Chaperone-Host: 1 (relay/host.py)
+                                   {ok, policy, merchant, failed, ms}. Needs X-Senior-Sentinel-Host: 1 (relay/host.py)
 /host, /host/api/*                 the Host's LAN-only controls (relay/host.py)
 """
 
@@ -247,7 +247,7 @@ async def session_record(session_id: str):
     orders, mandate = await asyncio.gather(_orders_for(session_id), _mandate())
     return JSONResponse(session_view.dispute_record(session_id, events, orders, mandate, _card_events_near(events)), headers={
         "Cache-Control": "no-store", "X-Robots-Tag": "noindex",
-        "Content-Disposition": f'attachment; filename="chaperone-{session_id}.json"'})
+        "Content-Disposition": f'attachment; filename="senior-sentinel-{session_id}.json"'})
 
 
 CARD_TYPES = {"card_decision", "vtc_decision", "card_hold_released"}
@@ -471,5 +471,5 @@ from relay.host import terminal_router  # noqa: E402
 router.include_router(host_router)
 router.include_router(terminal_router)
 
-app = FastAPI(title="Chaperone ledger (standalone)")
+app = FastAPI(title="Senior Sentinel ledger (standalone)")
 app.include_router(router)

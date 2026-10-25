@@ -1,4 +1,4 @@
-# Chaperone: Phase 4 Playbook
+# Senior Sentinel: Phase 4 Playbook
 
 As of 2026-09-26, 12:15pm
 
@@ -140,7 +140,7 @@ The model never passes an amount or a destination.
 - **D-B6 Explain (G8):** the endpoint, a per-decision cache, the fake mode, and a 3-second time limit. If it fails, show the rule and detail as written ("R1_blocked_category: gift cards are blocked on this account").
 
 **Build: the caregiver app as a product (D-B5).** It is mobile-first with large type (at least 18 px, buttons at least 44 px) and plain words. Priya has never seen a rule id. Screens:
-1. **Welcome (first run):** "Set up Chaperone for Ruth". Setup code, then "Create your passkey" (the payment-enabled passkey for the amount-before-fingerprint dialog).
+1. **Welcome (first run):** "Set up Senior Sentinel for Ruth". Setup code, then "Create your passkey" (the payment-enabled passkey for the amount-before-fingerprint dialog).
 2. **Rules (the mandate form, FR-13):** per purchase, per month, "ask me above", allowed stores and categories, blocked list (gift cards, prepaid cards, wire, crypto, lottery checked by default), languages, and valid dates.
    - A live plain-language preview: "Ruth can spend up to $60 at a time and $300 a month at Corner Market on groceries and pharmacy. Anything over $40 comes to you. Gift cards and wire transfers are always refused."
    - **Sign with passkey** sends `POST /mandate`. The wall's mandate card updates.
@@ -186,7 +186,7 @@ Split `app/page.js` into components (`app/components/*.js`) and small screens. T
   - This mirrors Visa's own post-purchase vocabulary ("share order details with issuers", "quick resolution of most disputes").
 
 **Fix.**
-- Policy's and the merchant's own `POST /reset` and the merchant's `POST /orders/{id}/paid` have no Host-header check. Add E5's `X-Chaperone-Host` check, and send it from the relay's reset fan-out and Confirm payment.
+- Policy's and the merchant's own `POST /reset` and the merchant's `POST /orders/{id}/paid` have no Host-header check. Add E5's `X-Senior-Sentinel-Host` check, and send it from the relay's reset fan-out and Confirm payment.
 - A `since` parameter was added to `/events/stream`; document it in `relay/ledger.py` and `ports.md`.
 
 **Done when.** Pass conditions 1-3 and 6 show on the wall and session page. The real `INACTIVE` is seen once in the sandbox, with the request id written down. `pytest -q merchant relay catalog` passes, with new tests for the lifecycle, cancel, refunds (partial, full, over-refund 409) and the PATCH body.

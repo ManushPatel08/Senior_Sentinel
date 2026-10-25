@@ -1,4 +1,4 @@
-# Chaperone: Phase 0 Playbook
+# Senior Sentinel: Phase 0 Playbook
 
 As of 2026-09-25
 
@@ -8,7 +8,7 @@ Phase 0 runs tonight from 8:00 to 10:00pm and ends with a go/no-go at 10:00: fou
 
 ## 1. Phase 0 at a glance
 
-Two hours, four spikes, one decision. Each spike proves one unknown in isolation with throwaway code; the go/no-go at 10:00 decides whether Phase 1 builds on Chaperone as designed or on a rung of the fallback ladder.
+Two hours, four spikes, one decision. Each spike proves one unknown in isolation with throwaway code; the go/no-go at 10:00 decides whether Phase 1 builds on Senior Sentinel as designed or on a rung of the fallback ladder.
 
 | Time | Everyone | Manush (station) | Dhruv (trust) | Vraj (merchant, catalog, Visa) | Rohan (rules, judge, audio) |
 |---|---|---|---|---|---|
@@ -72,7 +72,7 @@ Thirty minutes, all four at the table, in this order; nobody starts a spike unti
 
 **8:00-8:10, network (Vraj drives, others join).** Router on with a 5 GHz SSID `chaperone`, client isolation off, DHCP reservations by MAC: services laptop `192.168.8.10`, station laptop `.11`, Dhruv `.12`, Rohan `.13`, caregiver phone `.20`. Phone hotspot shared to the services and station laptops as a second interface for the cloud calls. Test: every laptop pings every other; each laptop reaches `https://api.x.ai` through the hotspot. Router settings: on GL.iNet, NETWORK, LAN, AP Isolation off and Address Reservation for the static IPs; on TP-Link, Wireless Advanced, uncheck Client Isolation, and DHCP Address Reservation.
 
-**8:10-8:20, repo and vault (Dhruv drives).** In the `chaperone` repository, add the layout from `BUILD_PLAN.md` with empty service folders, `.env.example`, and a `spikes/` folder with one subfolder per lane. Add `.cursor/rules` with four lines: policy is a pure function with no network calls; no secret ever reaches a browser; every event carries `session_id` and `t`; read-back before checkout. Everyone pulls. Planning docs stay in `internal/`; commit messages describe the code change only (no phase names, no strategy). The vault is a shared password-manager vault (or an encrypted note on one phone) holding: xAI keys, Cybersource merchant id, key id and secret, Kroger id and secret, the tunnel hostname, the agent Ed25519 private key once Dhruv generates it.
+**8:10-8:20, repo and vault (Dhruv drives).** In the `Senior_Sentinel` repository, add the layout from `BUILD_PLAN.md` with empty service folders, `.env.example`, and a `spikes/` folder with one subfolder per lane. Add `.cursor/rules` with four lines: policy is a pure function with no network calls; no secret ever reaches a browser; every event carries `session_id` and `t`; read-back before checkout. Everyone pulls. Planning docs stay in `internal/`; commit messages describe the code change only (no phase names, no strategy). The vault is a shared password-manager vault (or an encrypted note on one phone) holding: xAI keys, Cybersource merchant id, key id and secret, Kroger id and secret, the tunnel hostname, the agent Ed25519 private key once Dhruv generates it.
 
 **8:20-8:30, contracts frozen (Dhruv writes, all four read).** Commit `contracts/` with one JSON Schema file each, copied from `PRD.md` Section 9: `mandate.schema.json`, `decision.schema.json`, `order_request.schema.json` (body plus the required signature headers), `approval.schema.json`, `events.schema.json` (the event union), `judge.schema.json`, `cart.schema.json`. Also `contracts/ports.md`: relay 8000, policy 8001, merchant 8002, catalog 8003, station 5173, caregiver 5175 (tunnel), wall 5176. A change to any of these after 8:30 needs all four at the table.
 
@@ -94,7 +94,7 @@ One thing to prove: a browser page opens a Grok Voice session with an ephemeral 
 
 ```json
 {"type":"session.update","session":{
-  "instructions":"You are Chaperone, a patient shopping helper for older adults. Speak slowly, one question at a time, plain words. Always reply in the language the user spoke in their most recent turn. Before any purchase, read back every item, its price and the total, and ask for a yes.",
+  "instructions":"You are Senior Sentinel, a patient shopping helper for older adults. Speak slowly, one question at a time, plain words. Always reply in the language the user spoke in their most recent turn. Before any purchase, read back every item, its price and the total, and ask for a yes.",
   "voice":"ara",
   "reasoning":{"effort":"none"},
   "turn_detection":null,
@@ -130,7 +130,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from jwcrypto.jwk import JWK
 import jcs, hashlib
 priv = Ed25519PrivateKey.generate(); pub = priv.public_key()
-jwk = JWK.from_pyca(pub).export_public(as_dict=True); jwk["kid"] = "chaperone-agent-1"   # {"kty":"OKP","crv":"Ed25519","x":...}
+jwk = JWK.from_pyca(pub).export_public(as_dict=True); jwk["kid"] = "senior-sentinel-agent-1"   # {"kty":"OKP","crv":"Ed25519","x":...}
 mandate_hash = hashlib.sha256(jcs.canonicalize(mandate_dict)).digest()               # RFC 8785, 32 bytes
 ```
 
@@ -142,7 +142,7 @@ In a bare Next.js App Router app with SimpleWebAuthn v14 (Node 22+), four route 
 
 ```ts
 // registration options
-generateRegistrationOptions({ rpName: 'Chaperone', rpID: '<tunnel-host>', userName: 'priya',
+generateRegistrationOptions({ rpName: 'Senior Sentinel', rpID: '<tunnel-host>', userName: 'priya',
   attestationType: 'none', authenticatorSelection: { residentKey: 'preferred', userVerification: 'preferred' } })
 // verify registration -> store registrationInfo.credential.{id, publicKey, counter, transports}
 verifyRegistrationResponse({ response, expectedChallenge, expectedOrigin: 'https://<tunnel-host>', expectedRPID: '<tunnel-host>' })
@@ -170,7 +170,7 @@ req = requests.Request('POST', 'http://192.168.8.10:8002/orders', json=body, hea
 req.headers['Content-Digest'] = str(Dictionary({'sha-256': hashlib.sha256(req.body).digest()}))   # RFC 9530
 now = datetime.datetime.now(datetime.timezone.utc)
 HTTPMessageSigner(signature_algorithm=algorithms.ED25519, key_resolver=KR()).sign(
-    req, key_id='chaperone-agent-1', created=now, expires=now + datetime.timedelta(minutes=8),
+    req, key_id='senior-sentinel-agent-1', created=now, expires=now + datetime.timedelta(minutes=8),
     nonce=secrets.token_urlsafe(32), tag='agent-payer-auth', label='sig1',
     covered_component_ids=('@method', '@authority', '@path', 'content-digest', 'content-type'))
 # verifier side (FastAPI): rebuild a requests.Request from the incoming request, then

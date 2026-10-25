@@ -36,8 +36,8 @@ test("a cart across stores names every store", () => {
   assert.equal(payeeName({ stores: ["corner_market", "parkside_pharmacy"] }), "Corner Market and Parkside Pharmacy");
 });
 
-test("with no store the payee is Chaperone", () => {
-  assert.equal(payeeName(null), "Chaperone");
-  assert.equal(payeeName({}), "Chaperone");
-  assert.equal(payeeName({ stores: [] }), "Chaperone");
+test("with no store the payee is Senior Sentinel", () => {
+  assert.equal(payeeName(null), "Senior Sentinel");
+  assert.equal(payeeName({}), "Senior Sentinel");
+  assert.equal(payeeName({ stores: [] }), "Senior Sentinel");
 });

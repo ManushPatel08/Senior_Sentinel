@@ -1,4 +1,4 @@
-# Chaperone: Judge Q&A
+# Senior Sentinel: Judge Q&A
 
 The questions judges will ask in the last minute of the slot, with the answers the whole team gives the same way.
 
@@ -41,7 +41,7 @@ The fraud answers cite the FTC and FinCEN; the ethics answers put the shopper's 
 
 **Business.**
 
-- *Who pays?* The institutions that eat the losses: issuers and banks (reimbursements, disputes, regulatory pressure that is already mandatory in the UK), retailers (gift-card fraud interventions like Walmart's, which returned $4 million), and insurers and care programs that already sell caregiver cards at $12 a month. Chaperone is the layer those cards lack: voice, language, refusal and approval.
+- *Who pays?* The institutions that eat the losses: issuers and banks (reimbursements, disputes, regulatory pressure that is already mandatory in the UK), retailers (gift-card fraud interventions like Walmart's, which returned $4 million), and insurers and care programs that already sell caregiver cards at $12 a month. Senior Sentinel is the layer those cards lack: voice, language, refusal and approval.
 - *Market?* 63 million family caregivers, a quarter of them at a distance; 58 million Americans over 65; $7.75 billion reported lost by people over 60 in one year, with the true figure estimated far higher.
 - *Why now?* Visa and Mastercard are standardizing signed agent payments with mandates this year; realtime speech in the shopper's language runs under a second; and the guardrails they describe are written for the cardholder who sets them, not for the people who need someone else to.
 - *What exists?* Static caregiver cards, after-the-fact alert services, Alexa's voice purchasing with a spoken code, a human phone line at Instacart. None talk, none refuse, none ask the family.
@@ -56,7 +56,7 @@ The Visa judge wants to know the payment and the trust are real; the xAI judge w
 
 - *Which Visa products did you use?* The Visa Acceptance Agent Toolkit's MCP server to create and check payment links in the Cybersource sandbox, and the public Trusted Agent Protocol specification for the signature format on every merchant request.
 - *Why not Visa Intelligent Commerce?* Its MCP is in pilot and needs VDP credentials, X-Pay tokens and message-level encryption; that is the next step once we have access, and the mandate maps directly onto its payment controls.
-- *How does this fit Visa's agentic commerce direction?* Visa's June announcement describes spending limits, merchant categories and approval requirements as the guardrails for agent-led payments. Chaperone is those guardrails, signed by a caregiver, enforced in code, with the refusal path Visa's model does not have yet.
+- *How does this fit Visa's agentic commerce direction?* Visa's June announcement describes spending limits, merchant categories and approval requirements as the guardrails for agent-led payments. Senior Sentinel is those guardrails, signed by a caregiver, enforced in code, with the refusal path Visa's model does not have yet.
 - *Which stages did you transform?* Discovery and decision by voice and profile, checkout by policy, payments by signature and sandbox settlement, post-purchase by spoken and printed receipts and a family ledger.
 - *What would a merchant need to accept this?* A verifier: fetch our JWKS, check the signature, window and nonce, and trust the decision id. Ours is about 200 lines.
 

@@ -30,7 +30,7 @@ These are practices named by OWASP (session handling, access control, input chec
 | Sign-in cookie is httpOnly, Secure, SameSite=Strict, 30 minutes. Approvals, reject, codes, and alerts return 401 without it | `caregiver/lib/session.js`, `caregiver/lib/challenges.js` | Live check: `GET /api/approvals` without a cookie is 401 |
 | A reject or a Chrome payment approval needs a server HMAC. A forged header is refused | `policy/approvals.py` `marker_matches` | `test_rejection_closes_the_approval`, `test_forged_marker_cannot_reject`, `test_payment_marker_places_the_order_without_a_webauthn_get` |
 | Approval codes are HMAC'd, compared in constant time, and five failures close the approval. The code is not in `GET /decisions` | `policy/approvals.py`, `policy/main.py` `submit_code` | `test_five_wrong_codes_lock_the_approval`, `test_decision_lookup_hides_the_approval_code` |
-| The host code requires `X-Chaperone-Host: 1` | `policy/main.py` `_host_header` | `test_host_page_code_approves_and_then_disappears` |
+| The host code requires `X-Senior-Sentinel-Host: 1` | `policy/main.py` `_host_header` | `test_host_page_code_approves_and_then_disappears` |
 | Approval ids reject `../` and markup. Session ids reject the same. Session HTML escapes `<script>` | `caregiver/lib/ids.js`, `caregiver/app/s/[id]/route.js` | `caregiver/lib/ids.test.js` |
 | `GET /mandate` does not return the stored passkey assertion | `policy/main.py` `get_mandate` | `test_mandate_read_drops_the_assertion` |
 | Policy will not boot on the public default code key unless `POLICY_DEV_KEY_OK=1` | `policy/main.py` startup | The demo process is running with `POLICY_CODE_KEY` set |
@@ -41,7 +41,7 @@ On 26 September 2026 those tests were run together: 303 policy tests passed, and
 
 ## 3. Passkeys and NIST digital identity
 
-NIST SP 800-63B describes authenticator assurance in terms of a cryptographic authenticator, user verification, and a fresh challenge so an old signature cannot be reused. Chaperone's caregiver path follows that shape. It is not an AAL2 assessment.
+NIST SP 800-63B describes authenticator assurance in terms of a cryptographic authenticator, user verification, and a fresh challenge so an old signature cannot be reused. Senior Sentinel's caregiver path follows that shape. It is not an AAL2 assessment.
 
 - Priyank's passkey is bound to the tunnel hostname. The phone signs a server-made challenge. Policy checks the signature, the origin, and user verification.
 - Resume (turning the agent back on) is a new challenge over `{action, mandate_id, nonce, expires_at}`, not a replay of the mandate signature (`policy/postpurchase.py` `resume_challenge`).

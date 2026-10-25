@@ -9,13 +9,13 @@ POST /orders             signed order from the checkout tool -> verify -> price 
 GET  /orders[/{id}]      order state with its timeline (wall, policy); ?session_id= filters the list
 POST /orders/{id}/cancel           signed (five checks): an unpaid order's Pay by Link goes INACTIVE, order cancelled
 POST /orders/{id}/refunds          signed (five checks): refund a line to the original card (sandbox processor stub)
-POST /orders/{id}/picked-up        the Host marks the pickup done (X-Chaperone-Host: 1)
+POST /orders/{id}/picked-up        the Host marks the pickup done (X-Senior-Sentinel-Host: 1)
 GET  /orders/{id}/receipt[?lang=]  what the station prints; session_url is the receipt's QR code
-POST /orders/{id}/paid   the Host marks paid (X-Chaperone-Host: 1)
+POST /orders/{id}/paid   the Host marks paid (X-Senior-Sentinel-Host: 1)
 GET  /pay/{link_id}      mock hosted payment page (MOCK_VISA=1 or fallback)
 GET  /checkout/{id}      CARD_AUTH=1: our checkout page with a real Cybersource sandbox card authorization
 GET  /panel              merchant verification panel data for the wall
-POST /reset              demo reset (X-Chaperone-Host: 1): clear orders and the panel's event buffer (nonces are kept)
+POST /reset              demo reset (X-Senior-Sentinel-Host: 1): clear orders and the panel's event buffer (nonces are kept)
 POST /webhooks/cybersource            signed Cybersource webhook -> order paid (see merchant.webhooks)
 """
 
@@ -71,7 +71,7 @@ async def lifespan(app: FastAPI):
     await storefront_links.close()
 
 
-app = FastAPI(title="Chaperone merchants", lifespan=lifespan)
+app = FastAPI(title="Senior Sentinel merchants", lifespan=lifespan)
 
 
 class CartLine(BaseModel):

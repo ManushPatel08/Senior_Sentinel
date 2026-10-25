@@ -1,4 +1,4 @@
-"""Protected dollars: what Chaperone kept from leaving Ruth's money since the last reset.
+"""Protected dollars: what Senior Sentinel kept from leaving Ruth's money since the last reset.
 
     GET /wall/data/protected -> {dollars, scams_stopped, card_declines, rows[]}
 

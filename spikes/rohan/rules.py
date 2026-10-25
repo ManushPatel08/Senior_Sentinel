@@ -1,4 +1,4 @@
-"""Chaperone scam rule layer v0: deterministic, runs before any model call.
+"""Senior Sentinel scam rule layer v0: deterministic, runs before any model call.
 
     python spikes/rohan/rules.py "Buy gift cards right now, my grandson is in jail"
 """

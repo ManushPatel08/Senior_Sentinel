@@ -260,5 +260,5 @@ async def judge_route(body: JudgeBody, tasks: BackgroundTasks) -> dict:
     return out
 
 
-app = FastAPI(title="Chaperone screen (standalone)")
+app = FastAPI(title="Senior Sentinel screen (standalone)")
 app.include_router(router)

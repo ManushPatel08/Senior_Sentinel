@@ -112,7 +112,7 @@ def test_asa_is_idempotent_and_a_proxy_cannot_list_card_state(tmp_path, monkeypa
     first = api.post("/card/asa", content=body, headers=headers)
     assert first.status_code == 200, first.text
     assert first.json()["result"] == "APPROVED"
-    assert int(first.headers["x-chaperone-ms"]) < 300
+    assert int(first.headers["x-senior-sentinel-ms"]) < 300
     second = api.post("/card/asa", content=body, headers=headers)
     assert second.json() == first.json()
     blocked = json.dumps(swipe("6540", 50, "GIFTCARDMALL1", token="tok_gift")).encode()
@@ -125,11 +125,11 @@ def test_asa_is_idempotent_and_a_proxy_cannot_list_card_state(tmp_path, monkeypa
     hold_id = json.loads((tmp_path / "card_state.json").read_text())["holds"]
     hold_id = next(iter(hold_id))
     # gift cards are a signed "never": no one-time pass opens them
-    refused = api.post(f"/card/holds/{hold_id}/allow", headers={"X-Chaperone-Marker": action_marker(hold_id, "card")})
+    refused = api.post(f"/card/holds/{hold_id}/allow", headers={"X-Senior-Sentinel-Marker": action_marker(hold_id, "card")})
     assert refused.status_code == 409, refused.text
     # Priyank keeps it blocked: the hold leaves his list
     assert api.post(f"/card/holds/{hold_id}/keep").status_code == 401
-    kept = api.post(f"/card/holds/{hold_id}/keep", headers={"X-Chaperone-Marker": action_marker(hold_id, "card")})
+    kept = api.post(f"/card/holds/{hold_id}/keep", headers={"X-Senior-Sentinel-Marker": action_marker(hold_id, "card")})
     assert kept.json() == {"hold_id": hold_id, "kept": True}
     assert hold_id not in [h["hold_id"] for h in api.get("/card/state").json()["holds"]]
     big =json.dumps(swipe("5411", 400, token="tok_big")).encode()
@@ -140,9 +140,9 @@ def test_asa_is_idempotent_and_a_proxy_cannot_list_card_state(tmp_path, monkeypa
     assert over.json()["result"] == "VELOCITY_EXCEEDED"
     holds = json.loads((tmp_path / "card_state.json").read_text())["holds"]
     cap_hold = next(h for h, row in holds.items() if row["reason_key"] == "card_over_cap")
-    allowed = api.post(f"/card/holds/{cap_hold}/allow", headers={"X-Chaperone-Marker": action_marker(cap_hold, "card")})
+    allowed = api.post(f"/card/holds/{cap_hold}/allow", headers={"X-Senior-Sentinel-Marker": action_marker(cap_hold, "card")})
     assert allowed.status_code == 200, allowed.text
-    assert api.post(f"/card/holds/{cap_hold}/allow", headers={"X-Chaperone-Marker": action_marker(cap_hold, "card")}).status_code == 404
+    assert api.post(f"/card/holds/{cap_hold}/allow", headers={"X-Senior-Sentinel-Marker": action_marker(cap_hold, "card")}).status_code == 404
 
 
 def test_visa_view_matches_the_intelligent_commerce_shape():
