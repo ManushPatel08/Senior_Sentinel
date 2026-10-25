@@ -18,9 +18,11 @@ Last year, Americans over 60 reported **$7.7 billion** in losses to fraud ([FBI 
 
 Agentic commerce is arriving with spending limits, merchant restrictions and approvals, but those controls assume the cardholder sets them for themselves. We asked: what if a family could set them together, and the agent could say **no to the scam, out loud, in Grandpa's own language**?
 
+We built Chaperone for one community: **older adults targeted by scams, and the family members who look after them.**
+
 ## What it does
 
-Chaperone is a shopping agent for an older adult (in our demo, Grandpa Ruthvik, "Ruth") and his caregiver (his grandson Priyank). It covers the whole journey, **discover, decide, transact, continue**, behind four guards:
+Chaperone is a shopping agent for an older adult (in our demo, Grandpa Ruthvik, "Ruth") and his caregiver (his son Priyank). It covers the whole journey, **discover, decide, transact, continue**, behind four guards:
 
 - **Ask: a scam check on the call.** Grandpa describes a call ("my grandson is in jail and needs bail, don't tell Mom") to the kiosk or on the phone. Chaperone recognizes the scam in English, Spanish or Hindi, checks it against his own accounts ("your Peachtree Power bill is paid, so this call is a scam"; "call Alex at the number you have saved") and recent scam reports, speaks a calm two-sentence answer, and puts his card on a 24-hour cool-down. Priyank gets the alert with the sources and a plain-English **Why?**.
 - **Card: every swipe checked.** Grandpa's card is authorized in real time by our rules. The card never pays gift-card kiosks, crypto machines or money transfers. During a cool-down, a $480 charge at a drugstore is declined, and Chaperone tells Grandpa why. Priyank can **Allow once** or **Keep blocked**. The rules are mirrored to Visa Transaction Controls.
@@ -36,15 +38,17 @@ No smartphone? Grandpa can **call a phone number** and do all of this by voice, 
 ## How we built it
 
 - **Voice.** The kiosk talks through Grok Voice in real time. The phone line is an agent in xAI's Voice Agent Builder calling our own MCP server, with a PIN spoken or typed on the keypad.
-- **Guardrails outside the model.** The model never decides a payment. A policy service (FastAPI) re-prices every cart from the catalog and applies the signed rules deterministically: stores, categories, caps, approval threshold, monthly budget. A multilingual rule lexicon (English, Spanish, Hindi and Hinglish) screens every request. A Grok judge only weighs the ambiguous ones.
-- **Scam radar.** Grok's Responses API with X search and web search, under one time budget. A known scam gets its answer in under a second, and the sources for the caregiver's alert are fetched in the background.
+- **Guardrails outside the model.** The model never decides a payment. A policy service (FastAPI) re-prices every cart from the catalog and applies the signed rules deterministically: stores, categories, caps, approval threshold, monthly budget. A multilingual rule lexicon (English, Spanish, Hindi and Hinglish) screens every request. A Claude judge only weighs the ambiguous ones.
+- **Scam radar.** Claude with web search on five consumer-protection sites (FTC, IC3, AARP, BBB, FCC), under one time budget. Its sources are only search results it actually returned. A known scam gets its answer in under a second, and the sources for the caregiver's alert are fetched in the background.
 - **Signed intent.** The caregiver's passkey (WebAuthn) signs a canonical (JCS) hash of the rules. Each agent request to a store is signed with RFC 9421 HTTP Message Signatures in the Trusted Agent Protocol header format, and each store verifies it against our JWKS. The rules are also expressed in Visa Intelligent Commerce's `mandates[]` shape.
 - **Payments.** Visa Acceptance (Cybersource) sandbox Pay by Link, on four separate sandbox merchant accounts (grocery, pharmacy, home goods, power company), with Decision Manager scoring each order. Webhooks are signature-verified per account.
 - **Card.** A sandbox card on Lithic with Auth Stream Access: our service approves or declines each swipe in under a millisecond, about a second end to end. The rules are mirrored to the Visa Transaction Controls sandbox over two-way SSL.
 - **Catalog.** The Kroger Products API, live for anything our curated list doesn't carry, with real store prices; openFDA for over-the-counter medicines.
 - **Caregiver app.** Next.js on the caregiver's phone: passkey approvals, a Safety feed, card holds, rules, weekly activity, and live alerts over server-sent events.
 - **Trust Ledger.** Every service posts events validated against a JSON Schema contract to a relay, which drives the wall, the caregiver's alerts and the public session page.
-- **Tests and evaluation.** More than 900 automated tests. The scam evaluation covers 102 scripts in four languages. On the held-out half, rules plus Grok caught 25 of 25 scams and wrongly refused 1 of 24 honest requests. The scripts were written alongside the rules, so treat that as in-sample.
+- **Tests and evaluation.** More than 900 automated tests. The scam evaluation covers 102 scripts in four languages. On the held-out half, rules plus the judge caught 25 of 25 scams and wrongly refused 1 of 24 honest requests, measured while the judge still ran on Grok. The scripts were written alongside the rules, so treat that as in-sample.
+
+**Claude in the product.** Claude explains every decision to the caregiver, weighs the purchases the rules can't settle, and runs the scam radar with cited sources; it never authorizes a payment.
 
 We built it in 36 hours with AI coding assistants (Claude Code and Cursor).
 
@@ -79,7 +83,7 @@ We built it in 36 hours with AI coding assistants (Claude Code and Cursor).
 
 ## Built with (25 max)
 
-python, fastapi, typescript, vite, next.js, react, node.js, grok, xai-grok-voice, xai-voice-agent-builder, model-context-protocol, visa-acceptance, cybersource, visa-decision-manager, visa-transaction-controls, lithic, kroger-api, openfda, webauthn, simplewebauthn, rfc-9421, json-schema, ngrok, cursor, claude-code
+python, fastapi, typescript, vite, next.js, react, node.js, claude, xai-grok-voice, xai-voice-agent-builder, model-context-protocol, visa-acceptance, cybersource, visa-decision-manager, visa-transaction-controls, lithic, kroger-api, openfda, webauthn, simplewebauthn, rfc-9421, json-schema, ngrok, cursor, claude-code
 
 ---
 
@@ -100,12 +104,12 @@ python, fastapi, typescript, vite, next.js, react, node.js, grok, xai-grok-voice
 
 ## Did you implement a generative AI model or API in your hack this weekend?
 
-Yes. We used xAI's Grok throughout, always inside deterministic guardrails:
+Yes. We use two, always inside deterministic guardrails: xAI's Grok for voice, and Anthropic's Claude for everything that reasons over text.
 
 - **Grok Voice (real-time)** is the kiosk's voice, so an older adult can shop by speaking in English, Spanish or Hindi.
 - **xAI's Voice Agent Builder** answers a real phone number and calls our MCP server's tools, so people without smartphones can use Chaperone.
-- **The Grok Responses API with X search and web search** is our scam radar: it checks a caller's story against recent reports and returns a short answer with citations for the caregiver.
-- **A Grok judge** weighs ambiguous requests that our multilingual rules can't settle.
-- **Grok explanations** turn every decision into a plain-English "Why?" for the caregiver.
+- **Claude with web search** is our scam radar: it checks a caller's story against recent reports on consumer-protection sites and returns a short answer with its sources for the caregiver.
+- **A Claude judge** weighs ambiguous requests that our multilingual rules can't settle.
+- **Claude explanations** turn every decision into a plain-English "Why?" for the caregiver.
 
-We used it because the people we're building for need a natural voice in their own language, and scams change weekly. Grok never authorizes a payment: prices, rules, signatures and payments are deterministic, and model outputs are schema-validated and screened before anyone sees them. We also used Claude Code and Cursor as coding assistants.
+We used them because the people we're building for need a natural voice in their own language, and scams change weekly. Neither model authorizes a payment: prices, rules, signatures and payments are deterministic, and model outputs are schema-validated and screened before anyone sees them. We also used Claude Code and Cursor as coding assistants.
