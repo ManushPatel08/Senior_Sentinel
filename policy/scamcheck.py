@@ -291,7 +291,8 @@ def _parse(resp) -> dict:
     picked = [found[k] for k in dict.fromkeys(_url_key(u) for u in verdict.pop("source_urls", None) or []) if k in found]
     usage = resp.usage
     tools = getattr(usage, "server_tool_use", None)
-    return {**verdict, "sources": picked[:8], "usage": {
+    # `model` is the one that answered, a server-side fallback model included.
+    return {**verdict, "sources": picked[:8], "model": getattr(resp, "model", None), "usage": {
         "input_tokens": usage.input_tokens, "output_tokens": usage.output_tokens,
         "cache_read_input_tokens": usage.cache_read_input_tokens or 0,
         "cache_creation_input_tokens": usage.cache_creation_input_tokens or 0,
@@ -517,6 +518,7 @@ def _enrich_in_background(doc: dict, story: str, caller: dict, facts: list[dict]
             remember(v, transcript or story, doc["lang"], doc["pattern"])
             doc["sources"] = v["sources"]
             doc["reported_recently"] = v.get("reported_recently")
+            doc["model"] = v.get("model")  # the rules answered Ruth; Claude found the sources
             save_check(doc)
             _save_decision(doc)
         _alert(doc)
@@ -527,7 +529,7 @@ def _enrich_in_background(doc: dict, story: str, caller: dict, facts: list[dict]
 def _alert(doc: dict) -> None:
     post_event("caregiver_alerted", doc["session_id"], doc["mandate_id"], kind="scam_check", check_id=doc["check_id"],
                decision_id=doc["decision_id"], pattern=doc["pattern"], say=doc["say"], sources=doc["sources"],
-               amount=doc.get("amount"), cooldown_until=doc["cooldown_until"])
+               amount=doc.get("amount"), cooldown_until=doc["cooldown_until"], model=doc.get("model"))
 
 
 _DECISION = {"scam": "deny", "unsure": "caution", "ok": "noted"}  # never "allow": that word authorizes orders
@@ -578,6 +580,7 @@ def check(story: str = "", lang: str = "en", *, session_id: str | None = None, m
     hard = screened["action"] == "refuse"
     rule_pattern = _rule_pattern(patterns)
     from_cache = False
+    model = None  # the Claude model whose live answer this check uses (not a cached or rules-only one)
 
     if hard:
         facts = _wait(facts_future, min(FACTS_S, deadline - time.perf_counter()), [])
@@ -606,6 +609,7 @@ def check(story: str = "", lang: str = "en", *, session_id: str | None = None, m
             say = (v.get("say") if say_ok(v.get("say"), lang)
                    else (verdict == "scam" and _fact_line(pattern, facts, lang)) or _fallback(verdict, lang))
             if not from_cache:
+                model = v.get("model")
                 remember(v, key_text, lang, pattern)
         else:
             # Rules only: two or more soft signals are treated as a scam, one as unsure. Screened without the
@@ -624,7 +628,7 @@ def check(story: str = "", lang: str = "en", *, session_id: str | None = None, m
         "check_id": check_id, "decision_id": "d_" + uuid.uuid4().hex[:12], "verdict": verdict, "pattern": pattern,
         "say": say, "actions": _actions(raw_actions, verdict, facts), "facts_checked": facts, "sources": sources,
         "reported_recently": reported, "cooldown_until": cooldown_until, "amount": extract_amount(heard),
-        "ms": round((time.perf_counter() - start) * 1000), "from_cache": from_cache,
+        "ms": round((time.perf_counter() - start) * 1000), "from_cache": from_cache, "model": model,
         "session_id": session_id, "mandate_id": mandate_id, "lang": lang, "channel": channel,
         "story": story[:400], "transcript": transcript[:1000], "rule_ids": sorted({h["rule_id"] for h in screened["hits"]}),
         "screen_hits": screened["hits"], "at": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -632,7 +636,8 @@ def check(story: str = "", lang: str = "en", *, session_id: str | None = None, m
     save_check(doc)
     _save_decision(doc)
     post_event("scam_checked", session_id, mandate_id, check_id=check_id, decision_id=doc["decision_id"],
-               verdict=verdict, pattern=pattern, sources=sources, amount=doc["amount"], ms=doc["ms"], channel=channel)
+               verdict=verdict, pattern=pattern, sources=sources, amount=doc["amount"], ms=doc["ms"], channel=channel,
+               model=model)
     if verdict == "scam":
         if hard and not sources:
             _enrich_in_background(doc, story, caller, facts, hints, transcript)
@@ -643,7 +648,7 @@ def check(story: str = "", lang: str = "en", *, session_id: str | None = None, m
 
 def public(doc: dict) -> dict:
     keys = ("check_id", "decision_id", "verdict", "pattern", "say", "actions", "facts_checked", "sources",
-            "cooldown_until", "amount", "ms", "from_cache")
+            "cooldown_until", "amount", "ms", "from_cache", "model")
     return {k: doc.get(k) for k in keys}
 
 
@@ -652,7 +657,7 @@ def summary(doc: dict) -> dict:
     return {"check_id": doc["check_id"], "decision_id": doc.get("decision_id"), "verdict": doc["verdict"],
             "pattern": doc["pattern"], "story_excerpt": (doc.get("transcript") or doc.get("story") or "")[:160],
             "say": doc["say"], "sources": doc.get("sources") or [], "amount": doc.get("amount"), "at": doc["at"],
-            "channel": doc.get("channel")}
+            "channel": doc.get("channel"), "model": doc.get("model")}
 
 
 # ---------------------------------------------------------------- routes

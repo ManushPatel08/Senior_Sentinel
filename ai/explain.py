@@ -73,6 +73,11 @@ def _client():
         raise ExplainError(f"{e} (set EXPLAIN_FAKE=1 to run without it)") from e
 
 
+def model_name() -> str | None:
+    """The model that writes explanations, or None when EXPLAIN_FAKE=1 and none runs."""
+    return None if env("EXPLAIN_FAKE", "0") == "1" else env("EXPLAIN_MODEL", MODEL)
+
+
 def build_input(decision: dict, *, ruth_said: str = "", screen_hits: list | None = None,
                 limits: dict | None = None) -> dict:
     """The model's input: only what the explanation may use."""

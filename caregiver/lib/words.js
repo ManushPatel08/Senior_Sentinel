@@ -12,6 +12,12 @@ const CATEGORIES = {
   lottery: "Lottery",
 };
 
+// Whether Claude wrote an answer Priyank reads: policy names the model ("claude-opus-5-5") only when a live Claude
+// call did, never for the rules, the cache or a fixed fallback.
+export function byClaude(model) {
+  return /^claude-/i.test(String(model || ""));
+}
+
 export function capitalize(text) {
   const value = String(text || "");
   return value ? value[0].toUpperCase() + value.slice(1) : "";

@@ -274,6 +274,8 @@ const clock = (ms) => ms ? new Date(ms).toLocaleTimeString("en-US", { hour: "num
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many || one + "s"}`;
 const words = (s) => String(s || "").replace(/_/g, " ").trim();
 const capital = (s) => String(s || "").replace(/^./, (c) => c.toUpperCase());
+// Policy names the model ("claude-opus-5-5") only when a live Claude call answered, never for rules, cache or fallback.
+const byClaude = (model) => /^claude-/i.test(String(model || ""));
 let NAMES = {};  // merchant id -> store name, from contracts/merchants.json
 const store = (id, fallback) => NAMES[id] || fallback || words(id);
 
@@ -361,6 +363,7 @@ function describe(e) {
         what: fine ? "Ordinary story, no scam signs" : patternText(e.pattern), detail: said ? `Ruth: “${said}”` : "",
         chips: [e.amount ? chip(`${wholeMoney(e.amount)} asked for`, scam ? "money" : "") : null, chip(channel(e.channel)),
           (e.sources || []).length ? chip(plural(e.sources.length, "source")) : null,
+          byClaude(e.model) ? chip("Claude · web search") : null,
           e.ms ? chip(`answered in ${(e.ms / 1000).toFixed(1)} s`) : null],
         sources: e.sources };
     }
@@ -371,7 +374,7 @@ function describe(e) {
       const found = (e.patterns || []).filter((p) => p && p !== "none").map(words);
       return { lane: "ask", status: low ? "info" : "wait", badge: low ? "Checked" : "Be careful",
         what: low ? "Ordinary request, no scam signs" : "The judge found scam signs", detail: found.length ? capital(found.join(", ")) : "",
-        chips: [e.scam_score !== undefined ? chip(`Grok judge · risk ${e.scam_score} of 1`) : chip("Grok judge")] };
+        chips: [chip(`${byClaude(e.model) ? "Claude judge" : "Judge"}${e.scam_score !== undefined ? ` · risk ${e.scam_score} of 1` : ""}`)] };
     }
     case "refusal": return { lane: "ask", status: "prot", badge: "Refused", lang: e.lang,
       what: "Senior Sentinel said no, kindly and out loud", detail: `Because it's ${[].concat(e.rule_ids && e.rule_ids.length ? e.rule_ids : [e.rule_id]).filter(Boolean).map(ruleText).join(" and ") || "outside Ruth's rules"}.` };
@@ -456,7 +459,7 @@ function describe(e) {
     case "cosigned": return { lane: "family", status: "ok", badge: "Agreed", seal: true, what: `Ruth agreed to the rules${e.method === "voice" || !e.method ? " by voice" : ""}`, detail: e.said ? `“${e.said}”` : "" };
     case "mandate_paused": return { lane: "family", status: "wait", badge: "Paused", what: "Priyank paused the agent", detail: "Nothing can be bought." };
     case "mandate_resumed": return { lane: "family", status: "ok", badge: "Resumed", what: "Priyank resumed the agent", detail: APPROVAL_METHOD[e.method] || "" };
-    case "explanation_requested": return { lane: "family", status: "info", badge: "Asked why", what: "Priyank asked why", detail: "Answered in plain words." };
+    case "explanation_requested": return { lane: "family", status: "info", badge: "Asked why", what: "Priyank asked why", detail: byClaude(e.model) ? "Claude answered in plain words." : "Answered in plain words." };
     // conversation lines go to the Ask lane's "saying" box, not rows
     case "heard": case "session_started": case "replay_armed": case "reset": case "order_created": return null;
     default: return { lane: "agent", status: "", badge: "Event", what: capital(words(e.type || "event")), detail: "" };

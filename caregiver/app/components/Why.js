@@ -1,3 +1,4 @@
+import { byClaude } from "@/lib/words";
 import Icon from "./Icon";
 import Sheet from "./Sheet";
 
@@ -29,6 +30,11 @@ export default function Why({ explanation, ruthPhone, onClose }) {
         <button key="done" type="button" className={`ch-btn cg-btn ${ruthPhone ? "" : "ch-btn--primary"}`} onClick={onClose}>Done</button>,
       ]}
     >
+      {byClaude(explanation.model) ? (
+        <div className="cg-chips">
+          <span className="ch-badge ch-badge--info"><Icon name="sparkle" size={13} stroke={2.4} />Explained by Claude</span>
+        </div>
+      ) : null}
       <Part label="What happened">{explanation.what_happened ? <p className="cg-sheet__text">{explanation.what_happened}</p> : null}</Part>
       <Part label="The rule">{explanation.rule_in_plain_words ? <p className="cg-sheet__text">{explanation.rule_in_plain_words}</p> : null}</Part>
       <Part label="What Ruth heard">{quoted ? <blockquote className="cg-quote cg-quote--blue">{quoted}</blockquote> : null}</Part>

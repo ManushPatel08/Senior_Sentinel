@@ -496,6 +496,13 @@
         "properties": {
           "decision_id": {
             "type": "string"
+          },
+          "model": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "the Claude model whose live answer this is; null when the rules, the cache or a fixed fallback answered"
           }
         }
       },
@@ -533,6 +540,13 @@
               "null"
             ],
             "description": "dollars the story asked for; the protected-dollars counter adds it once per decision_id"
+          },
+          "model": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "the Claude model whose live answer this is; null when the rules, the cache or a fixed fallback answered"
           }
         }
       },

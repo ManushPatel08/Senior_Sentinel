@@ -86,9 +86,10 @@ def test_scam_alerts_priya_with_the_check_id():
 # ---------------------------------------------------------------- Claude, cache, fallback
 
 def test_claude_verdict_is_used_and_cached(monkeypatch):
-    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_claude())
+    monkeypatch.setattr(scamcheck, "radar", lambda *a, **k: verdict_from_claude(model="claude-opus-5-5"))
     out = scamcheck.check("A man from the power company says I owe money and must pay today.", "en")
     assert out["verdict"] == "scam" and out["sources"] and not out["from_cache"]
+    assert out["model"] == "claude-opus-5-5"  # the caregiver app labels a live Claude answer
     assert scamcheck.cache_get("pattern:utility_shutoff:en")
 
 
@@ -97,6 +98,7 @@ def test_cache_answers_when_claude_is_down():
     scamcheck.cache_put(verdict_from_claude(), scamcheck.story_key(story, "en"))
     out = scamcheck.check(story, "en")
     assert out["from_cache"] and out["verdict"] == "scam" and out["say"].startswith("Ruth, your real bill")
+    assert out["model"] is None  # a cached answer is not labelled as Claude's
 
 
 def test_rules_only_fallback_without_claude_or_cache():
@@ -338,7 +340,7 @@ def test_priyas_safety_list_needs_her_marker_and_is_newest_first():
                         headers={"x-senior-sentinel-marker": action_marker("scam_checks", "list")}).json()
     assert [r["check_id"] for r in rows][:2] == [second["check_id"], first["check_id"]]
     assert set(rows[0]) == {"check_id", "decision_id", "verdict", "pattern", "story_excerpt", "say", "sources",
-                            "amount", "at", "channel"}
+                            "amount", "at", "channel", "model"}
 
 
 # ---------------------------------------------------------------- the Claude reply
@@ -350,7 +352,7 @@ def _reply(verdict=None, results=(), stop_reason="tool_use"):
         content.append(NS(type="tool_use", name="report_verdict", input=verdict))
     usage = NS(input_tokens=900, output_tokens=120, cache_read_input_tokens=0, cache_creation_input_tokens=0,
                server_tool_use=NS(web_search_requests=2))
-    return NS(content=content, stop_reason=stop_reason, usage=usage)
+    return NS(content=content, stop_reason=stop_reason, usage=usage, model="claude-opus-5-5")
 
 
 def test_parse_keeps_only_sources_the_search_returned():
@@ -359,7 +361,7 @@ def test_parse_keeps_only_sources_the_search_returned():
     out = scamcheck._parse(_reply(v, [("https://consumer.ftc.gov/utility", "FTC: utility scams"),
                                       ("https://bbb.org/other", "BBB")]))
     assert out["sources"] == [{"title": "FTC: utility scams", "url": "https://consumer.ftc.gov/utility"}]
-    assert "source_urls" not in out and out["usage"]["web_searches"] == 2
+    assert "source_urls" not in out and out["usage"]["web_searches"] == 2 and out["model"] == "claude-opus-5-5"
 
 
 @pytest.mark.parametrize("reply", [_reply(None), _reply({"verdict": "maybe", "say": "x"}),

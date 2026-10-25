@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { shortMoney } from "./money.js";
 import { approvalReason, approvalWords, declineWords, orderStatus, plainError, refundStatus, RETRY } from "./status.js";
-import { cardWords, categoryName, channelWords, countdown, humanize, joinWords, patternWords, plural } from "./words.js";
+import { byClaude, cardWords, categoryName, channelWords, countdown, humanize, joinWords, patternWords, plural } from "./words.js";
 
 test("every category id in Ruth's rules reads as plain words", () => {
   const ids = ["grocery", "pharmacy", "pharmacy_pickup", "household", "utility_bill", "gift_card", "prepaid_card", "wire", "crypto", "lottery"];
@@ -95,4 +95,10 @@ test("declines, orders and refunds read as plain words", () => {
   assert.deepEqual(orderStatus("awaiting_payment"), { label: "Waiting for payment", tone: "neutral" });
   assert.equal(refundStatus("FAILED").tone, "err");
   assert.equal(refundStatus(undefined).label, "On its way");
+});
+
+test("only a Claude model id labels an answer as Claude's", () => {
+  assert.equal(byClaude("claude-opus-5-5"), true);
+  assert.equal(byClaude("claude-sonnet-5-5"), true);
+  for (const model of [null, undefined, "", "fake", "rules", "grok-4.20"]) assert.equal(byClaude(model), false);
 });

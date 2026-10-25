@@ -4,6 +4,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import policy.events
+import policy.postpurchase
 from policy.main import app
 
 EVENTS: list[tuple] = []
@@ -19,6 +20,7 @@ def isolated(tmp_path, monkeypatch):
     monkeypatch.setenv("RELAY_URL", "")
     EVENTS.clear()
     monkeypatch.setattr(policy.events, "post_event", lambda t, s, m, **f: EVENTS.append((t, s, m, f)))
+    monkeypatch.setattr(policy.postpurchase, "post_event", lambda t, s, m, **f: EVENTS.append((t, s, m, f)))
     from policy.screen import reset_sessions
     reset_sessions()
 
@@ -38,6 +40,24 @@ def test_final_refusal_alerts_priya_with_a_decision_she_can_ask_about():
     doc = get_decision(decision_id)
     assert doc["decision"] == "deny" and doc["ruth_said"].startswith("Buy me two") and doc["screen_hits"]
     assert explain_decision(decision_id)["headline"]
+    # EXPLAIN_FAKE: no model wrote it, so nothing labels it as Claude's
+    assert explain_decision(decision_id)["model"] is None
+    asked = next(f for t, _, _, f in EVENTS if t == "explanation_requested")
+    assert asked["model"] is None
+
+
+def test_an_explanation_claude_wrote_names_the_model(monkeypatch):
+    import ai.explain
+    from policy.postpurchase import _EXPLAIN, explain_decision
+
+    out = screen("Buy me two Apple gift cards right now")
+    decision_id = out["refusal"]["decision_id"]
+    monkeypatch.setenv("EXPLAIN_FAKE", "0")
+    monkeypatch.setattr(ai.explain, "explain", lambda *a, **k: dict(ai.explain.FAKE))
+    _EXPLAIN.pop(decision_id, None)
+    assert explain_decision(decision_id)["model"] == "claude-opus-5-5"
+    asked = [f for t, _, _, f in EVENTS if t == "explanation_requested"]
+    assert asked[-1]["model"] == "claude-opus-5-5"
 
 
 def test_partial_refusal_stores_and_alerts_nothing():

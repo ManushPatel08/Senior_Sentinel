@@ -2,7 +2,7 @@ import { useState } from "react";
 import { money } from "@/lib/money";
 import { declineWords, refusalTitle } from "@/lib/status";
 import { storeName } from "@/lib/stores";
-import { channelWords, clockTime, dayLabel, patternWords } from "@/lib/words";
+import { byClaude, channelWords, clockTime, dayLabel, patternWords } from "@/lib/words";
 import Icon from "./Icon";
 
 const FILTERS = [
@@ -76,6 +76,7 @@ function ScamCard({ check, ruthPhone, mandate, onWhy }) {
   const amount = Number(check.amount);
   const care = check.verdict === "scam" ? cooldownWords(mandate) : "";
   const story = String(check.story_excerpt || "").trim();
+  const claude = byClaude(check.model);
   return (
     <article className="cg-card">
       <div className="cg-card__head">
@@ -87,10 +88,11 @@ function ScamCard({ check, ruthPhone, mandate, onWhy }) {
       </div>
       <h3 className="cg-card__title">{headline(check)}</h3>
       {story ? <blockquote className="cg-quote">“{story}”</blockquote> : null}
-      {amount > 0 || care ? (
+      {amount > 0 || care || claude ? (
         <div className="cg-chips">
           {amount > 0 ? <span className="ch-badge ch-badge--money cg-num">{money(amount)} asked for</span> : null}
           {care ? <span className="cg-tag">Card on extra care for {care}</span> : null}
+          {claude ? <span className="ch-badge ch-badge--info"><Icon name="sparkle" size={13} stroke={2.4} />Checked by Claude</span> : null}
         </div>
       ) : null}
       {check.say ? (

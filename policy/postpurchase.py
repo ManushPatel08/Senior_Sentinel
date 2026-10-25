@@ -366,14 +366,17 @@ def explain_decision(decision_id: str) -> dict:
     document = load_decisions().get(decision_id)
     if not document:
         raise LookupError("unknown decision")
-    from ai.explain import ExplainError, explain
+    from ai.explain import ExplainError, explain, model_name
 
     mandate = load_mandate() or DEFAULT_MANDATE
     limits = {key: mandate.get(key) for key in ("per_purchase_cap", "monthly_cap", "approval_threshold", "blocked_categories")}
+    # `model` names the Claude model that wrote the words (the caregiver app labels them); None for the fallback.
     try:
         answer = explain(document, ruth_said=document.get("ruth_said") or "", screen_hits=document.get("screen_hits"), limits=limits)
+        answer["model"] = model_name()
         _EXPLAIN[decision_id] = answer  # a model answer is kept; a fallback is not, so the next tap tries again
     except ExplainError:
-        answer = _fallback(document)
-    post_event("explanation_requested", document.get("session_id") or "none", document.get("mandate_id") or "none", decision_id=decision_id)
+        answer = {**_fallback(document), "model": None}
+    post_event("explanation_requested", document.get("session_id") or "none", document.get("mandate_id") or "none",
+               decision_id=decision_id, model=answer["model"])
     return answer
